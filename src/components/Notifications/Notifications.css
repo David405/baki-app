@@ -1,0 +1,24 @@
+.notifications {
+  width: 20%;
+  padding: 10px;
+  color: #fff;
+}
+.notifications-header {
+  border-bottom: 1px solid rgb(55, 54, 54);
+  padding-bottom: 10px;
+}
+
+.notification {
+  cursor: pointer;
+  border-bottom: 1px solid rgb(55, 54, 54);
+}
+
+.notification:hover {
+  background-color: #192249;
+}
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}

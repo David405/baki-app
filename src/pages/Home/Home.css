@@ -1,0 +1,16 @@
+.home-detail {
+  border-right: 1px solid #000;
+  height: 43px;
+}
+
+.home-last-item {
+  height: 43px;
+}
+
+.enter-app {
+  width: 146px;
+}
+.learn {
+  border-width: 1px solid #000 !important;
+  width: 146px;
+}

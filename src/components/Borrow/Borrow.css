@@ -1,0 +1,138 @@
+.borrow .top {
+  display: flex;
+  justify-content: space-around;
+}
+
+.borrow .action-box {
+  border: 1px solid #dbdedf;
+  border-radius: 10px;
+  width: 50%;
+}
+
+.borrow .deposit-head {
+  border-bottom: 1px solid #dbdedf;
+  padding: 10px 10px 0 10px;
+  color: #495055;
+  font-weight: bold;
+}
+
+.borrow .deposit-body {
+  padding: 10px;
+}
+
+.borrow .deposit-body input {
+  border: 1px solid #dbdedf;
+  padding: 5px;
+  margin-top: 10px;
+  border-radius: 2px;
+  width: 70%;
+}
+
+.borrow .choose {
+  border: 1px solid #dbdedf;
+  border-radius: 50px;
+  width: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.quick-btns {
+  display: flex;
+  justify-content: space-around;
+  color: #495055;
+}
+.quick-btns button {
+  border: 1px solid #dbdedf;
+  padding: 5px 15px;
+  border-radius: 10px;
+  height: 35px;
+  margin-right: 10px;
+  font-size: 10px;
+}
+
+.borrow .custom input {
+  width: 100%;
+  font-size: 13px;
+}
+
+.borrow .custom {
+  border: 1px solid #dbdedf;
+  padding: 5px;
+  border-radius: 10px;
+  width: 100px;
+}
+
+.borrow input:focus {
+  outline: none;
+}
+
+.borrow .position {
+  display: flex;
+  justify-content: space-around;
+  margin-left: 10px;
+}
+
+.borrow .indicator {
+  height: 9px;
+  width: 121px;
+  border-radius: 13px;
+  background-color: #d9d9d9;
+  margin-top: 10px;
+}
+
+.borrow .heading {
+  color: #a7adb2;
+  font-size: 10px;
+}
+
+.action-btns {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.action-btns button {
+  width: 45%;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  color: #fff;
+}
+
+.action-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.action-indicators .circle {
+  height: 24px;
+  width: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  margin-top: 10px;
+  color: #fff;
+}
+
+.action-indicators .line {
+  width: 50%;
+  height: 2px;
+  margin-top: 10px;
+}
+
+.select-assets {
+  background-color: #fff;
+  border: 1px solid #dbdedf;
+  width: 130px;
+}
+
+.select-asset:hover {
+  background-color: #2595ff;
+  color: #fff;
+}
