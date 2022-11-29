@@ -7,6 +7,8 @@ import swap from "../assets/swap.png";
 import swapdark from "../assets/swap-dark.png";
 import team from "../assets/team.png";
 import teamdark from "../assets/team-dark.png";
+import liquidate from "../assets/liquidate.png";
+import liquidatedark from "../assets/liquidate-dark.png";
 import bakifooter from "../assets/footer-logo.png";
 import { Link, useLocation } from "react-router-dom";
 import "./MainLayout.css";
@@ -15,25 +17,25 @@ import notification from "../assets/notification.png";
 // import help from "../assets/help.png";
 import { useMediaQuery } from "react-responsive";
 import { BiMenu, BiLeftArrowAlt } from "react-icons/bi";
-import ConnectWallet from "../components/ConnectWallet/ConnectWallet";
 import Notifications from "../components/Notifications/Notifications";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import avax from "../assets/avax.png";
 import celo from "../assets/celo.png";
+import { useCelo } from "@celo/react-celo";
 
 interface MainLayoutProps {
   children: React.ReactNode;
 }
 const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   const [route, setRoute] = useState<string>("home");
-  const [showWalletModal, setShowWalletModal] = useState<boolean>(false);
   const [viewNotifications, setViewNotifications] = useState<boolean>(false);
   const location: any = useLocation();
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 818px)" });
   const [openSidebar, setOpenSidebar] = useState<string>("-300px");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
-  const [network, setNetwork] = useState<string>("Avalanche");
+  const { connect, address, network, updateNetwork, networks, disconnect } =
+    useCelo();
 
   const toggleSidebar = (_mode: boolean) => {
     setIsOpen(_mode);
@@ -44,10 +46,6 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
     }
   };
 
-  const selectNetwork = (_network: string) => {
-    setNetwork(_network);
-    setShow(false);
-  };
   return (
     <div className="flex">
       <div
@@ -70,7 +68,9 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
             }}
             className="text-white mt-4 rounded-full px-5 py-1"
           >
-            Not connected
+            {address
+              ? `${address?.slice(0, 5)} ... ${address?.slice(38, 42)}`
+              : "Disconnected"}
           </button>
           {isTabletOrMobile && (
             <button
@@ -140,6 +140,26 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               <p className="ml-2 ">Swap</p>
             </div>
           </Link>
+          <Link to="/app/liquidation">
+            <div
+              className={`layout-route flex p-2 ${
+                location.pathname === "/app/liquidation" && "route-active"
+              }`}
+              onMouseEnter={() => setRoute("liquidation")}
+              onMouseLeave={() => setRoute("")}
+            >
+              <img
+                src={
+                  route === "liquidation" ||
+                  location.pathname === "/app/liquidation"
+                    ? liquidatedark
+                    : liquidate
+                }
+                alt=""
+              />
+              <p className="ml-2 ">Liquidation</p>
+            </div>
+          </Link>
           <Link to="/app/transactions">
             <div
               className={`layout-route flex p-2 ${
@@ -175,6 +195,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                 {location.pathname === "/app" && "Hi there"}
                 {location.pathname === "/app/mint" && "My Position"}
                 {location.pathname === "/app/swap" && "Swap"}
+                {location.pathname === "/app/liquidation" && "Liquidation"}
                 {location.pathname === "/app/transactions" && "Transactions"}
               </h1>
               <p className="text-font-grey">
@@ -182,6 +203,8 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                 {location.pathname === "/app/mint" &&
                   "Select the asset you’d like to deposit"}
                 {location.pathname === "/app/swap" && "Access Synthetic Assets"}
+                {location.pathname === "/app/liquidation" &&
+                  "Provide Liquidation"}
                 {location.pathname === "/app/transactions" &&
                   "View your transaction history in the table below"}
               </p>
@@ -227,59 +250,55 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               />
             </button> */}
             <div>
-              <button
-                onClick={() => setShow(!show)}
-                className="flex items-center mr-2 text-white rounded-lg px-2 py-2"
-                style={{
-                  backgroundColor: "#0f257c",
-                }}
-              >
-                <div className="flex">
-                  {network === "Avalanche" && (
-                    <img src={avax} alt="avax" className="h-6" />
-                  )}
-                  {network === "Celo" && (
-                    <img src={celo} alt="celo" className="h-6" />
-                  )}
+              {address && (
+                <button
+                  onClick={() => setShow(!show)}
+                  className="flex items-center mr-2 text-white rounded-lg px-2 py-2"
+                  style={{
+                    backgroundColor: "#0f257c",
+                  }}
+                >
+                  <div className="flex">
+                    {network.name === "Avalanche" && (
+                      <img src={avax} alt="avax" className="h-6" />
+                    )}
+                    {network.name === "Celo" && (
+                      <img src={celo} alt="celo" className="h-6" />
+                    )}
 
-                  <p className="ml-1">{network}</p>
-                </div>
-                {show ? (
-                  <AiOutlineUp size={18} className="ml-6" />
-                ) : (
-                  <AiOutlineDown size={18} className="ml-6" />
-                )}
-              </button>
+                    <p className="ml-1">{network.name}</p>
+                  </div>
+                  {show ? (
+                    <AiOutlineUp size={18} className="ml-6" />
+                  ) : (
+                    <AiOutlineDown size={18} className="ml-6" />
+                  )}
+                </button>
+              )}
               {show && (
                 <div className="text-white mt-2 p-1  cursor-pointer absolute w-10 networks">
-                  <div
-                    className="flex p-2 mb-2 network"
-                    onClick={() => selectNetwork("Avalanche")}
-                  >
-                    <img src={avax} alt="" className="h-6" />
-                    <p className="ml-2">Avalanche</p>
-                  </div>
-                  <div
-                    className="flex p-2 mb-2 network"
-                    onClick={() => selectNetwork("Celo")}
-                  >
-                    <img src={celo} alt="" className="h-6" />
-                    <p className="ml-2">Celo</p>
-                  </div>
+                  {networks.map(network => (
+                    <div
+                      className="flex p-2 mb-2 network"
+                      onClick={() => updateNetwork(network)}
+                    >
+                      <p className="ml-2">{network.name}</p>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
             <button
-              onClick={() => setShowWalletModal(true)}
-              className="text-white bg-dark-orange rounded-full font-bold w-3/5 p-2  mr-2 "
+              onClick={() => (address ? disconnect() : connect())}
+              className="text-white bg-dark-orange rounded-full font-bold w-4/5 p-2  mr-2 "
             >
-              Connect Wallet
+              {address ? "Disconnect" : "Connect Wallet"}
             </button>
           </div>
         </div>
         <div className="p-4  layout-body">{children}</div>
       </div>
-      <ConnectWallet visible={showWalletModal} onClose={setShowWalletModal} />
+
       <Notifications
         visible={viewNotifications}
         onClose={setViewNotifications}

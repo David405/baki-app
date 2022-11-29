@@ -8,8 +8,8 @@ import { useEffect, useState } from "react";
 function Borrow() {
   const [perVal, setPerVal] = useState<number>(0);
   const [onFocus, setOnFocus] = useState<boolean>(false);
-  const [depositAmount, setDepositAmount] = useState<any>();
-  const [mintAmount, setMintAmount] = useState<any>();
+  const [depositAmount, setDepositAmount] = useState<any>(0);
+  const [mintAmount, setMintAmount] = useState<any>(0);
   const [stage, setStage] = useState<number>(1);
   const [show, setShow] = useState<boolean>(false);
   const [showAssets, setShowAssets] = useState<boolean>(false);
@@ -60,6 +60,7 @@ function Borrow() {
               <input
                 type="number"
                 placeholder="0"
+                value={depositAmount}
                 onChange={e => setDepositAmount(e.target.value)}
               />
               <div>
@@ -144,6 +145,7 @@ function Borrow() {
                 style={{
                   marginLeft: 70,
                 }}
+                value={mintAmount}
                 type="number"
                 placeholder="0"
                 onChange={e => setMintAmount(e.target.value)}

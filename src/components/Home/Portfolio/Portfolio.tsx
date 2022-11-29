@@ -1,6 +1,7 @@
 import React from "react";
 import "./Portfolio.css";
 import Chart from "react-apexcharts";
+// import TradingViewWidget from 'react-tradingview-widget';
 
 function Portfolio() {
   const options = {

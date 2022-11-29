@@ -4,6 +4,7 @@ import AppHome from "./pages/App/Home/Home";
 import Swap from "./pages/App/Swap/Swap";
 import Mint from "./pages/App/Mint/Mint";
 import Transactions from "./pages/App/Transactions/Transactions";
+import Liquidation from "./pages/App/Liquidation/Liquidation";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/app" element={<AppHome />} />
         <Route path="/app/mint" element={<Mint />} />
         <Route path="/app/swap" element={<Swap />} />
+        <Route path="/app/liquidation" element={<Liquidation />} />
         <Route path="/app/transactions" element={<Transactions />} />
       </Routes>
     </Router>

@@ -8,8 +8,8 @@ import CUSD from "../../assets/cUSD.png";
 import AVAX from "../../assets/avax.png";
 import "./Repay.css";
 function Repay() {
-  const [zTokenAmount, setZTokenAmount] = useState<any>();
-  const [colAmount, setColAmount] = useState<any>();
+  const [zTokenAmount, setZTokenAmount] = useState<any>(0);
+  const [colAmount, setColAmount] = useState<any>(0);
   const [stage, setStage] = useState<number>(1);
   const [show, setShow] = useState<boolean>(false);
   const [showZAssets, setShowZAssets] = useState<boolean>(false);
@@ -66,6 +66,7 @@ function Repay() {
               <input
                 type="number"
                 placeholder="0"
+                value={zTokenAmount}
                 onChange={e => setZTokenAmount(e.target.value)}
               />
               <div>
@@ -225,6 +226,7 @@ function Repay() {
                 style={{
                   marginLeft: 70,
                 }}
+                value={colAmount}
                 type="number"
                 placeholder="0"
                 onChange={e => setColAmount(e.target.value)}

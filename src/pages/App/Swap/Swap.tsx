@@ -8,8 +8,8 @@ import ZZAR from "../../../assets/ZZAR.png";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import "./Swap.css";
 function Swap() {
-  const [fromAmount, setFromAmount] = useState<any>();
-  const [toAmount, setToAmount] = useState<any>();
+  const [fromAmount, setFromAmount] = useState<any>(0);
+  const [toAmount, setToAmount] = useState<any>(0);
   const [stage, setStage] = useState<number>(1);
   const [show, setShow] = useState<boolean>(false);
   const [showFromZAssets, setShowFromZAssets] = useState<boolean>(false);
@@ -131,6 +131,7 @@ function Swap() {
                 <input
                   type="number"
                   placeholder="0"
+                  value={fromAmount}
                   onChange={e => setFromAmount(e.target.value)}
                 />
               </div>
@@ -218,6 +219,7 @@ function Swap() {
                 <input
                   type="number"
                   placeholder="0"
+                  value={toAmount}
                   onChange={e => setToAmount(e.target.value)}
                 />
               </div>
