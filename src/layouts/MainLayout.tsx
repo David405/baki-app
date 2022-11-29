@@ -290,7 +290,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
             </div>
             <button
               onClick={() => (address ? disconnect() : connect())}
-              className="text-white bg-dark-orange rounded-full font-bold w-4/5 p-2  mr-2 "
+              className="text-white bg-dark-orange rounded-full font-bold p-2  mr-2 "
             >
               {address ? "Disconnect" : "Connect Wallet"}
             </button>

@@ -5,7 +5,6 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { CeloProvider, SupportedProviders } from "@celo/react-celo";
 import "@celo/react-celo/lib/styles.css";
-import icon from "./assets/logo.png";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,7 +13,7 @@ root.render(
   <React.StrictMode>
     <CeloProvider
       dapp={{
-        icon: "http://localhost:3000/logo.png",
+        icon: "http://baki-main.web.app/logo.png",
         name: "Baki",
         description:
           "Baki is an infinite liquidity FX exchange, built on @CeloOrg providing the first on-chain implementation of African stable coins.",
