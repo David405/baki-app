@@ -6,7 +6,9 @@ import ZZAR from "../../../assets/ZZAR.png";
 import ZUSD from "../../../assets/ZUSD.png";
 import AVAX from "../../../assets/avax.png";
 import "./Assets.css";
+import { useCelo } from "@celo/react-celo";
 function Assets() {
+  const { network } = useCelo();
   return (
     <div className="ml-2">
       <h1 className="font-bold">Assets</h1>
@@ -63,23 +65,17 @@ function Assets() {
             </p>
           </div>
         </div>
+
         <div className="asset flex justify-center items-center ">
-          <img src={CUSD} alt="CUSD" className="h-7" />
+          <img
+            src={network.name === "Celo" ? CUSD : AVAX}
+            alt={network.name}
+            className="h-7"
+          />
           <div className="ml-2">
-            <p className="font-bold">CUSD</p>
-            <p
-              style={{
-                color: "grey",
-              }}
-            >
-              212,00000
+            <p className="font-bold">
+              {network.name === "Celo" ? "cUSD" : "AVAX"}
             </p>
-          </div>
-        </div>
-        <div className="asset flex justify-center items-center ">
-          <img src={AVAX} alt="AVAX" className="h-7" />
-          <div className="ml-2">
-            <p className="font-bold">AVAX</p>
             <p
               style={{
                 color: "grey",
