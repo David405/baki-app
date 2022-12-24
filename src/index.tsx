@@ -3,63 +3,16 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { CeloProvider, SupportedProviders } from "@celo/react-celo";
-import "@celo/react-celo/lib/styles.css";
-
+import { store } from "./redux/store";
+import { Provider } from "react-redux";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <CeloProvider
-      dapp={{
-        icon: "http://baki-main.web.app/logo.png",
-        name: "Baki",
-        description:
-          "Baki is an infinite liquidity FX exchange, built on @CeloOrg providing the first on-chain implementation of African stable coins.",
-        url: "https://baki.jollof.fi",
-      }}
-      networks={[
-        {
-          name: "Avalanche",
-          chainId: 43113,
-          graphQl: "https://alfajores-blockscout.celo-testnet.org/graphiql",
-          rpcUrl: "https://api.avax-test.network/ext/bc/C/rpc",
-          explorer: "https://explorer.avax.network/",
-        },
-        {
-          name: "Celo",
-          rpcUrl: "https://alfajores-forno.celo-testnet.org",
-          graphQl: "https://alfajores-blockscout.celo-testnet.org/graphiql",
-          explorer: "https://alfajores-blockscout.celo-testnet.org",
-          chainId: 44787,
-        },
-      ]}
-      network={{
-        name: "Celo",
-        rpcUrl: "https://alfajores-forno.celo-testnet.org",
-        graphQl: "https://alfajores-blockscout.celo-testnet.org/graphiql",
-        explorer: "https://alfajores-blockscout.celo-testnet.org",
-        chainId: 44787,
-      }}
-      connectModal={{
-        // This options changes the title of the modal and can be either a string or a react element
-        title: <span>Connect your Wallet</span>,
-        providersOptions: {
-          // This option hides specific wallets from the default list
-          hideFromDefaults: [
-            SupportedProviders.PrivateKey,
-            SupportedProviders.Omni,
-            SupportedProviders.CoinbaseWallet,
-          ],
-
-          // This option toggles on and off the searchbar
-          searchable: true,
-        },
-      }}
-    >
+    <Provider store={store}>
       <App />
-    </CeloProvider>
+    </Provider>
   </React.StrictMode>
 );
 

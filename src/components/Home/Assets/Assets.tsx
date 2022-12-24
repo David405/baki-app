@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CUSD from "../../../assets/cUSD.png";
 import ZNGN from "../../../assets/ZNGN.png";
 import ZXAF from "../../../assets/ZXAF.png";
@@ -6,9 +6,9 @@ import ZZAR from "../../../assets/ZZAR.png";
 import ZUSD from "../../../assets/ZUSD.png";
 import AVAX from "../../../assets/avax.png";
 import "./Assets.css";
-import { useCelo } from "@celo/react-celo";
+
 function Assets() {
-  const { network } = useCelo();
+  const [network] = useState<string>();
   return (
     <div className="ml-2">
       <h1 className="font-bold">Assets</h1>
@@ -68,14 +68,12 @@ function Assets() {
 
         <div className="asset flex justify-center items-center ">
           <img
-            src={network.name === "Celo" ? CUSD : AVAX}
-            alt={network.name}
+            src={network === "Celo" ? CUSD : AVAX}
+            alt={network}
             className="h-7"
           />
           <div className="ml-2">
-            <p className="font-bold">
-              {network.name === "Celo" ? "cUSD" : "AVAX"}
-            </p>
+            <p className="font-bold">{network === "Celo" ? "cUSD" : "AVAX"}</p>
             <p
               style={{
                 color: "grey",

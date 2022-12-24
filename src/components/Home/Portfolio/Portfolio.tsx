@@ -34,8 +34,8 @@ function Portfolio() {
           options={options}
           series={series}
           type="area"
-          width="920"
-          height="410"
+          width="700"
+          height="350"
         />
       </div>
     </div>

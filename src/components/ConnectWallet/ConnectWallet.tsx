@@ -3,6 +3,7 @@ import "./ConnectWallet.css";
 import metamask from "../../assets/metamask.png";
 import walletconnect from "../../assets/walletconnect.png";
 import { AiOutlineClose } from "react-icons/ai";
+import useConnector from "../../hooks/useConnector";
 
 interface ConnectWalletProps {
   visible: Boolean;
@@ -10,6 +11,7 @@ interface ConnectWalletProps {
 }
 
 const ConnectWallet: FC<ConnectWalletProps> = ({ visible, onClose }) => {
+  const { connectWallet } = useConnector();
   if (!visible) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
@@ -17,7 +19,10 @@ const ConnectWallet: FC<ConnectWalletProps> = ({ visible, onClose }) => {
         <AiOutlineClose size={24} />
       </button>
       <div className="bg-white modal-body rounded-md w-4/12  h-1/5 flex justify-center items-center">
-        <button className="flex flex-col justify-center items-center text-font-grey text-sm p-4 cursor-pointer">
+        <button
+          onClick={connectWallet}
+          className="flex flex-col justify-center items-center text-font-grey text-sm p-4 cursor-pointer"
+        >
           <img src={metamask} alt="Metamask" />
           <p
             style={{
@@ -36,7 +41,7 @@ const ConnectWallet: FC<ConnectWalletProps> = ({ visible, onClose }) => {
             }}
             className="mt-2 text-center"
           >
-            Connect with WalletConnect to connect
+            Connect with WalletConnect to connect (Not available)
           </p>
         </button>
       </div>

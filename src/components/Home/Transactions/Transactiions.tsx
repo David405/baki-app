@@ -1,15 +1,15 @@
 import React from "react";
 import "./Transactions.css";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import ZUSD from "../../../assets/ZUSD.png";
 function Transactiions() {
   return (
     <div className="w-9/12 mt-4">
       <div className="flex justify-between">
         <p className="font-bold">Activity</p>
-        <Link to="/app/transactions">
+        {/* <Link to="/app/transactions">
           <p className="see-transactions">See transaction history</p>
-        </Link>
+        </Link> */}
       </div>
       <div className="transaction-box mt-4">
         <div className="transaction-head">

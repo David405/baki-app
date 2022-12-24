@@ -2,10 +2,15 @@ import { useState } from "react";
 import Borrow from "../../../components/Borrow/Borrow";
 import Repay from "../../../components/Repay/Repay";
 import MainLayout from "../../../layouts/MainLayout";
-
+import { useSelector } from "react-redux";
+import useDeposit from "../../../hooks/useDeposit";
 import "./Mint.css";
+
 function Mint() {
   const [action, setAction] = useState<string>("borrow");
+  const { claimReward } = useDeposit();
+  const { colBalance, colBalanceVal, userDebt, network, rewardBal } =
+    useSelector((state: any) => state.baki);
   return (
     <>
       <MainLayout>
@@ -52,22 +57,27 @@ function Mint() {
             </div>
             <div className="user-detail mid-detail">
               <p className="heading">Collateral</p>
-              <p>0.00 cUSD</p>
+              <p>
+                {colBalance.toFixed(2)} {network.chainId === 43113 && "AVAX"}
+                {network.chainId === 44787 && "cUSD"}
+              </p>
             </div>
             <div className="user-detail mid-detail">
               <p className="heading">Value</p>
-              <p>$0.00</p>
+              <p>${colBalanceVal.toFixed(2)}</p>
             </div>
             <div className="user-detail">
               <p className="heading">Debt</p>
-              <p>0.00</p>
+              <p>{userDebt.toFixed(2)}</p>
             </div>
           </div>
           <div className="claim-rewards">
             <div>
               <p className="font-bold claim-heading">Claim your rewards</p>
-              <p className="claim-amount">Total: $XXXX</p>
-              <button className="claim-btn">Claim now</button>
+              <p className="claim-amount">Total: ${rewardBal.toFixed(2)}</p>
+              <button className="claim-btn" onClick={claimReward}>
+                Claim now
+              </button>
             </div>
           </div>
         </div>

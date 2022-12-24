@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import MainLayout from "../../../layouts/MainLayout";
 import swapArrow from "../../../assets/swap-arr.png";
 import ZUSD from "../../../assets/ZUSD.png";
@@ -7,6 +7,8 @@ import ZCFA from "../../../assets/ZXAF.png";
 import ZZAR from "../../../assets/ZZAR.png";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import "./Swap.css";
+import useToken from "../../../hooks/useToken";
+import useSwap from "../../../hooks/useSwap";
 function Swap() {
   const [fromAmount, setFromAmount] = useState<any>(0);
   const [toAmount, setToAmount] = useState<any>(0);
@@ -16,18 +18,44 @@ function Swap() {
   const [showToZAssets, setShowToZAssets] = useState<boolean>(false);
   const [fromZAsset, setFromZAsset] = useState<string>("");
   const [toZAsset, setToZAsset] = useState<string>("");
+  const [loadingApprove, setLoadingApprove] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const { approve } = useToken();
+  const { swap } = useSwap();
 
-  const approve = () => {
+  const handleApprove = async () => {
+    if (fromZAsset === toZAsset) return;
     if (stage === 1) {
-      setStage(2);
+      setLoadingApprove(true);
+      let result = await approve(fromAmount, fromZAsset);
+      if (result) {
+        setStage(2);
+        setLoadingApprove(false);
+      } else {
+        setLoadingApprove(false);
+        alert("Approval failed !!");
+      }
     }
   };
-  const swap = () => {
-    if (stage === 2) {
+  const handleSwap = async () => {
+    if (fromZAsset === toZAsset) return;
+    if (fromAmount && toAmount && stage === 2) {
+      setLoading(true);
+      await swap(fromAmount, fromZAsset, toZAsset);
+      setLoading(false);
       setStage(1);
     }
   };
 
+  const handleFields = (_value: string, _field: string) => {
+    if (_field === "To") {
+      setToAmount(_value);
+      setFromAmount(Number(_value) * 2);
+    } else if (_field === "From") {
+      setFromAmount(_value);
+      setToAmount(Number(_value) * 2);
+    }
+  };
   useEffect(() => {
     if (fromAmount && toAmount) {
       setShow(true);
@@ -132,7 +160,8 @@ function Swap() {
                   type="number"
                   placeholder="0"
                   value={fromAmount}
-                  onChange={e => setFromAmount(e.target.value)}
+                  onChange={e => handleFields(e.target.value, "From")}
+                  disabled={fromZAsset && toZAsset ? false : true}
                 />
               </div>
               <div className="swap-icon">
@@ -220,7 +249,8 @@ function Swap() {
                   type="number"
                   placeholder="0"
                   value={toAmount}
-                  onChange={e => setToAmount(e.target.value)}
+                  onChange={e => handleFields(e.target.value, "To")}
+                  disabled={toZAsset && toZAsset ? false : true}
                 />
               </div>
             </div>
@@ -242,17 +272,17 @@ function Swap() {
                     style={{
                       backgroundColor: stage === 1 ? "#f97f41" : "#ccc",
                     }}
-                    onClick={approve}
+                    onClick={handleApprove}
                   >
-                    Approve
+                    {loadingApprove ? "Loading..." : "Approve"}
                   </button>
                   <button
                     style={{
                       backgroundColor: stage === 2 ? "#f97f41" : "#ccc",
                     }}
-                    onClick={swap}
+                    onClick={handleSwap}
                   >
-                    Swap
+                    {loading ? "Loading..." : "Swap"}
                   </button>
                 </div>
                 <div className="action-indicators">

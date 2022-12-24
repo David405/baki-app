@@ -1,12 +1,12 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import home from "../assets/home.png";
 import homedark from "../assets/home-dark.png";
 import mint from "../assets/mint.png";
 import mintdark from "../assets/mint-dark.png";
 import swap from "../assets/swap.png";
 import swapdark from "../assets/swap-dark.png";
-import team from "../assets/team.png";
-import teamdark from "../assets/team-dark.png";
+// import team from "../assets/team.png";
+// import teamdark from "../assets/team-dark.png";
 import liquidate from "../assets/liquidate.png";
 import liquidatedark from "../assets/liquidate-dark.png";
 import bakifooter from "../assets/footer-logo.png";
@@ -19,9 +19,11 @@ import { useMediaQuery } from "react-responsive";
 import { BiMenu, BiLeftArrowAlt } from "react-icons/bi";
 import Notifications from "../components/Notifications/Notifications";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
+import ConnectWallet from "../components/ConnectWallet/ConnectWallet";
 import avax from "../assets/avax.png";
 import celo from "../assets/celo.png";
-import { useCelo } from "@celo/react-celo";
+import { useSelector } from "react-redux";
+import { config } from "../config";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -34,8 +36,8 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   const [openSidebar, setOpenSidebar] = useState<string>("-300px");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
-  const { connect, address, network, updateNetwork, networks, disconnect } =
-    useCelo();
+  const { address, network } = useSelector((state: any) => state.baki);
+  const [visibility, setVisibility] = useState<boolean>(false);
 
   const toggleSidebar = (_mode: boolean) => {
     setIsOpen(_mode);
@@ -45,6 +47,9 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
       setOpenSidebar("-300px");
     }
   };
+  useEffect(() => {
+    if (address) setVisibility(false);
+  }, [address, network]);
 
   return (
     <div className="flex">
@@ -160,7 +165,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               <p className="ml-2 ">Liquidation</p>
             </div>
           </Link>
-          <Link to="/app/transactions">
+          {/* <Link to="/app/transactions">
             <div
               className={`layout-route flex p-2 ${
                 location.pathname === "/app/transactions" && "route-active"
@@ -179,7 +184,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               />
               <p className="ml-2 ">Transactions</p>
             </div>
-          </Link>
+          </Link> */}
         </div>
         <div className="sidebar-footer flex justify-center items-center">
           <Link to="/">
@@ -259,14 +264,17 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                   }}
                 >
                   <div className="flex">
-                    {network.name === "Avalanche" && (
+                    {network.chainId === 43113 && (
                       <img src={avax} alt="avax" className="h-6" />
                     )}
-                    {network.name === "Celo" && (
+                    {network.chainId === 44787 && (
                       <img src={celo} alt="celo" className="h-6" />
                     )}
 
-                    <p className="ml-1">{network.name}</p>
+                    <p className="ml-1">
+                      {network.chainId === 43113 && "Avalanche"}
+                      {network.chainId === 44787 && "Celo"}
+                    </p>
                   </div>
                   {show ? (
                     <AiOutlineUp size={18} className="ml-6" />
@@ -277,23 +285,28 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               )}
               {show && (
                 <div className="text-white mt-2 p-1  cursor-pointer absolute w-10 networks">
-                  {networks.map(network => (
-                    <div
-                      className="flex p-2 mb-2 network"
-                      onClick={() => updateNetwork(network)}
-                    >
+                  {config.networks.map((network: any, index: number) => (
+                    <div key={index} className="flex p-2 mb-2 network">
+                      <img
+                        src={network.name === "Celo" ? celo : avax}
+                        alt="celo"
+                        className="h-6"
+                      />
+
                       <p className="ml-2">{network.name}</p>
                     </div>
                   ))}
                 </div>
               )}
             </div>
-            <button
-              onClick={() => (address ? disconnect() : connect())}
-              className="text-white bg-dark-orange rounded-full font-bold p-2  mr-2 "
-            >
-              {address ? "Disconnect" : "Connect Wallet"}
-            </button>
+            {!address && (
+              <button
+                onClick={() => setVisibility(true)}
+                className="text-white bg-dark-orange rounded-full font-bold p-2  mr-2 "
+              >
+                Connect Wallet
+              </button>
+            )}
           </div>
         </div>
         <div className="p-4  layout-body">{children}</div>
@@ -302,6 +315,10 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
       <Notifications
         visible={viewNotifications}
         onClose={setViewNotifications}
+      />
+      <ConnectWallet
+        visible={visibility}
+        onClose={() => setVisibility(!visibility)}
       />
     </div>
   );

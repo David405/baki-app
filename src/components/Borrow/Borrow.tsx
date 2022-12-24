@@ -3,9 +3,21 @@ import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import ZUSD from "../../assets/ZUSD.png";
 import CUSD from "../../assets/cUSD.png";
 import AVAX from "../../assets/avax.png";
+// import loader from "../../assets/loader.gif";
+import axios from "axios";
 import { useEffect, useState } from "react";
+import useDeposit from "../../hooks/useDeposit";
+import useToken from "../../hooks/useToken";
+import { useSelector } from "react-redux";
+import redstone from "redstone-api";
+import { config } from "../../config";
+
+axios.defaults.baseURL = `https://api.coinlayer.com/api/live?access_key=${config.coinlayerAPIKEY}`;
 
 function Borrow() {
+  const { approve } = useToken();
+  const { deposit } = useDeposit();
+  const { totalColateral, userDebt } = useSelector((state: any) => state.baki);
   const [perVal, setPerVal] = useState<number>(0);
   const [onFocus, setOnFocus] = useState<boolean>(false);
   const [depositAmount, setDepositAmount] = useState<any>(0);
@@ -14,18 +26,13 @@ function Borrow() {
   const [show, setShow] = useState<boolean>(false);
   const [showAssets, setShowAssets] = useState<boolean>(false);
   const [asset, setAsset] = useState<string>("");
-
-  const approve = () => {
-    if (stage === 1) {
-      setStage(2);
-    }
+  const [avaxRate, setAvaxRate] = useState<any>(false);
+  const [loadingApprove, setLoadingApprove] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const getAvaxRate = async () => {
+    const price = await redstone.getPrice("AVAX");
+    setAvaxRate(price.value);
   };
-  const mint = () => {
-    if (stage === 2) {
-      setStage(1);
-    }
-  };
-
   useEffect(() => {
     if (depositAmount && mintAmount) {
       setShow(true);
@@ -34,10 +41,51 @@ function Borrow() {
     }
   }, [depositAmount, mintAmount]);
 
+  useEffect(() => {
+    if (asset === "AVAX") {
+      getAvaxRate();
+    }
+  }, [asset]);
+
+  const handleApprove = async () => {
+    if (stage === 1) {
+      setLoadingApprove(true);
+      let result = await approve(depositAmount, asset);
+      if (result) {
+        setStage(2);
+        setLoadingApprove(false);
+      } else {
+        setLoadingApprove(false);
+        alert("Approval failed !!");
+      }
+    }
+  };
+  const mint = async () => {
+    if (depositAmount && mintAmount && stage === 2) {
+      setLoading(true);
+      await deposit(depositAmount, mintAmount);
+      setLoading(false);
+      setStage(1);
+    }
+  };
+  const calculateValue = (percentage: number) => {
+    if (depositAmount) {
+      setPerVal(percentage);
+      let colBalance: any = totalColateral * 10 ** -18;
+      let debt = userDebt * 10 ** -18;
+      let colRatio = 1.5;
+      let val2 = (colBalance + Number(depositAmount)) / colRatio;
+      let val3 = val2 - debt;
+      let maxVal = Math.max(0, val3);
+      setMintAmount(maxVal * percentage);
+    }
+  };
+
   const selectAsset = (_asset: string) => {
     setAsset(_asset);
     setShowAssets(false);
   };
+
   return (
     <div className="borrow">
       <div className="top">
@@ -62,6 +110,7 @@ function Borrow() {
                 placeholder="0"
                 value={depositAmount}
                 onChange={e => setDepositAmount(e.target.value)}
+                disabled={asset ? false : true}
               />
               <div>
                 <button
@@ -157,7 +206,7 @@ function Borrow() {
       <div className="flex justify-between  items-center mt-6">
         <div className="quick-btns flex-1">
           <button
-            onClick={() => setPerVal(10)}
+            onClick={() => calculateValue(10)}
             style={{
               borderColor: perVal === 10 ? "#2595FF" : "#dbdedf",
               color: perVal === 10 ? "#2595FF" : "#5A5A65",
@@ -167,7 +216,7 @@ function Borrow() {
             10%
           </button>
           <button
-            onClick={() => setPerVal(25)}
+            onClick={() => calculateValue(25)}
             style={{
               borderColor: perVal === 25 ? "#2595FF" : "#dbdedf",
               color: perVal === 25 ? "#2595FF" : "#5A5A65",
@@ -177,7 +226,7 @@ function Borrow() {
             25%
           </button>
           <button
-            onClick={() => setPerVal(50)}
+            onClick={() => calculateValue(50)}
             style={{
               borderColor: perVal === 50 ? "#2595FF" : "#dbdedf",
               color: perVal === 50 ? "#2595FF" : "#5A5A65",
@@ -188,7 +237,7 @@ function Borrow() {
           </button>
           <button
             onClick={() => {
-              setPerVal(75);
+              calculateValue(75);
               setOnFocus(false);
             }}
             style={{
@@ -202,7 +251,7 @@ function Borrow() {
           <div
             className="custom"
             onClick={() => {
-              setPerVal(0);
+              calculateValue(0);
               setOnFocus(true);
             }}
             style={{
@@ -210,13 +259,19 @@ function Borrow() {
               borderWidth: onFocus ? 2 : 1,
             }}
           >
-            <input type="number" placeholder="Custom" />
+            <input
+              type="number"
+              placeholder="Custom"
+              onChange={e => calculateValue(Number(e.target.value))}
+            />
           </div>
         </div>
         <div className="position flex-1">
           <div className="flex flex-col justify-center items-center">
             <p className="heading">Deposit Value</p>
-            <p className="font-bold ">$0.00</p>
+            <p className="font-bold ">
+              ${(avaxRate * depositAmount).toFixed(2)}
+            </p>
           </div>
           <div className="flex flex-col justify-center items-center">
             <p className="heading">Safe Position</p>
@@ -235,9 +290,9 @@ function Borrow() {
               style={{
                 backgroundColor: stage === 1 ? "#f97f41" : "#ccc",
               }}
-              onClick={approve}
+              onClick={handleApprove}
             >
-              Approve Collateral
+              {loadingApprove ? "loading" : "Approve Collateral"}
             </button>
             <button
               style={{
@@ -245,7 +300,7 @@ function Borrow() {
               }}
               onClick={mint}
             >
-              Deposit & Mint
+              {loading ? "loading" : "Deposit & Mint"}
             </button>
           </div>
           <div className="action-indicators">

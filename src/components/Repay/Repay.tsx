@@ -7,6 +7,10 @@ import ZZAR from "../../assets/ZZAR.png";
 import CUSD from "../../assets/cUSD.png";
 import AVAX from "../../assets/avax.png";
 import "./Repay.css";
+import useToken from "../../hooks/useToken";
+import { config } from "../../config";
+import useWithdraw from "../../hooks/useWithdraw";
+
 function Repay() {
   const [zTokenAmount, setZTokenAmount] = useState<any>(0);
   const [colAmount, setColAmount] = useState<any>(0);
@@ -16,15 +20,43 @@ function Repay() {
   const [showColAssets, setShowColAssets] = useState<boolean>(false);
   const [zAsset, setZAsset] = useState<string>("");
   const [colAsset, setColAsset] = useState<string>("");
+  const [loadingApprove, setLoadingApprove] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const approve = () => {
+  const { approve } = useToken();
+  const { withdraw } = useWithdraw();
+
+  const handleApprove = async () => {
     if (stage === 1) {
-      setStage(2);
+      setLoadingApprove(true);
+      let result = await approve(zTokenAmount, zAsset);
+      if (result) {
+        setStage(2);
+        setLoadingApprove(false);
+      } else {
+        setLoadingApprove(false);
+        alert("Approval failed !!");
+      }
     }
   };
-  const repay = () => {
+  const repay = async () => {
     if (stage === 2) {
+      let zToken = "";
+      if (zAsset === "zUSD") {
+        zToken = config.zUSD;
+      } else if (zAsset === "zNGN") {
+        zToken = config.zNGN;
+      } else if (zAsset === "zCFA") {
+        zToken = config.zXAF;
+      } else if (zAsset === "zZAR") {
+        zToken = config.zZAR;
+      }
+      setLoading(true);
+      await withdraw(Number(zTokenAmount), Number(colAmount), zToken);
+      setZTokenAmount(0);
+      setColAmount(0);
       setStage(1);
+      setLoading(false);
     }
   };
 
@@ -68,6 +100,7 @@ function Repay() {
                 placeholder="0"
                 value={zTokenAmount}
                 onChange={e => setZTokenAmount(e.target.value)}
+                disabled={zAsset ? false : true}
               />
               <div>
                 <button
@@ -230,6 +263,7 @@ function Repay() {
                 type="number"
                 placeholder="0"
                 onChange={e => setColAmount(e.target.value)}
+                disabled={colAsset ? false : true}
               />
             </div>
           </div>
@@ -243,9 +277,9 @@ function Repay() {
               style={{
                 backgroundColor: stage === 1 ? "#f97f41" : "#ccc",
               }}
-              onClick={approve}
+              onClick={handleApprove}
             >
-              Approve
+              {loadingApprove ? "Loading ..." : "   Approve"}
             </button>
             <button
               style={{
@@ -253,7 +287,7 @@ function Repay() {
               }}
               onClick={repay}
             >
-              Repay
+              {loading ? "Loading ..." : "Repay"}
             </button>
           </div>
           <div className="action-indicators">
