@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import "./Borrow.css";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import ZUSD from "../../assets/ZUSD.png";
-import CUSD from "../../assets/cUSD.png";
-import AVAX from "../../assets/avax.png";
-// import loader from "../../assets/loader.gif";
+// import CUSD from "../../assets/cUSD.png";
+// import AVAX from "../../assets/avax.png";
+import USDC from "../../assets/usdc.png";
+import loader from "../../assets/loader/loader.gif";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import useDeposit from "../../hooks/useDeposit";
@@ -11,11 +13,11 @@ import useToken from "../../hooks/useToken";
 import { useSelector } from "react-redux";
 import redstone from "redstone-api";
 import { config } from "../../config";
+import { toast } from "react-toastify";
 
 axios.defaults.baseURL = `https://api.coinlayer.com/api/live?access_key=${config.coinlayerAPIKEY}`;
 
 function Borrow() {
-  const { approve } = useToken();
   const { deposit } = useDeposit();
   const { totalColateral, userDebt } = useSelector((state: any) => state.baki);
   const [perVal, setPerVal] = useState<number>(0);
@@ -24,15 +26,16 @@ function Borrow() {
   const [mintAmount, setMintAmount] = useState<any>(0);
   const [stage, setStage] = useState<number>(1);
   const [show, setShow] = useState<boolean>(false);
-  const [showAssets, setShowAssets] = useState<boolean>(false);
-  const [asset, setAsset] = useState<string>("");
+  // const [showAssets, setShowAssets] = useState<boolean>(false);
+  // const [asset, setAsset] = useState<string>("");
   const [avaxRate, setAvaxRate] = useState<any>(false);
   const [loadingApprove, setLoadingApprove] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const getAvaxRate = async () => {
-    const price = await redstone.getPrice("AVAX");
-    setAvaxRate(price.value);
-  };
+  const { approve } = useToken("USDC", false);
+  // const getAvaxRate = async () => {
+  //   const price = await redstone.getPrice("AVAX");
+  //   setAvaxRate(price.value);
+  // };
   useEffect(() => {
     if (depositAmount && mintAmount) {
       setShow(true);
@@ -41,31 +44,38 @@ function Borrow() {
     }
   }, [depositAmount, mintAmount]);
 
-  useEffect(() => {
-    if (asset === "AVAX") {
-      getAvaxRate();
-    }
-  }, [asset]);
+  // useEffect(() => {
+  //   if (asset === "AVAX") {
+  //     getAvaxRate();
+  //   }
+  // }, [asset]);
 
   const handleApprove = async () => {
     if (stage === 1) {
       setLoadingApprove(true);
-      let result = await approve(depositAmount, asset);
+      let result = await approve(depositAmount, "USDC");
       if (result) {
+        toast.success("Approved !!");
         setStage(2);
         setLoadingApprove(false);
       } else {
         setLoadingApprove(false);
-        alert("Approval failed !!");
+        toast.error("Approval failed !!");
       }
     }
   };
   const mint = async () => {
     if (depositAmount && mintAmount && stage === 2) {
       setLoading(true);
-      await deposit(depositAmount, mintAmount);
-      setLoading(false);
-      setStage(1);
+      try {
+        await deposit(depositAmount, mintAmount);
+        setLoading(false);
+        setStage(1);
+        toast.success("Transaction successful !!");
+      } catch (error) {
+        toast.error("Transaction failed !!");
+        setLoading(false);
+      }
     }
   };
   const calculateValue = (percentage: number) => {
@@ -81,10 +91,10 @@ function Borrow() {
     }
   };
 
-  const selectAsset = (_asset: string) => {
-    setAsset(_asset);
-    setShowAssets(false);
-  };
+  // const selectAsset = (_asset: string) => {
+  //   setAsset(_asset);
+  //   setShowAssets(false);
+  // };
 
   return (
     <div className="borrow">
@@ -110,10 +120,9 @@ function Borrow() {
                 placeholder="0"
                 value={depositAmount}
                 onChange={e => setDepositAmount(e.target.value)}
-                disabled={asset ? false : true}
               />
               <div>
-                <button
+                {/* <button
                   className="choose px-2 py-2"
                   onClick={() => setShowAssets(!showAssets)}
                   style={{
@@ -149,8 +158,12 @@ function Borrow() {
                       className="mr-2"
                     />
                   )}
+                </button> */}
+                <button className="choose px-2 py-1">
+                  <img className="h-7" src={USDC} alt="zCFA" />
+                  <span className="mr-2 text-font-grey">USDC</span>
                 </button>
-                {showAssets && (
+                {/* {showAssets && (
                   <div
                     className="mt-2 text-font-grey cursor-pointer absolute rounded  select-assets"
                     style={{
@@ -172,7 +185,7 @@ function Borrow() {
                       <p className="ml-2">cUSD</p>
                     </div>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </div>
@@ -292,7 +305,17 @@ function Borrow() {
               }}
               onClick={handleApprove}
             >
-              {loadingApprove ? "loading" : "Approve Collateral"}
+              {loadingApprove ? (
+                <img
+                  src={loader}
+                  style={{
+                    height: "40px",
+                  }}
+                  alt="Loader"
+                />
+              ) : (
+                "Approve Collateral"
+              )}
             </button>
             <button
               style={{
@@ -300,7 +323,17 @@ function Borrow() {
               }}
               onClick={mint}
             >
-              {loading ? "loading" : "Deposit & Mint"}
+              {loading ? (
+                <img
+                  src={loader}
+                  style={{
+                    height: "40px",
+                  }}
+                  alt="Loader"
+                />
+              ) : (
+                "Deposit & Mint"
+              )}
             </button>
           </div>
           <div className="action-indicators">

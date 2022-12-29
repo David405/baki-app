@@ -1,20 +1,30 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import useConnector from "./useConnector";
 import { config } from "../config";
 import cUSD from "../contracts/cUSD.json";
+import zToken from "../contracts/zToken.json";
 
-function useToken() {
+function useToken(asset: string, zAsset: boolean) {
   const { provider } = useConnector();
-
   const [contract, setContract] = useState<any>(null);
 
   useEffect(() => {
-    if (provider) {
+    if (provider && asset) {
       const signer = provider.getSigner();
-      setContract(new ethers.Contract(config.cUSD, cUSD, signer));
+      if (zAsset) {
+        setContract(new ethers.Contract(config[asset], zToken, signer));
+      } else {
+        if (asset === "cUSD") {
+          setContract(new ethers.Contract(config[asset], cUSD, signer));
+        }
+        if (asset === "USDC") {
+          setContract(new ethers.Contract(config[asset], cUSD, signer));
+        }
+      }
     }
-  }, [provider]);
+  }, [provider, asset]);
 
   const approve = async (_depositAmount: number, _collateral: string) => {
     try {

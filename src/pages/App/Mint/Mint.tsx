@@ -4,6 +4,8 @@ import Repay from "../../../components/Repay/Repay";
 import MainLayout from "../../../layouts/MainLayout";
 import { useSelector } from "react-redux";
 import useDeposit from "../../../hooks/useDeposit";
+import Transactiions from "../../../components/Home/Transactions/Transactiions";
+
 import "./Mint.css";
 
 function Mint() {
@@ -80,6 +82,7 @@ function Mint() {
               </button>
             </div>
           </div>
+          <Transactiions />
         </div>
       </MainLayout>
     </>

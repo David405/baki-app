@@ -5,10 +5,18 @@ import ZUSD from "../../../assets/ZUSD.png";
 import ZNGN from "../../../assets/ZNGN.png";
 import ZCFA from "../../../assets/ZXAF.png";
 import ZZAR from "../../../assets/ZZAR.png";
+import loader from "../../../assets/loader/loader.gif";
+
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import "./Swap.css";
 import useToken from "../../../hooks/useToken";
 import useSwap from "../../../hooks/useSwap";
+import axios from "axios";
+import { config } from "../../../config";
+import Transactiions from "../../../components/Home/Transactions/Transactiions";
+import { toast } from "react-toastify";
+
+axios.defaults.headers.common["apikey"] = config.exchangeRatesAPIKEY;
 function Swap() {
   const [fromAmount, setFromAmount] = useState<any>(0);
   const [toAmount, setToAmount] = useState<any>(0);
@@ -20,8 +28,21 @@ function Swap() {
   const [toZAsset, setToZAsset] = useState<string>("");
   const [loadingApprove, setLoadingApprove] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const { approve } = useToken();
+  const [rate, setRate] = useState<number>(0);
+  const [swapOutput, setSwapOutput] = useState<number>(0);
+  const { approve } = useToken(fromZAsset, true);
   const { swap } = useSwap();
+
+  const getRates = async (base: string, target: string) => {
+    try {
+      const result = await axios.get(
+        `https://api.apilayer.com/exchangerates_data/latest?symbols=${target}&base=${base}`
+      );
+      return result.data.rates;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleApprove = async () => {
     if (fromZAsset === toZAsset) return;
@@ -31,9 +52,10 @@ function Swap() {
       if (result) {
         setStage(2);
         setLoadingApprove(false);
+        toast.success("Approved !!");
       } else {
         setLoadingApprove(false);
-        alert("Approval failed !!");
+        toast.error("Approval failed !!");
       }
     }
   };
@@ -41,19 +63,25 @@ function Swap() {
     if (fromZAsset === toZAsset) return;
     if (fromAmount && toAmount && stage === 2) {
       setLoading(true);
-      await swap(fromAmount, fromZAsset, toZAsset);
-      setLoading(false);
-      setStage(1);
+      try {
+        await swap(fromAmount, fromZAsset, toZAsset);
+        setLoading(false);
+        setStage(1);
+        toast.success("Transaction Successful !!");
+      } catch (error) {
+        toast.error("Transaction failed !!");
+        setLoading(false);
+      }
     }
   };
 
   const handleFields = (_value: string, _field: string) => {
     if (_field === "To") {
       setToAmount(_value);
-      setFromAmount(Number(_value) * 2);
+      setFromAmount(Number(_value) / rate);
     } else if (_field === "From") {
       setFromAmount(_value);
-      setToAmount(Number(_value) * 2);
+      setToAmount(Number(_value) * rate);
     }
   };
   useEffect(() => {
@@ -63,6 +91,45 @@ function Swap() {
       setShow(false);
     }
   }, [fromAmount, toAmount]);
+
+  useEffect(() => {
+    if (fromAmount) {
+      setLoading(true);
+      setLoadingApprove(true);
+      getRates(
+        fromZAsset.substring(1),
+        toZAsset.substring(1) === "CFA" ? "XAF" : toZAsset.substring(1)
+      )
+        .then((result: any) => {
+          if (toZAsset.substring(1) === "NGN") {
+            setRate(result.NGN);
+            const output = result.NGN * fromAmount;
+            setSwapOutput(output);
+          }
+          if (toZAsset.substring(1) === "ZAR") {
+            setRate(result.ZAR);
+            const output = result.ZAR * fromAmount;
+            setSwapOutput(output);
+          }
+          if (toZAsset.substring(1) === "CFA") {
+            setRate(result.XAF);
+            const output = result.XAF * fromAmount;
+            setSwapOutput(output);
+          }
+          if (toZAsset.substring(1) === "USD") {
+            setRate(result.USD);
+            const output = result.USD * fromAmount;
+            setSwapOutput(output);
+          }
+          setLoading(false);
+          setLoadingApprove(false);
+        })
+        .catch(() => {
+          setLoading(false);
+          setLoadingApprove(false);
+        });
+    }
+  }, [fromAmount, toZAsset, fromZAsset]);
 
   const selectFromZAsset = (_asset: string) => {
     setFromZAsset(_asset);
@@ -86,16 +153,16 @@ function Swap() {
                   <span className="flex items-center">
                     {fromZAsset && (
                       <>
-                        {fromZAsset === "ZUSD" && (
+                        {fromZAsset === "zUSD" && (
                           <img src={ZUSD} alt="ZUSD" className="h-7" />
                         )}
-                        {fromZAsset === "ZNGN" && (
+                        {fromZAsset === "zNGN" && (
                           <img src={ZNGN} alt="ZNGN" className="h-7" />
                         )}
-                        {fromZAsset === "ZCFA" && (
+                        {fromZAsset === "zCFA" && (
                           <img src={ZCFA} alt="ZCFA" className="h-7" />
                         )}
-                        {fromZAsset === "ZZAR" && (
+                        {fromZAsset === "zZAR" && (
                           <img src={ZZAR} alt="ZZAR" className="h-7" />
                         )}
                       </>
@@ -128,31 +195,31 @@ function Swap() {
                   >
                     <div
                       className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectFromZAsset("ZUSD")}
+                      onClick={() => selectFromZAsset("zUSD")}
                     >
                       <img src={ZUSD} alt="zusd" className="h-7" />
-                      <p className="ml-2">ZUSD</p>
+                      <p className="ml-2">zUSD</p>
                     </div>
                     <div
                       className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectFromZAsset("ZNGN")}
+                      onClick={() => selectFromZAsset("zNGN")}
                     >
                       <img src={ZNGN} alt="" className="h-7" />
-                      <p className="ml-2">ZNGN</p>
+                      <p className="ml-2">zNGN</p>
                     </div>
                     <div
                       className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectFromZAsset("ZCFA")}
+                      onClick={() => selectFromZAsset("zCFA")}
                     >
                       <img src={ZCFA} alt="" className="h-7" />
-                      <p className="ml-2">ZCFA</p>
+                      <p className="ml-2">zCFA</p>
                     </div>
                     <div
                       className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectFromZAsset("ZZAR")}
+                      onClick={() => selectFromZAsset("zZAR")}
                     >
                       <img src={ZZAR} alt="" className="h-7" />
-                      <p className="ml-2">ZZAR</p>
+                      <p className="ml-2">zZAR</p>
                     </div>
                   </div>
                 )}
@@ -175,16 +242,16 @@ function Swap() {
                   <span className="flex items-center">
                     {toZAsset && (
                       <>
-                        {toZAsset === "ZUSD" && (
+                        {toZAsset === "zUSD" && (
                           <img src={ZUSD} alt="ZUSD" className="h-7" />
                         )}
-                        {toZAsset === "ZNGN" && (
+                        {toZAsset === "zNGN" && (
                           <img src={ZNGN} alt="ZNGN" className="h-7" />
                         )}
-                        {toZAsset === "ZCFA" && (
+                        {toZAsset === "zCFA" && (
                           <img src={ZCFA} alt="ZCFA" className="h-7" />
                         )}
-                        {toZAsset === "ZZAR" && (
+                        {toZAsset === "zZAR" && (
                           <img src={ZZAR} alt="ZZAR" className="h-7" />
                         )}
                       </>
@@ -217,28 +284,28 @@ function Swap() {
                   >
                     <div
                       className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectToZAsset("ZUSD")}
+                      onClick={() => selectToZAsset("zUSD")}
                     >
                       <img src={ZUSD} alt="zusd" className="h-7" />
                       <p className="ml-2">ZUSD</p>
                     </div>
                     <div
                       className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectToZAsset("ZNGN")}
+                      onClick={() => selectToZAsset("zNGN")}
                     >
                       <img src={ZNGN} alt="" className="h-7" />
                       <p className="ml-2">ZNGN</p>
                     </div>
                     <div
                       className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectToZAsset("ZCFA")}
+                      onClick={() => selectToZAsset("zCFA")}
                     >
                       <img src={ZCFA} alt="" className="h-7" />
                       <p className="ml-2">ZCFA</p>
                     </div>
                     <div
                       className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectToZAsset("ZZAR")}
+                      onClick={() => selectToZAsset("zZAR")}
                     >
                       <img src={ZZAR} alt="" className="h-7" />
                       <p className="ml-2">ZZAR</p>
@@ -255,11 +322,17 @@ function Swap() {
               </div>
             </div>
             <div className="text-font-grey px-6 py-4 swap-details">
-              <p className="mb-4">1zUSD = 1 zNGN</p>
-              <p className="mb-3">
-                <span className="font-bold mr-2">Expected Output:</span>{" "}
-                0.00zNGN
-              </p>
+              {fromZAsset && toZAsset && (
+                <>
+                  <p className="mb-4">
+                    1 {fromZAsset} = {rate.toFixed(2)} {toZAsset}
+                  </p>
+                  <p className="mb-3">
+                    <span className="font-bold mr-2">Expected Output:</span>{" "}
+                    {swapOutput.toFixed(2)} {toZAsset}
+                  </p>
+                </>
+              )}
               <p>
                 <span className="font-bold mr-2">Liquidity Provider fee:</span>
                 0.3%
@@ -274,7 +347,17 @@ function Swap() {
                     }}
                     onClick={handleApprove}
                   >
-                    {loadingApprove ? "Loading..." : "Approve"}
+                    {loadingApprove ? (
+                      <img
+                        src={loader}
+                        style={{
+                          height: "40px",
+                        }}
+                        alt="Loader"
+                      />
+                    ) : (
+                      "Approve"
+                    )}
                   </button>
                   <button
                     style={{
@@ -282,7 +365,17 @@ function Swap() {
                     }}
                     onClick={handleSwap}
                   >
-                    {loading ? "Loading..." : "Swap"}
+                    {loading ? (
+                      <img
+                        src={loader}
+                        style={{
+                          height: "40px",
+                        }}
+                        alt="Loader"
+                      />
+                    ) : (
+                      "Swap"
+                    )}
                   </button>
                 </div>
                 <div className="action-indicators">
@@ -312,6 +405,7 @@ function Swap() {
               </>
             )}
           </div>
+          <Transactiions />
         </div>
       </MainLayout>
     </>

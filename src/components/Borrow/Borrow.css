@@ -31,7 +31,7 @@
 .borrow .choose {
   border: 1px solid #dbdedf;
   border-radius: 50px;
-  width: 130px;
+  width: 110px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -95,6 +95,7 @@
 
 .action-btns button {
   width: 45%;
+  min-height: 40px;
   padding: 5px;
   display: flex;
   justify-content: center;

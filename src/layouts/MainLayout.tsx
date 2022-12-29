@@ -88,7 +88,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           )}
         </div>
         <div className="sidebar-bottom">
-          <Link to="/app">
+          {/* <Link to="/app">
             <div
               onMouseEnter={() => setRoute("home")}
               onMouseLeave={() => setRoute("")}
@@ -106,8 +106,8 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               />
               <p className="ml-2 ">Home</p>
             </div>
-          </Link>
-          <Link to="/app/mint">
+          </Link> */}
+          <Link to="/app">
             <div
               className={`layout-route flex p-2 ${
                 location.pathname === "/app/mint" && "route-active"

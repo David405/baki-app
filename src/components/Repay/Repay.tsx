@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import ZUSD from "../../assets/ZUSD.png";
@@ -6,10 +7,13 @@ import ZCFA from "../../assets/ZXAF.png";
 import ZZAR from "../../assets/ZZAR.png";
 import CUSD from "../../assets/cUSD.png";
 import AVAX from "../../assets/avax.png";
+import USDC from "../../assets/usdc.png";
+import loader from "../../assets/loader/loader.gif";
 import "./Repay.css";
 import useToken from "../../hooks/useToken";
 import { config } from "../../config";
 import useWithdraw from "../../hooks/useWithdraw";
+import { toast } from "react-toastify";
 
 function Repay() {
   const [zTokenAmount, setZTokenAmount] = useState<any>(0);
@@ -23,7 +27,7 @@ function Repay() {
   const [loadingApprove, setLoadingApprove] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { approve } = useToken();
+  const { approve } = useToken("USDC", false);
   const { withdraw } = useWithdraw();
 
   const handleApprove = async () => {
@@ -33,30 +37,37 @@ function Repay() {
       if (result) {
         setStage(2);
         setLoadingApprove(false);
+        toast.error("Approved !!");
       } else {
         setLoadingApprove(false);
-        alert("Approval failed !!");
+        toast.error("Approval failed !!");
       }
     }
   };
   const repay = async () => {
     if (stage === 2) {
-      let zToken = "";
-      if (zAsset === "zUSD") {
-        zToken = config.zUSD;
-      } else if (zAsset === "zNGN") {
-        zToken = config.zNGN;
-      } else if (zAsset === "zCFA") {
-        zToken = config.zXAF;
-      } else if (zAsset === "zZAR") {
-        zToken = config.zZAR;
+      try {
+        let zToken = "";
+        if (zAsset === "zUSD") {
+          zToken = config.zUSD;
+        } else if (zAsset === "zNGN") {
+          zToken = config.zNGN;
+        } else if (zAsset === "zCFA") {
+          zToken = config.zXAF;
+        } else if (zAsset === "zZAR") {
+          zToken = config.zZAR;
+        }
+        setLoading(true);
+        await withdraw(Number(zTokenAmount), Number(colAmount), zToken);
+        setZTokenAmount(0);
+        setColAmount(0);
+        toast.success("Transaction successful !!");
+        setStage(1);
+        setLoading(false);
+      } catch (error) {
+        toast.error("Transaction failed !!");
+        setLoading(false);
       }
-      setLoading(true);
-      await withdraw(Number(zTokenAmount), Number(colAmount), zToken);
-      setZTokenAmount(0);
-      setColAmount(0);
-      setStage(1);
-      setLoading(false);
     }
   };
 
@@ -72,10 +83,10 @@ function Repay() {
     setZAsset(_asset);
     setShowZAssets(false);
   };
-  const selectColAsset = (_asset: string) => {
-    setColAsset(_asset);
-    setShowColAssets(false);
-  };
+  // const selectColAsset = (_asset: string) => {
+  //   setColAsset(_asset);
+  //   setShowColAssets(false);
+  // };
   return (
     <div className="repay">
       <div className="top">
@@ -197,7 +208,11 @@ function Repay() {
             </div>
             <div className="flex justify-between items-center">
               <div>
-                <button
+                <button className="choose px-2 py-1">
+                  <img className="h-7" src={USDC} alt="zCFA" />
+                  <span className="mr-2 text-font-grey">USDC</span>
+                </button>
+                {/* <button
                   className="choose px-2 py-2"
                   onClick={() => setShowColAssets(!showColAssets)}
                 >
@@ -253,7 +268,7 @@ function Repay() {
                       <p className="ml-2">cUSD</p>
                     </div>
                   </div>
-                )}
+                )} */}
               </div>
               <input
                 style={{
@@ -263,7 +278,6 @@ function Repay() {
                 type="number"
                 placeholder="0"
                 onChange={e => setColAmount(e.target.value)}
-                disabled={colAsset ? false : true}
               />
             </div>
           </div>
@@ -279,7 +293,17 @@ function Repay() {
               }}
               onClick={handleApprove}
             >
-              {loadingApprove ? "Loading ..." : "   Approve"}
+              {loadingApprove ? (
+                <img
+                  src={loader}
+                  style={{
+                    height: "40px",
+                  }}
+                  alt="Loader"
+                />
+              ) : (
+                "   Approve"
+              )}
             </button>
             <button
               style={{
@@ -287,7 +311,17 @@ function Repay() {
               }}
               onClick={repay}
             >
-              {loading ? "Loading ..." : "Repay"}
+              {loading ? (
+                <img
+                  src={loader}
+                  style={{
+                    height: "40px",
+                  }}
+                  alt="Loader"
+                />
+              ) : (
+                "Repay"
+              )}
             </button>
           </div>
           <div className="action-indicators">
