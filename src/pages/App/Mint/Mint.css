@@ -61,6 +61,9 @@
   width: 14%;
   color: #fff;
   margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .claim-amount {

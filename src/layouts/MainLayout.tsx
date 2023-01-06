@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { FC, useEffect, useState } from "react";
 import home from "../assets/home.png";
 import homedark from "../assets/home-dark.png";
@@ -110,7 +111,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           <Link to="/app">
             <div
               className={`layout-route flex p-2 ${
-                location.pathname === "/app/mint" && "route-active"
+                location.pathname === "/app" && "route-active"
               }`}
               onMouseEnter={() => setRoute("mint")}
               onMouseLeave={() => setRoute("")}

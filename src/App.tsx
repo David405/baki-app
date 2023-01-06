@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 // import AppHome from "./pages/App/Home/Home";
@@ -6,6 +7,7 @@ import Mint from "./pages/App/Mint/Mint";
 import Transactions from "./pages/App/Transactions/Transactions";
 import Liquidation from "./pages/App/Liquidation/Liquidation";
 import { ToastContainer } from "react-toastify";
+import useData from "./hooks/useData";
 
 function App() {
   return (

@@ -1,6 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import "./Borrow.css";
-import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import ZUSD from "../../assets/ZUSD.png";
 // import CUSD from "../../assets/cUSD.png";
 // import AVAX from "../../assets/avax.png";
@@ -16,10 +16,13 @@ import { config } from "../../config";
 import { toast } from "react-toastify";
 
 axios.defaults.baseURL = `https://api.coinlayer.com/api/live?access_key=${config.coinlayerAPIKEY}`;
+declare const window: any;
 
 function Borrow() {
   const { deposit } = useDeposit();
-  const { totalColateral, userDebt } = useSelector((state: any) => state.baki);
+  const { totalCollateral, userDebt, collateral, activeCol } = useSelector(
+    (state: any) => state.baki
+  );
   const [perVal, setPerVal] = useState<number>(0);
   const [onFocus, setOnFocus] = useState<boolean>(false);
   const [depositAmount, setDepositAmount] = useState<any>(0);
@@ -28,14 +31,14 @@ function Borrow() {
   const [show, setShow] = useState<boolean>(false);
   // const [showAssets, setShowAssets] = useState<boolean>(false);
   // const [asset, setAsset] = useState<string>("");
-  const [avaxRate, setAvaxRate] = useState<any>(false);
+  const [colRate, setColRate] = useState<any>(0);
   const [loadingApprove, setLoadingApprove] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const { approve } = useToken("USDC", false);
-  // const getAvaxRate = async () => {
-  //   const price = await redstone.getPrice("AVAX");
-  //   setAvaxRate(price.value);
-  // };
+  const getColRate = async () => {
+    const price = await redstone.getPrice(activeCol);
+    setColRate(price.value);
+  };
   useEffect(() => {
     if (depositAmount && mintAmount) {
       setShow(true);
@@ -44,16 +47,14 @@ function Borrow() {
     }
   }, [depositAmount, mintAmount]);
 
-  // useEffect(() => {
-  //   if (asset === "AVAX") {
-  //     getAvaxRate();
-  //   }
-  // }, [asset]);
+  useEffect(() => {
+    getColRate();
+  }, [depositAmount]);
 
   const handleApprove = async () => {
     if (stage === 1) {
       setLoadingApprove(true);
-      let result = await approve(depositAmount, "USDC");
+      let result = await approve(depositAmount);
       if (result) {
         toast.success("Approved !!");
         setStage(2);
@@ -67,21 +68,23 @@ function Borrow() {
   const mint = async () => {
     if (depositAmount && mintAmount && stage === 2) {
       setLoading(true);
-      try {
-        await deposit(depositAmount, mintAmount);
+      let result = await deposit(depositAmount, mintAmount);
+      if (result) {
         setLoading(false);
         setStage(1);
         toast.success("Transaction successful !!");
-      } catch (error) {
+        window.location.reload();
+      } else {
         toast.error("Transaction failed !!");
         setLoading(false);
       }
     }
   };
+
   const calculateValue = (percentage: number) => {
     if (depositAmount) {
       setPerVal(percentage);
-      let colBalance: any = totalColateral * 10 ** -18;
+      let colBalance: any = totalCollateral * 10 ** -18;
       let debt = userDebt * 10 ** -18;
       let colRatio = 1.5;
       let val2 = (colBalance + Number(depositAmount)) / colRatio;
@@ -111,7 +114,7 @@ function Borrow() {
                   fontSize: 12,
                 }}
               >
-                Balance: 0
+                Balance: {collateral}
               </p>
             </div>
             <div className="flex justify-between items-center">
@@ -219,44 +222,44 @@ function Borrow() {
       <div className="flex justify-between  items-center mt-6">
         <div className="quick-btns flex-1">
           <button
-            onClick={() => calculateValue(10)}
+            onClick={() => calculateValue(10 / 100)}
             style={{
-              borderColor: perVal === 10 ? "#2595FF" : "#dbdedf",
-              color: perVal === 10 ? "#2595FF" : "#5A5A65",
-              borderWidth: perVal === 10 ? 2 : 1,
+              borderColor: perVal === 10 / 100 ? "#2595FF" : "#dbdedf",
+              color: perVal === 10 / 100 ? "#2595FF" : "#5A5A65",
+              borderWidth: perVal === 10 / 100 ? 2 : 1,
             }}
           >
             10%
           </button>
           <button
-            onClick={() => calculateValue(25)}
+            onClick={() => calculateValue(25 / 100)}
             style={{
-              borderColor: perVal === 25 ? "#2595FF" : "#dbdedf",
-              color: perVal === 25 ? "#2595FF" : "#5A5A65",
-              borderWidth: perVal === 25 ? 2 : 1,
+              borderColor: perVal === 25 / 100 ? "#2595FF" : "#dbdedf",
+              color: perVal === 25 / 100 ? "#2595FF" : "#5A5A65",
+              borderWidth: perVal === 25 / 100 ? 2 : 1,
             }}
           >
             25%
           </button>
           <button
-            onClick={() => calculateValue(50)}
+            onClick={() => calculateValue(50 / 100)}
             style={{
-              borderColor: perVal === 50 ? "#2595FF" : "#dbdedf",
-              color: perVal === 50 ? "#2595FF" : "#5A5A65",
-              borderWidth: perVal === 50 ? 2 : 1,
+              borderColor: perVal === 50 / 100 ? "#2595FF" : "#dbdedf",
+              color: perVal === 50 / 100 ? "#2595FF" : "#5A5A65",
+              borderWidth: perVal === 50 / 100 ? 2 : 1,
             }}
           >
             50%
           </button>
           <button
             onClick={() => {
-              calculateValue(75);
+              calculateValue(75 / 100);
               setOnFocus(false);
             }}
             style={{
-              borderColor: perVal === 75 ? "#2595FF" : "#dbdedf",
-              color: perVal === 75 ? "#2595FF" : "#5A5A65",
-              borderWidth: perVal === 75 ? 2 : 1,
+              borderColor: perVal === 75 / 100 ? "#2595FF" : "#dbdedf",
+              color: perVal === 75 / 100 ? "#2595FF" : "#5A5A65",
+              borderWidth: perVal === 75 / 100 ? 2 : 1,
             }}
           >
             75%
@@ -275,16 +278,14 @@ function Borrow() {
             <input
               type="number"
               placeholder="Custom"
-              onChange={e => calculateValue(Number(e.target.value))}
+              onChange={e => calculateValue(Number(e.target.value) / 100)}
             />
           </div>
         </div>
         <div className="position flex-1">
           <div className="flex flex-col justify-center items-center">
             <p className="heading">Deposit Value</p>
-            <p className="font-bold ">
-              ${(avaxRate * depositAmount).toFixed(2)}
-            </p>
+            <p className="font-bold ">${Number(depositAmount).toFixed(2)}</p>
           </div>
           <div className="flex flex-col justify-center items-center">
             <p className="heading">Safe Position</p>
@@ -292,7 +293,7 @@ function Borrow() {
           </div>
           <div className="flex flex-col justify-center items-center">
             <p className="heading">cRatio</p>
-            <p>1.5</p>
+            <p>1.50 %</p>
           </div>
         </div>
       </div>

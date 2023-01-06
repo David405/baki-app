@@ -1,12 +1,11 @@
 export const config: any = {
-  vaultAddress: "0xA9D80232bA1cBd665A556c2bA021ae57F958b191",
-  faucetAddress: "0x577427dAFd864F1dDEFaa8Ac4d9E4CfE0DcF85A4",
-  zUSD: "0xd869AcBcbE80eBd16588c7Fb38591aC215F00AB4",
-  zNGN: "0xf966E0779652C94cE0D6C890CDC23fCE412A731d",
-  zCFA: "0x38448b150be9F52ac6382f506F7E23e8fEE12Aac",
-  zZAR: "0x35daEe44deA489D4ACb34319c101ba9F7ba68e91",
-  cUSD: "0x206a6162b8ED9Db0568aE44C2525629c54b2B33a",
-  USDC: "0x206a6162b8ED9Db0568aE44C2525629c54b2B33a",
+  vaultAddress: "0x4f419B3BCF37Ff8BAe4Db159b74fFC863e3DF2fb",
+  faucetAddress: "0xBD1807f49468Dd55db7765e2fb901920F9c174C9",
+  zUSD: "0x6FA3799DA3dC375c9d44255f7C817BC737c2150E",
+  zNGN: "0x96C56eD50CA4cBfEea11FEc307FFDA5080454C2e",
+  zZAR: "0x312AE91cef504226edddA8364A08DaB207aa6Fcd",
+  zCFA: "0x3C790049BFAF24BbE1da29E6C5c56E25C1Af9FCA",
+  USDC: "0x15857C5368F3b6cC64A62e9193A6c9D642a7f170",
 
   networks: [
     {
@@ -18,7 +17,6 @@ export const config: any = {
         symbol: "AVAX",
         decimals: 18,
       },
-
       blockExplorerUrls: ["https://explorer.avax.network/"],
     },
     // {

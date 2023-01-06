@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import MainLayout from "../../../layouts/MainLayout";
 import swapArrow from "../../../assets/swap-arr.png";
@@ -48,7 +49,7 @@ function Swap() {
     if (fromZAsset === toZAsset) return;
     if (stage === 1) {
       setLoadingApprove(true);
-      let result = await approve(fromAmount, fromZAsset);
+      let result = await approve(fromAmount);
       if (result) {
         setStage(2);
         setLoadingApprove(false);
@@ -69,6 +70,7 @@ function Swap() {
         setStage(1);
         toast.success("Transaction Successful !!");
       } catch (error) {
+        console.error(error);
         toast.error("Transaction failed !!");
         setLoading(false);
       }
@@ -328,14 +330,14 @@ function Swap() {
                     1 {fromZAsset} = {rate.toFixed(2)} {toZAsset}
                   </p>
                   <p className="mb-3">
-                    <span className="font-bold mr-2">Expected Output:</span>{" "}
-                    {swapOutput.toFixed(2)} {toZAsset}
+                    <span className="font-bold mr-2">Trading fee:</span>{" "}
+                    {fromAmount * 0.992} {toZAsset}
                   </p>
                 </>
               )}
               <p>
-                <span className="font-bold mr-2">Liquidity Provider fee:</span>
-                0.3%
+                <span className="font-bold mr-2">Fees:</span>
+                0.8%
               </p>
             </div>
             {show && (

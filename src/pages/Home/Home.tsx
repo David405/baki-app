@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import React from "react";
 import baki from "../../assets/baki.png";
 import "./Home.css";
@@ -12,15 +13,17 @@ function Home() {
             Enter App
           </button>
         </Link>
-        <button
-          className="rounded-full p-2 h-46 learn"
-          style={{
-            borderWidth: 1,
-            borderColor: "#000",
-          }}
-        >
-          Learn More
-        </button>
+        <a href="https://docs.jollof.fi/products/baki" target="_blank">
+          <button
+            className="rounded-full p-2 h-46 learn"
+            style={{
+              borderWidth: 1,
+              borderColor: "#000",
+            }}
+          >
+            Learn More
+          </button>
+        </a>
       </div>
       <div className="flex mt-12 w-3/5 justify-center">
         <div className="p-4 flex justify-center items-center w-1/5 flex-col home-detail">

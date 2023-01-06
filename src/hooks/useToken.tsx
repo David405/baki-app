@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import useConnector from "./useConnector";
 import { config } from "../config";
-import cUSD from "../contracts/cUSD.json";
+import USDC from "../contracts/USDC.json";
 import zToken from "../contracts/zToken.json";
 
 function useToken(asset: string, zAsset: boolean) {
@@ -16,17 +16,14 @@ function useToken(asset: string, zAsset: boolean) {
       if (zAsset) {
         setContract(new ethers.Contract(config[asset], zToken, signer));
       } else {
-        if (asset === "cUSD") {
-          setContract(new ethers.Contract(config[asset], cUSD, signer));
-        }
         if (asset === "USDC") {
-          setContract(new ethers.Contract(config[asset], cUSD, signer));
+          setContract(new ethers.Contract(config[asset], USDC, signer));
         }
       }
     }
   }, [provider, asset]);
 
-  const approve = async (_depositAmount: number, _collateral: string) => {
+  const approve = async (_depositAmount: number) => {
     try {
       const multiple = 10 ** 18;
       let amount = BigInt(_depositAmount * multiple);
@@ -34,6 +31,7 @@ function useToken(asset: string, zAsset: boolean) {
       await tx.wait();
       return true;
     } catch (error) {
+      console.error(error);
       return false;
     }
   };

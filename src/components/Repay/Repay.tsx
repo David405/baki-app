@@ -14,6 +14,7 @@ import useToken from "../../hooks/useToken";
 import { config } from "../../config";
 import useWithdraw from "../../hooks/useWithdraw";
 import { toast } from "react-toastify";
+declare const window: any;
 
 function Repay() {
   const [zTokenAmount, setZTokenAmount] = useState<any>(0);
@@ -33,11 +34,11 @@ function Repay() {
   const handleApprove = async () => {
     if (stage === 1) {
       setLoadingApprove(true);
-      let result = await approve(zTokenAmount, zAsset);
+      let result = await approve(zTokenAmount);
       if (result) {
         setStage(2);
         setLoadingApprove(false);
-        toast.error("Approved !!");
+        toast.success("Approved !!");
       } else {
         setLoadingApprove(false);
         toast.error("Approval failed !!");
@@ -46,25 +47,30 @@ function Repay() {
   };
   const repay = async () => {
     if (stage === 2) {
-      try {
-        let zToken = "";
-        if (zAsset === "zUSD") {
-          zToken = config.zUSD;
-        } else if (zAsset === "zNGN") {
-          zToken = config.zNGN;
-        } else if (zAsset === "zCFA") {
-          zToken = config.zXAF;
-        } else if (zAsset === "zZAR") {
-          zToken = config.zZAR;
-        }
-        setLoading(true);
-        await withdraw(Number(zTokenAmount), Number(colAmount), zToken);
+      let zToken = "";
+      if (zAsset === "ZUSD") {
+        zToken = config.zUSD;
+      } else if (zAsset === "ZNGN") {
+        zToken = config.zNGN;
+      } else if (zAsset === "ZCFA") {
+        zToken = config.zXAF;
+      } else if (zAsset === "ZZAR") {
+        zToken = config.zZAR;
+      }
+      setLoading(true);
+      const result = await withdraw(
+        Number(zTokenAmount),
+        Number(colAmount),
+        zToken
+      );
+      if (result) {
         setZTokenAmount(0);
         setColAmount(0);
         toast.success("Transaction successful !!");
         setStage(1);
         setLoading(false);
-      } catch (error) {
+        window.location.reload();
+      } else {
         toast.error("Transaction failed !!");
         setLoading(false);
       }
@@ -97,13 +103,6 @@ function Repay() {
           <div className="deposit-body">
             <div className="flex justify-between">
               <p>Repay zToken</p>
-              <p
-                style={{
-                  fontSize: 12,
-                }}
-              >
-                Balance: 0
-              </p>
             </div>
             <div className="flex justify-between items-center">
               <input
@@ -169,28 +168,28 @@ function Repay() {
                       onClick={() => selectZAsset("ZUSD")}
                     >
                       <img src={ZUSD} alt="zusd" className="h-7" />
-                      <p className="ml-2">ZUSD</p>
+                      <p className="ml-2">zUSD</p>
                     </div>
                     <div
                       className="flex p-2 mb-2 select-asset"
                       onClick={() => selectZAsset("ZNGN")}
                     >
                       <img src={ZNGN} alt="" className="h-7" />
-                      <p className="ml-2">ZNGN</p>
+                      <p className="ml-2">zNGN</p>
                     </div>
                     <div
                       className="flex p-2 mb-2 select-asset"
                       onClick={() => selectZAsset("ZCFA")}
                     >
                       <img src={ZCFA} alt="" className="h-7" />
-                      <p className="ml-2">ZCFA</p>
+                      <p className="ml-2">zXAF</p>
                     </div>
                     <div
                       className="flex p-2 mb-2 select-asset"
                       onClick={() => selectZAsset("ZZAR")}
                     >
                       <img src={ZZAR} alt="" className="h-7" />
-                      <p className="ml-2">ZZAR</p>
+                      <p className="ml-2">zZAR</p>
                     </div>
                   </div>
                 )}

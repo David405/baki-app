@@ -1,20 +1,5 @@
 [
     {
-        "inputs": [],
-        "name": "BurnFailed",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "MintFailed",
-        "type": "error"
-    },
-    {
-        "inputs": [],
-        "name": "TransferFailed",
-        "type": "error"
-    },
-    {
         "anonymous": false,
         "inputs": [
             {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ethers } from "ethers";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -45,9 +46,10 @@ function useSwap() {
       const tx = await contract.swap(Number(_amount), from, to);
       await tx.wait();
       window.location.reload();
-      alert("Transaction was successfully !!");
+      return true;
     } catch (err: any) {
-      alert(err.error.message);
+      console.error(err.error.message);
+      return false;
     }
   };
 

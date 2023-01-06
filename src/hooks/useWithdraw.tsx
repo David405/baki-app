@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import useConnector from "./useConnector";
 import { config } from "../config";
 import vault from "../contracts/vault.json";
-declare const window: any;
+
 function useWithdraw() {
   const { provider } = useConnector();
   const [contract, setContract] = useState<any>(null);
@@ -25,10 +25,10 @@ function useWithdraw() {
         _zToken
       );
       await tx.wait();
-      alert("Transaction was successfull !!");
-      window.location.reload();
+      return true;
     } catch (err: any) {
-      alert(err.error.message);
+      console.error(err);
+      return false;
     }
   };
   return { withdraw };

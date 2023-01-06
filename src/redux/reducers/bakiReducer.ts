@@ -5,21 +5,33 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 export interface State {
   address: string;
   network: any;
-  totalColateral: number;
   userDebt: number;
   colBalance: number;
-  colBalanceVal: number;
+  userColBalance: number;
   rewardBal: number;
+  userNetMint: number;
+  globalNetMint: number;
+  colRatio: number;
+  totalCollateral: number;
+  globalDebt: number;
+  collateral: number;
+  activeCol: string;
 }
 
 const initialState: State = {
   address: "",
   network: "",
-  totalColateral: 200,
-  userDebt: 10,
+  userDebt: 0,
   colBalance: 0,
-  colBalanceVal: 0,
+  userColBalance: 0,
   rewardBal: 0,
+  userNetMint: 0,
+  globalNetMint: 0,
+  colRatio: 0,
+  totalCollateral: 0,
+  globalDebt: 0,
+  collateral: 0,
+  activeCol: "USDC",
 };
 
 export const bakiSlice = createSlice({
@@ -32,10 +44,45 @@ export const bakiSlice = createSlice({
     updateNetwork: (state, action: PayloadAction<any>) => {
       state.network = action.payload;
     },
+    updateUserNetMint: (state, action: PayloadAction<any>) => {
+      state.userNetMint = action.payload;
+    },
+    updateGlobalNetMint: (state, action: PayloadAction<number>) => {
+      state.globalNetMint = action.payload;
+    },
+    updateTotalCollateral: (state, action: PayloadAction<number>) => {
+      state.totalCollateral = action.payload;
+    },
+    updateUserDebt: (state, action: PayloadAction<number>) => {
+      state.userDebt = action.payload;
+    },
+    updateGlobalDebt: (state, action: PayloadAction<number>) => {
+      state.globalDebt = action.payload;
+    },
+    updateRewardBalance: (state, action: PayloadAction<any>) => {
+      state.rewardBal = action.payload;
+    },
+    updateCollateral: (state, action: PayloadAction<any>) => {
+      state.collateral = action.payload;
+    },
+    updateUserCollateral: (state, action: PayloadAction<any>) => {
+      state.userColBalance = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateAddress, updateNetwork } = bakiSlice.actions;
+export const {
+  updateAddress,
+  updateNetwork,
+  updateGlobalNetMint,
+  updateUserNetMint,
+  updateTotalCollateral,
+  updateUserDebt,
+  updateGlobalDebt,
+  updateRewardBalance,
+  updateCollateral,
+  updateUserCollateral,
+} = bakiSlice.actions;
 
 export default bakiSlice.reducer;
