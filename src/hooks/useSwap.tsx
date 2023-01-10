@@ -5,9 +5,13 @@ import { useEffect, useState } from "react";
 import useConnector from "./useConnector";
 import { config } from "../config";
 import vault from "../contracts/vault.json";
+import { updateTransactions } from "../redux/reducers/bakiReducer";
+import { useDispatch } from "react-redux";
+
 declare const window: any;
 function useSwap() {
   const { provider } = useConnector();
+  const dispatch = useDispatch();
   const [contract, setContract] = useState<any>(null);
   useEffect(() => {
     if (provider) {
@@ -45,9 +49,62 @@ function useSwap() {
     try {
       const tx = await contract.swap(Number(_amount), from, to);
       await tx.wait();
+      let transactions = [];
+      let transaction = {
+        amount: 0,
+        currency: "",
+        action: "",
+        status: "",
+        hash: "",
+      };
+      const txns = await window.localStorage.getItem("transactions");
+      transaction.amount = Number(_amount);
+      transaction.currency = from;
+      transaction.action = "Swap";
+      transaction.status = "successfull";
+      transaction.hash = tx.hash;
+      if (JSON.parse(txns).length <= 5) {
+        transactions = JSON.parse(txns);
+        transactions.push(transaction);
+      } else {
+        transactions.push(transaction);
+      }
+
+      await window.localStorage.setItem(
+        "transactions",
+        JSON.stringify(transactions)
+      );
+      dispatch(updateTransactions(transactions));
       window.location.reload();
       return true;
     } catch (err: any) {
+      let transactions = [];
+      let transaction = {
+        amount: 0,
+        currency: "",
+        action: "",
+        status: "",
+        hash: "",
+      };
+
+      transaction.amount = Number(_amount);
+      transaction.currency = "ZUSD";
+      transaction.action = "Swap";
+      transaction.status = "failed";
+      transaction.hash = "";
+      const txns = await window.localStorage.getItem("transactions");
+
+      if (JSON.parse(txns).length < 5) {
+        transactions = JSON.parse(txns);
+        transactions.push(transaction);
+      } else {
+        transactions.push(transaction);
+      }
+
+      await window.localStorage.setItem(
+        "transactions",
+        JSON.stringify(transactions)
+      );
       console.error(err.error.message);
       return false;
     }

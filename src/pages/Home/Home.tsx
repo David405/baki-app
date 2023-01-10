@@ -8,7 +8,7 @@ function Home() {
     <div className="flex flex-col justify-center items-center h-screen bg-red-100 ">
       <img src={baki} alt="" className="" />
       <div className="flex justify-around mt-6 w-80">
-        <Link to="/app">
+        <Link to="/mint">
           <button className="rounded-full text-white border-1 p-2 bg-dark-orange  h-46 enter-app">
             Enter App
           </button>

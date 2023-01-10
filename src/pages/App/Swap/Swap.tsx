@@ -130,6 +130,15 @@ function Swap() {
           setLoading(false);
           setLoadingApprove(false);
         });
+    } else {
+      getRates(
+        fromZAsset.substring(1),
+        toZAsset.substring(1) === "CFA" ? "XAF" : toZAsset.substring(1)
+      ).then(res => {
+        let currency =
+          toZAsset.substring(1) === "CFA" ? "XAF" : toZAsset.substring(1);
+        setRate(res[currency]);
+      });
     }
   }, [fromAmount, toZAsset, fromZAsset]);
 
@@ -327,7 +336,7 @@ function Swap() {
               {fromZAsset && toZAsset && (
                 <>
                   <p className="mb-4">
-                    1 {fromZAsset} = {rate.toFixed(2)} {toZAsset}
+                    1 {fromZAsset} = {rate?.toFixed(2)} {toZAsset}
                   </p>
                   <p className="mb-3">
                     <span className="font-bold mr-2">Trading fee:</span>{" "}

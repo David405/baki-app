@@ -108,17 +108,17 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               <p className="ml-2 ">Home</p>
             </div>
           </Link> */}
-          <Link to="/app">
+          <Link to="/mint">
             <div
               className={`layout-route flex p-2 ${
-                location.pathname === "/app" && "route-active"
+                location.pathname === "/mint" && "route-active"
               }`}
               onMouseEnter={() => setRoute("mint")}
               onMouseLeave={() => setRoute("")}
             >
               <img
                 src={
-                  route === "mint" || location.pathname === "/app/mint"
+                  route === "mint" || location.pathname === "/mint"
                     ? mintdark
                     : mint
                 }
@@ -127,17 +127,17 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               <p className="ml-2 ">My Position</p>
             </div>
           </Link>
-          <Link to="/app/swap">
+          <Link to="/swap">
             <div
               className={`layout-route flex p-2 ${
-                location.pathname === "/app/swap" && "route-active"
+                location.pathname === "/swap" && "route-active"
               }`}
               onMouseEnter={() => setRoute("swap")}
               onMouseLeave={() => setRoute("")}
             >
               <img
                 src={
-                  route === "swap" || location.pathname === "/app/swap"
+                  route === "swap" || location.pathname === "/swap"
                     ? swapdark
                     : swap
                 }
@@ -146,10 +146,10 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               <p className="ml-2 ">Swap</p>
             </div>
           </Link>
-          <Link to="/app/liquidation">
+          {/* <Link to="/liquidation">
             <div
               className={`layout-route flex p-2 ${
-                location.pathname === "/app/liquidation" && "route-active"
+                location.pathname === "/liquidation" && "route-active"
               }`}
               onMouseEnter={() => setRoute("liquidation")}
               onMouseLeave={() => setRoute("")}
@@ -157,7 +157,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               <img
                 src={
                   route === "liquidation" ||
-                  location.pathname === "/app/liquidation"
+                  location.pathname === "/liquidation"
                     ? liquidatedark
                     : liquidate
                 }
@@ -165,7 +165,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               />
               <p className="ml-2 ">Liquidation</p>
             </div>
-          </Link>
+          </Link> */}
           {/* <Link to="/app/transactions">
             <div
               className={`layout-route flex p-2 ${
@@ -198,20 +198,19 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           {!isTabletOrMobile && (
             <div className=" relatively ml-3">
               <h1 className="font-bold text-lg">
-                {location.pathname === "/app" && "Hi there"}
-                {location.pathname === "/app/mint" && "My Position"}
-                {location.pathname === "/app/swap" && "Swap"}
-                {location.pathname === "/app/liquidation" && "Liquidation"}
-                {location.pathname === "/app/transactions" && "Transactions"}
+                {location.pathname === "/" && "Hi there"}
+                {location.pathname === "/mint" && "My Position"}
+                {location.pathname === "/swap" && "Swap"}
+                {location.pathname === "/liquidation" && "Liquidation"}
+                {location.pathname === "/transactions" && "Transactions"}
               </h1>
               <p className="text-font-grey">
                 {location.pathname === "/app" && "Explore your dashboard"}
-                {location.pathname === "/app/mint" &&
+                {location.pathname === "/mint" &&
                   "Select the asset you’d like to deposit"}
-                {location.pathname === "/app/swap" && "Access Synthetic Assets"}
-                {location.pathname === "/app/liquidation" &&
-                  "Provide Liquidation"}
-                {location.pathname === "/app/transactions" &&
+                {location.pathname === "/swap" && "Access Synthetic Assets"}
+                {location.pathname === "/liquidation" && "Provide Liquidation"}
+                {location.pathname === "/transactions" &&
                   "View your transaction history in the table below"}
               </p>
             </div>

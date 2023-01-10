@@ -31,6 +31,6 @@ export const config: any = {
     //   blockExplorerUrls: ["https://alfajoresblockscout.celo-testnet.org"],
     // },
   ],
-  exchangeRatesAPIKEY: "RPGQctIVDY8a27eDUSB3i8BU4qGdqqMM",
+  exchangeRatesAPIKEY: "DARFb80BUBixEzeCe6fgq5JouZR6QuSq",
   coinlayerAPIKEY: "49505e855f2ab02b59638b6895755f23",
 };

@@ -15,10 +15,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         {/* <Route path="/app" element={<AppHome />} /> */}
-        <Route path="/app" element={<Mint />} />
-        <Route path="/app/swap" element={<Swap />} />
-        <Route path="/app/liquidation" element={<Liquidation />} />
-        <Route path="/app/transactions" element={<Transactions />} />
+        <Route path="/mint" element={<Mint />} />
+        <Route path="/swap" element={<Swap />} />
+        <Route path="/liquidation" element={<Liquidation />} />
+        <Route path="/transactions" element={<Transactions />} />
       </Routes>
       <ToastContainer />
     </Router>

@@ -9,8 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   updateCollateral,
   updateUserCollateral,
+  updateTransactions,
 } from "../redux/reducers/bakiReducer";
-
+declare const window: any;
 const useDeposit = () => {
   const { provider } = useConnector();
   const dispatch = useDispatch();
@@ -36,14 +37,67 @@ const useDeposit = () => {
   };
   const deposit = async (depositAmount: number, mintAmount: number) => {
     try {
+      let transactions = [];
+      let transaction = {
+        amount: 0,
+        currency: "",
+        action: "",
+        status: "",
+        hash: "",
+      };
+
       const tx = await contract?.depositAndMint(
         Number(depositAmount),
         Math.round(mintAmount)
       );
       await tx.wait();
+      const txns = await window.localStorage.getItem("transactions");
+      transaction.amount = depositAmount;
+      transaction.currency = "ZUSD";
+      transaction.action = "Deposited";
+      transaction.status = "successfull";
+      transaction.hash = tx.hash;
+      if (JSON.parse(txns).length < 5) {
+        transactions = JSON.parse(txns);
+        transactions.push(transaction);
+      } else {
+        transactions.push(transaction);
+      }
 
+      await window.localStorage.setItem(
+        "transactions",
+        JSON.stringify(transactions)
+      );
+      dispatch(updateTransactions(transactions));
       return true;
     } catch (err: any) {
+      let transactions = [];
+      let transaction = {
+        amount: 0,
+        currency: "",
+        action: "",
+        status: "",
+        hash: "",
+      };
+
+      transaction.amount = depositAmount;
+      transaction.currency = "ZUSD";
+      transaction.action = "Deposited";
+      transaction.status = "failed";
+      transaction.hash = "";
+      const txns = await window.localStorage.getItem("transactions");
+
+      if (JSON.parse(txns).length < 5) {
+        transactions = JSON.parse(txns);
+        transactions.push(transaction);
+      } else {
+        transactions.push(transaction);
+      }
+
+      await window.localStorage.setItem(
+        "transactions",
+        JSON.stringify(transactions)
+      );
       console.error(err.error);
       return false;
     }
@@ -51,10 +105,65 @@ const useDeposit = () => {
 
   const claimReward = async () => {
     try {
+      let transactions = [];
+      let transaction = {
+        amount: 0,
+        currency: "",
+        action: "",
+        status: "",
+        hash: "",
+      };
       const tx = await contract?.claimFees();
       await tx.wait();
+      const txns = await window.localStorage.getItem("transactions");
+      transaction.amount = 0;
+      transaction.currency = "ZUSD";
+      transaction.action = "Reward Claimed";
+      transaction.status = "successfull";
+      transaction.hash = tx.hash;
+      if (JSON.parse(txns).length <= 5) {
+        transactions = JSON.parse(txns);
+        transactions.push(transaction);
+      } else {
+        transactions.push(transaction);
+      }
+
+      await window.localStorage.setItem(
+        "transactions",
+        JSON.stringify(transactions)
+      );
+      dispatch(updateTransactions(transactions));
+
       return true;
     } catch (err: any) {
+      let transactions = [];
+      let transaction = {
+        amount: 0,
+        currency: "",
+        action: "",
+        status: "",
+        hash: "",
+      };
+      const tx = await contract?.claimFees();
+      await tx.wait();
+      const txns = await window.localStorage.getItem("transactions");
+      transaction.amount = 0;
+      transaction.currency = "ZUSD";
+      transaction.action = "Reward Claimed";
+      transaction.status = "failed";
+      transaction.hash = tx.hash;
+      if (JSON.parse(txns).length <= 5) {
+        transactions = JSON.parse(txns);
+        transactions.push(transaction);
+      } else {
+        transactions.push(transaction);
+      }
+
+      await window.localStorage.setItem(
+        "transactions",
+        JSON.stringify(transactions)
+      );
+      dispatch(updateTransactions(transactions));
       console.error(err.error);
       return false;
     }

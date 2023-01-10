@@ -11,10 +11,11 @@ import {
   updateUserDebt,
   updateGlobalDebt,
   updateRewardBalance,
+  updateTransactions,
 } from "../redux/reducers/bakiReducer";
 import { config } from "../config";
 import vault from "../contracts/vault.json";
-
+declare const window: any;
 function useData() {
   const dispatch = useDispatch();
   const { address, globalNetMint, userNetMint } = useSelector(
@@ -33,11 +34,13 @@ function useData() {
   useEffect(() => {
     getPosition();
     getGlobalDebt();
+    getTransactions();
   }, [address]);
 
   useEffect(() => {
     getUserDebt();
     getRewardBalance();
+    getTransactions();
   }, [userNetMint, globalNetMint, address]);
 
   const getPosition = async () => {
@@ -88,6 +91,11 @@ function useData() {
       Number(totalzZAR?._hex) / ZARUSDRate +
       Number(totalzXAF?._hex) / XAFUSDRate;
     dispatch(updateGlobalDebt(globalDebt));
+  };
+
+  const getTransactions = async () => {
+    let transactions = await window.localStorage.getItem("transactions");
+    dispatch(updateTransactions(JSON.parse(transactions)));
   };
 
   const getRewardBalance = async () => {
