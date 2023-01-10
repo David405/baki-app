@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/jsx-no-target-blank */
 import React from "react";
 import "./Transactions.css";
@@ -7,6 +9,7 @@ import ZNGN from "../../../assets/ZNGN.png";
 import ZCFA from "../../../assets/ZXAF.png";
 import ZZAR from "../../../assets/ZZAR.png";
 import USDC from "../../../assets/usdc.png";
+import empty from "../../../assets/empty.png";
 
 import { useSelector } from "react-redux";
 function Transactiions() {
@@ -20,7 +23,7 @@ function Transactiions() {
         </Link> */}
       </div>
       <div className="transaction-box mt-4">
-        {transactions.map((transaction: any, index: number) => (
+        {transactions?.map((transaction: any, index: number) => (
           <div className="transaction" key={index}>
             <p>
               <span
@@ -28,7 +31,6 @@ function Transactiions() {
                   marginRight: 5,
                 }}
               >
-                {" "}
                 {transaction.amount}
               </span>
               {transaction.currency}
@@ -52,6 +54,12 @@ function Transactiions() {
             </a>
           </div>
         ))}
+        {!transactions && (
+          <div className="transactions-not">
+            <img src={empty} alt="Empty" />
+            <p>No transactions were found !!</p>
+          </div>
+        )}
       </div>
     </div>
   );
