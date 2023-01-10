@@ -69,7 +69,7 @@ function useWithdraw() {
 
       transaction.amount = Number(_amountToWithdraw);
       transaction.currency = "ZUSD";
-      transaction.action = "Withdraw";
+      transaction.action = "Withdrawal";
       transaction.status = "failed";
       transaction.hash = "";
       const txns = await window.localStorage.getItem("transactions");

@@ -35,11 +35,11 @@ function Home() {
           <p className="text-xs">zToken Market Cap</p>
         </div>
         <div className="p-4 flex justify-center items-center w-1/5 flex-col home-detail">
-          <div className="text-lg text-dark-orange font-bold">$0.00</div>
+          <div className="text-lg text-dark-orange font-bold">0</div>
           <p className="text-xs">Total Volume</p>
         </div>
         <div className="p-4 flex text-dark-orange justify-center items-center w-1/5 flex-col home-last-item">
-          <div className="text-lg font-bold">$0.00</div>
+          <div className="text-lg font-bold">0.8%</div>
           <p className="text-xs">Trading Fees</p>
         </div>
       </div>

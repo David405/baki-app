@@ -30,7 +30,7 @@ const useDeposit = () => {
 
   const getValues = async () => {
     // Get Coll balance
-    let ball = await contract.getBalance(config.USDC);
+    let ball = await contract?.getBalance(config.USDC);
     dispatch(updateCollateral(Number(ball._hex) / 10 ** 18));
     let colBall = await contract.getUserCollateralBalance();
     dispatch(updateUserCollateral(Number(colBall._hex) / 10 ** 18));
