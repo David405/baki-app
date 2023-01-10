@@ -1,0 +1,51 @@
+.swap {
+  width: 50%;
+  border: 1px solid #dbdedf;
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.swap-top {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.swap .asset-box {
+  border: 1px solid #dbdedf;
+  border-radius: 15px;
+  padding: 10px;
+  width: 40%;
+}
+
+.swap-assets {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #dbdedf;
+  width: 75%;
+  padding: 3px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.asset-box input {
+  border: 1px solid #dbdedf;
+  padding: 5px;
+  margin-top: 20px;
+  border-radius: 5px;
+  width: 80%;
+}
+
+.swap-icon {
+  background-color: #f3f3f3;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.swap-details {
+  font-size: 12px;
+}
+
+.asset-box input:focus {
+  outline: none;
+}

@@ -1,0 +1,72 @@
+.borrow-repay {
+  width: 70%;
+  border: 1px solid #dbdedf;
+  border-radius: 10px;
+}
+
+.mint-head {
+  display: flex;
+  border-bottom: 1px solid #dbdedf;
+  padding: 10px 10px 0 10px;
+}
+
+.mint-head button {
+  font-weight: bold;
+  color: #495055;
+  margin-top: 2px;
+}
+.user-details {
+  display: flex;
+  border: 1px solid #dbdedf;
+  width: 70%;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.user-detail {
+  padding: 20px;
+  width: 33%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  color: #25282b;
+}
+
+.user-details .mid-detail {
+  border-left: 1px solid #dbdedf;
+  border-right: 1px solid #dbdedf;
+}
+
+.user-detail .heading {
+  color: #a7adb2;
+}
+.claim-rewards {
+  background-image: url("../../../assets/claim.png");
+  background-repeat: no-repeat;
+  height: 200px;
+  padding: 30px;
+  margin-top: 15px;
+}
+
+.claim-heading {
+  font-size: 22px;
+}
+
+.claim-btn {
+  background-color: #f9603d;
+  padding: 5px;
+  border-radius: 20px;
+  width: 14%;
+  color: #fff;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.claim-amount {
+  color: #808080;
+  font-size: 16px;
+}

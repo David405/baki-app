@@ -1,0 +1,65 @@
+.sidebar-top {
+  height: 20%;
+  border-bottom: 1px solid #ccc;
+}
+
+.sidebar-bottom {
+  padding-top: 50px;
+  flex: 2;
+}
+
+.layout-route {
+  color: #fff;
+  cursor: pointer;
+  height: 40px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.layout-route:hover {
+  color: #5c656c;
+  background-color: #ffe4d7;
+  border-left: 3px solid #f9603d;
+}
+
+.route-active {
+  color: #5c656c;
+  background-color: #ffe4d7;
+  border-left: 3px solid #f9603d;
+}
+.sidebar-footer {
+  height: 15%;
+}
+.layout-body {
+  height: 90vh;
+  overflow-y: scroll;
+}
+
+.layout-body::-webkit-scrollbar {
+  display: none;
+}
+
+.networks {
+  min-width: 7%;
+  background-color: #0f257c;
+  border: solid 1px #ccc;
+  transition: all 0.4s;
+  border-radius: 20px;
+}
+.network:hover {
+  background-color: #092bb7;
+  border-radius: 20px;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 818px) {
+  .sidebar {
+    position: absolute;
+    left: -300px;
+    z-index: 5;
+    transition: all 0.4s;
+  }
+}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}

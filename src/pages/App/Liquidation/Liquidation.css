@@ -1,0 +1,30 @@
+.liquidation {
+  border: 1px solid #dbdedf;
+  width: 80%;
+  border-radius: 10px;
+  margin-left: 20px;
+}
+
+.li-header {
+  padding: 10px;
+  border-bottom: 1px solid #dbdedf;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.liquidation .detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sub-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.liquidate {
+  height: 40px;
+}

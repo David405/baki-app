@@ -1,0 +1,22 @@
+.see-transactions {
+  color: #2595ff;
+}
+
+.transaction-box {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.transaction-head {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+}
+
+.transaction {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
