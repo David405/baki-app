@@ -1,5 +1,5 @@
 .borrow-repay {
-  width: 70%;
+  width: 75%;
   border: 1px solid #dbdedf;
   border-radius: 10px;
 }
@@ -18,7 +18,7 @@
 .user-details {
   display: flex;
   border: 1px solid #dbdedf;
-  width: 70%;
+  width: 75%;
   border-radius: 10px;
   margin-top: 20px;
 }

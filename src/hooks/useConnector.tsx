@@ -10,7 +10,16 @@ function useConnector() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [provider, setProvider] = useState<any>(null);
-
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on("chainChanged", () => {
+        window.location.reload();
+      });
+      window.ethereum.on("accountsChanged", () => {
+        window.location.reload();
+      });
+    }
+  });
   useEffect(() => {
     // check Connection
     checkConnection();
@@ -27,6 +36,7 @@ function useConnector() {
     try {
       const network = await provider.getNetwork();
       if (network.chainId !== 43113) return navigate("/error");
+
       dispatch(updateNetwork(network));
     } catch (error) {}
   };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { FC } from "react";
 import "./ConnectWallet.css";
 import metamask from "../../assets/metamask.png";

@@ -15,51 +15,106 @@ import { useSelector } from "react-redux";
 function Transactiions() {
   const { transactions } = useSelector((state: any) => state.baki);
   return (
-    <div className="w-9/12 mt-4">
+    <div className="transactions">
       <div className="flex justify-between">
         <p className="font-bold">Activity</p>
-        {/* <Link to="/app/transactions">
-          <p className="see-transactions">See transaction history</p>
-        </Link> */}
       </div>
-      <div className="transaction-box mt-4">
-        {transactions?.map((transaction: any, index: number) => (
-          <div className="transaction" key={index}>
-            <p>
-              <span
+      <div className="table-box">
+        <div className="table-row table-head">
+          <div className="table-cell">
+            <p>Action</p>
+          </div>
+          <div className="table-cell">
+            <p>Status</p>
+          </div>
+          <div className="table-cell">
+            <p>View Transaction</p>
+          </div>
+        </div>
+        {transactions.map((transaction: any, index: number) => (
+          <div
+            className="table-row"
+            key={index}
+            style={{
+              borderBottom:
+                index === transactions.length - 1 ? "none" : "1px solid #ccc",
+            }}
+          >
+            <div className="table-cell">
+              {transaction.action === "Deposit" && (
+                <p>{`Deposited ${transaction.depositBody.colAmount.toLocaleString(
+                  undefined,
+                  {
+                    maximumFractionDigits: 2,
+                  }
+                )} USDC and Minted ${transaction.depositBody.mintAmount.toLocaleString(
+                  undefined,
+                  {
+                    maximumFractionDigits: 2,
+                  }
+                )} zUSD`}</p>
+              )}
+              {transaction.action === "Swap" && (
+                <p>{`Swap ${transaction.swapBody.fromAmount.toLocaleString(
+                  undefined,
+                  {
+                    maximumFractionDigits: 2,
+                  }
+                )}  ${
+                  transaction.swapBody.fromCurrency
+                } for ${transaction.swapBody.toAmount.toLocaleString(
+                  undefined,
+                  {
+                    maximumFractionDigits: 2,
+                  }
+                )} ${transaction.swapBody.toCurrency}`}</p>
+              )}
+              {transaction.action === "Reward" && (
+                <p>{`${transaction.rewardBody.amount.toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                })} zUSD  Claimed in Rewards`}</p>
+              )}
+              {transaction.action === "Withdraw" && (
+                <p>{`Repaid ${transaction.repayBody.repayAmount.toLocaleString(
+                  undefined,
+                  {
+                    maximumFractionDigits: 2,
+                  }
+                )} ${
+                  transaction.repayBody.repayCurrency
+                } and Withdrawn ${transaction.repayBody.withdrawAmount.toLocaleString(
+                  undefined,
+                  {
+                    maximumFractionDigits: 2,
+                  }
+                )} USDC`}</p>
+              )}
+            </div>
+            <div className="table-cell">
+              <p
                 style={{
-                  marginRight: 5,
+                  color: transaction.status === "Successful" ? "green" : "red",
                 }}
               >
-                {transaction.amount}
-              </span>
-              {transaction.currency}
-            </p>
-            <div className="flex">
-              <p className="ml-2">{transaction.action}</p>
+                {transaction.status}
+              </p>
             </div>
-            <p
-              style={{
-                color: transaction.status === "successfull" ? "green" : "red",
-              }}
-            >
-              {transaction.status}
-            </p>
-
-            <a
-              href={`https://testnet.snowtrace.io/tx/${transaction.hash}`}
-              target="_blank"
-            >
-              View on explorer
-            </a>
+            <div className="table-cell">
+              {transaction.hash && (
+                <a
+                  href={
+                    transaction.hash
+                      ? `https://testnet.snowtrace.io/tx/${transaction.hash}`
+                      : "/mint"
+                  }
+                  target={transaction.hash && "_blank"}
+                >
+                  View on explorer
+                </a>
+              )}
+            </div>
           </div>
         ))}
-        {!transactions && (
-          <div className="transactions-not">
-            <img src={empty} alt="Empty" />
-            <p>No transactions were found !!</p>
-          </div>
-        )}
       </div>
     </div>
   );

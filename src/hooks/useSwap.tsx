@@ -45,24 +45,42 @@ function useSwap() {
     } else if (_tozToken === "zZAR") {
       to = config.zZAR;
     }
-
+    let hash = "";
     try {
       const tx = await contract.swap(Number(_amount), from, to);
       await tx.wait();
       let transactions = [];
       let transaction = {
-        amount: 0,
-        currency: "",
         action: "",
         status: "",
         hash: "",
+        depositBody: {
+          mintAmount: 0,
+          colAmount: 0,
+        },
+        swapBody: {
+          fromCurrency: "",
+          fromAmount: 0,
+          toCurrency: "",
+          toAmount: 0,
+        },
+        rewardBody: {
+          amount: 0,
+        },
+        repayBody: {
+          repayAmount: 0,
+          withdrawAmount: 0,
+        },
       };
       const txns = await window.localStorage.getItem("transactions");
-      transaction.amount = Number(_amount);
-      transaction.currency = from;
+      transaction.swapBody.fromAmount = Number(_amount);
+      transaction.swapBody.toAmount = Number(_amount);
+      transaction.swapBody.fromCurrency = _fromzToken;
+      transaction.swapBody.toCurrency = _tozToken;
       transaction.action = "Swap";
-      transaction.status = "successfull";
+      transaction.status = "Successful";
       transaction.hash = tx?.hash;
+      hash = tx?.hash;
       if (JSON.parse(txns)?.length <= 5) {
         transactions = JSON.parse(txns);
         transactions.push(transaction);
@@ -80,18 +98,35 @@ function useSwap() {
     } catch (err: any) {
       let transactions = [];
       let transaction = {
-        amount: 0,
-        currency: "",
         action: "",
         status: "",
         hash: "",
+        depositBody: {
+          mintAmount: 0,
+          colAmount: 0,
+        },
+        swapBody: {
+          fromCurrency: "",
+          fromAmount: 0,
+          toCurrency: "",
+          toAmount: 0,
+        },
+        rewardBody: {
+          amount: 0,
+        },
+        repayBody: {
+          repayAmount: 0,
+          withdrawAmount: 0,
+        },
       };
 
-      transaction.amount = Number(_amount);
-      transaction.currency = "ZUSD";
+      transaction.swapBody.fromAmount = Number(_amount);
+      transaction.swapBody.toAmount = Number(_amount);
+      transaction.swapBody.fromCurrency = _fromzToken;
+      transaction.swapBody.toCurrency = _tozToken;
       transaction.action = "Swap";
-      transaction.status = "failed";
-      transaction.hash = "";
+      transaction.status = "Failed";
+      transaction.hash = hash;
       const txns = await window.localStorage.getItem("transactions");
 
       if (JSON.parse(txns)?.length < 5) {

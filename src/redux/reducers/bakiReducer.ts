@@ -15,6 +15,10 @@ export interface State {
   totalCollateral: number;
   globalDebt: number;
   collateral: number;
+  zUSDBal: number;
+  zNGNBal: number;
+  zCFABal: number;
+  zZARBal: number;
   activeCol: string;
   transactions: any;
 }
@@ -32,6 +36,10 @@ const initialState: State = {
   totalCollateral: 0,
   globalDebt: 0,
   collateral: 0,
+  zUSDBal: 0,
+  zNGNBal: 0,
+  zCFABal: 0,
+  zZARBal: 0,
   activeCol: "USDC",
   transactions: [],
 };
@@ -73,6 +81,12 @@ export const bakiSlice = createSlice({
     updateTransactions: (state, action: PayloadAction<any>) => {
       state.transactions = action.payload;
     },
+    updateBalances: (state, action: PayloadAction<any>) => {
+      state.zUSDBal = action.payload.zUSD;
+      state.zNGNBal = action.payload.zNGN;
+      state.zCFABal = action.payload.zCFA;
+      state.zZARBal = action.payload.zZAR;
+    },
   },
 });
 
@@ -89,6 +103,7 @@ export const {
   updateCollateral,
   updateUserCollateral,
   updateTransactions,
+  updateBalances,
 } = bakiSlice.actions;
 
 export default bakiSlice.reducer;

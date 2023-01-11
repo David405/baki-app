@@ -21,16 +21,33 @@ function useWithdraw() {
   const withdraw = async (
     _amountToRepay: number,
     _amountToWithdraw: number,
-    _zToken: string
+    _zToken: string,
+    _asset: string
   ) => {
     try {
       let transactions = [];
       let transaction = {
-        amount: 0,
-        currency: "",
         action: "",
         status: "",
         hash: "",
+        depositBody: {
+          mintAmount: 0,
+          colAmount: 0,
+        },
+        swapBody: {
+          fromCurrency: "",
+          fromAmount: 0,
+          toCurrency: "",
+          toAmount: 0,
+        },
+        rewardBody: {
+          amount: 0,
+        },
+        repayBody: {
+          repayCurrency: "",
+          repayAmount: 0,
+          withdrawAmount: 0,
+        },
       };
       const tx = await contract.repayAndWithdraw(
         _amountToRepay,
@@ -39,10 +56,11 @@ function useWithdraw() {
       );
       await tx.wait();
       const txns = await window.localStorage.getItem("transactions");
-      transaction.amount = Number(_amountToWithdraw);
-      transaction.currency = "USDC";
+      transaction.repayBody.repayAmount = Number(_amountToRepay);
+      transaction.repayBody.withdrawAmount = Number(_amountToWithdraw);
+      transaction.repayBody.repayCurrency = _asset;
       transaction.action = "Withdraw";
-      transaction.status = "successfull";
+      transaction.status = "Successful";
       transaction.hash = tx?.hash;
       if (JSON.parse(txns)?.length <= 5) {
         transactions = JSON.parse(txns);
@@ -60,17 +78,32 @@ function useWithdraw() {
     } catch (err: any) {
       let transactions = [];
       let transaction = {
-        amount: 0,
-        currency: "",
         action: "",
         status: "",
         hash: "",
+        depositBody: {
+          mintAmount: 0,
+          colAmount: 0,
+        },
+        swapBody: {
+          fromCurrency: "",
+          fromAmount: 0,
+          toCurrency: "",
+          toAmount: 0,
+        },
+        rewardBody: {
+          amount: 0,
+        },
+        repayBody: {
+          repayAmount: 0,
+          withdrawAmount: 0,
+        },
       };
 
-      transaction.amount = Number(_amountToWithdraw);
-      transaction.currency = "ZUSD";
+      transaction.repayBody.repayAmount = Number(_amountToRepay);
+      transaction.repayBody.withdrawAmount = Number(_amountToWithdraw);
       transaction.action = "Withdrawal";
-      transaction.status = "failed";
+      transaction.status = "Failed";
       transaction.hash = "";
       const txns = await window.localStorage.getItem("transactions");
 

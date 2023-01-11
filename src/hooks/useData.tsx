@@ -12,6 +12,7 @@ import {
   updateGlobalDebt,
   updateRewardBalance,
   updateTransactions,
+  updateBalances,
 } from "../redux/reducers/bakiReducer";
 import { config } from "../config";
 import vault from "../contracts/vault.json";
@@ -33,14 +34,16 @@ function useData() {
 
   useEffect(() => {
     getPosition();
-    getGlobalDebt();
+    // getGlobalDebt();
     getTransactions();
+    getzTokenBal();
   }, [address]);
 
   useEffect(() => {
     getUserDebt();
     getRewardBalance();
     getTransactions();
+    getzTokenBal();
   }, [userNetMint, globalNetMint, address]);
 
   const getPosition = async () => {
@@ -57,6 +60,20 @@ function useData() {
     // console.log(totalCollateral);
 
     // dispatch(updateTotalCollateral(Number(totalCollateral?._hex)));
+  };
+
+  const getzTokenBal = async () => {
+    let zUSD = await contract?.getBalance(config.zUSD);
+    let zNGN = await contract?.getBalance(config.zNGN);
+    let zCFA = await contract?.getBalance(config.zCFA);
+    let zZAR = await contract?.getBalance(config.zZAR);
+    let ballances = {
+      zUSD: Number(zUSD?._hex) / 10 ** 18,
+      zNGN: Number(zNGN?._hex) / 10 ** 18,
+      zCFA: Number(zCFA?._hex) / 10 ** 18,
+      zZAR: Number(zZAR?._hex) / 10 ** 18,
+    };
+    dispatch(updateBalances(ballances));
   };
 
   const getUserDebt = async () => {
