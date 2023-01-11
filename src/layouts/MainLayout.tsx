@@ -285,7 +285,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               )}
               {show && (
                 <div className="text-white mt-2 p-1  cursor-pointer absolute w-10 networks">
-                  {config.networks.map((network: any, index: number) => (
+                  {config.networks?.map((network: any, index: number) => (
                     <div key={index} className="flex p-2 mb-2 network">
                       <img
                         src={network.name === "Celo" ? celo : avax}

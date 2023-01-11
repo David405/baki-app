@@ -10,6 +10,7 @@ function useConnector() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [provider, setProvider] = useState<any>(null);
+
   useEffect(() => {
     if (window.ethereum) {
       window.ethereum.on("chainChanged", () => {

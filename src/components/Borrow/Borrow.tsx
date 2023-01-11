@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import useDeposit from "../../hooks/useDeposit";
 import useToken from "../../hooks/useToken";
 import { useSelector } from "react-redux";
-import redstone from "redstone-api";
+// import redstone from "redstone-api";
 import { config } from "../../config";
 import { toast } from "react-toastify";
 
@@ -35,8 +35,8 @@ function Borrow() {
   const [loading, setLoading] = useState<boolean>(false);
   const { approve } = useToken("USDC", false);
   const getColRate = async () => {
-    const price = await redstone.getPrice(activeCol);
-    setColRate(price.value);
+    // const price = await redstone.getPrice(activeCol);
+    // setColRate(price.value);
   };
   useEffect(() => {
     if (depositAmount < 0 || mintAmount < 0) return;

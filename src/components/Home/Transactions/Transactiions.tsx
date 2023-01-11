@@ -31,7 +31,13 @@ function Transactiions() {
             <p>View Transaction</p>
           </div>
         </div>
-        {transactions.map((transaction: any, index: number) => (
+        {!transactions?.length && (
+          <div className="transactions-no">
+            <img src={empty} alt="" />
+            <p>No transactions were found !!</p>
+          </div>
+        )}
+        {transactions?.map((transaction: any, index: number) => (
           <div
             className="table-row"
             key={index}
