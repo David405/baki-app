@@ -20,9 +20,8 @@ declare const window: any;
 
 function Borrow() {
   const { deposit } = useDeposit();
-  const { totalCollateral, userDebt, collateral, activeCol } = useSelector(
-    (state: any) => state.baki
-  );
+  const { totalCollateral, userDebt, collateral, activeCol, userColBalance } =
+    useSelector((state: any) => state.baki);
   const [perVal, setPerVal] = useState<number>(0);
   const [onFocus, setOnFocus] = useState<boolean>(false);
   const [depositAmount, setDepositAmount] = useState<any>(0);
@@ -40,12 +39,12 @@ function Borrow() {
     setColRate(price.value);
   };
   useEffect(() => {
-    if (depositAmount && mintAmount) {
+    if (depositAmount) {
       setShow(true);
     } else {
       setShow(false);
     }
-  }, [depositAmount, mintAmount]);
+  }, [depositAmount]);
 
   useEffect(() => {
     getColRate();
@@ -84,8 +83,10 @@ function Borrow() {
   const calculateValue = (percentage: number) => {
     if (depositAmount) {
       setPerVal(percentage);
-      let colBalance: any = totalCollateral * 10 ** -18;
-      let debt = userDebt * 10 ** -18;
+      let colBalance: any = userColBalance;
+      console.log(userColBalance);
+
+      let debt = userDebt;
       let colRatio = 1.5;
       let val2 = (colBalance + Number(depositAmount)) / colRatio;
       let val3 = val2 - debt;

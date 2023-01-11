@@ -43,8 +43,8 @@ function useWithdraw() {
       transaction.currency = "USDC";
       transaction.action = "Withdraw";
       transaction.status = "successfull";
-      transaction.hash = tx.hash;
-      if (JSON.parse(txns).length <= 5) {
+      transaction.hash = tx?.hash;
+      if (JSON.parse(txns)?.length <= 5) {
         transactions = JSON.parse(txns);
         transactions.push(transaction);
       } else {
@@ -74,7 +74,7 @@ function useWithdraw() {
       transaction.hash = "";
       const txns = await window.localStorage.getItem("transactions");
 
-      if (JSON.parse(txns).length < 5) {
+      if (JSON.parse(txns)?.length < 5) {
         transactions = JSON.parse(txns);
         transactions.push(transaction);
       } else {

@@ -1,9 +1,13 @@
+/* eslint-disable no-empty-pattern */
 /* eslint-disable react/jsx-no-target-blank */
 import React from "react";
 import baki from "../../assets/baki.png";
 import "./Home.css";
 import { Link } from "react-router-dom";
+import useConnector from "../../hooks/useConnector";
+
 function Home() {
+  const {} = useConnector();
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-red-100 ">
       <img src={baki} alt="" className="" />

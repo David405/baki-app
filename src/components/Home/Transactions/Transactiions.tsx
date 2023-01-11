@@ -40,7 +40,7 @@ function Transactiions() {
             </div>
             <p
               style={{
-                color: transactions.status === "successfull" ? "red" : "green",
+                color: transaction.status === "successfull" ? "green" : "red",
               }}
             >
               {transaction.status}

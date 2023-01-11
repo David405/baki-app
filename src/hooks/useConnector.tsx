@@ -3,9 +3,11 @@ import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { useDispatch } from "react-redux";
 import { updateAddress, updateNetwork } from "../redux/reducers/bakiReducer";
+import { useNavigate } from "react-router-dom";
 declare const window: any;
 
 function useConnector() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [provider, setProvider] = useState<any>(null);
 
@@ -24,6 +26,7 @@ function useConnector() {
   const checkNetwork = async () => {
     try {
       const network = await provider.getNetwork();
+      if (network.chainId !== 43113) return navigate("/error");
       dispatch(updateNetwork(network));
     } catch (error) {}
   };

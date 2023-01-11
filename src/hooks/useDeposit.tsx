@@ -57,7 +57,7 @@ const useDeposit = () => {
       transaction.action = "Deposited";
       transaction.status = "successfull";
       transaction.hash = tx.hash;
-      if (JSON.parse(txns).length < 5) {
+      if (JSON.parse(txns)?.length < 5) {
         transactions = JSON.parse(txns);
         transactions.push(transaction);
       } else {
@@ -87,7 +87,7 @@ const useDeposit = () => {
       transaction.hash = "";
       const txns = await window.localStorage.getItem("transactions");
 
-      if (JSON.parse(txns).length < 5) {
+      if (JSON.parse(txns)?.length < 5) {
         transactions = JSON.parse(txns);
         transactions.push(transaction);
       } else {
@@ -120,8 +120,8 @@ const useDeposit = () => {
       transaction.currency = "ZUSD";
       transaction.action = "Reward Claimed";
       transaction.status = "successfull";
-      transaction.hash = tx.hash;
-      if (JSON.parse(txns).length <= 5) {
+      transaction.hash = tx?.hash;
+      if (JSON.parse(txns)?.length <= 5) {
         transactions = JSON.parse(txns);
         transactions.push(transaction);
       } else {
@@ -151,8 +151,8 @@ const useDeposit = () => {
       transaction.currency = "ZUSD";
       transaction.action = "Reward Claimed";
       transaction.status = "failed";
-      transaction.hash = tx.hash;
-      if (JSON.parse(txns).length <= 5) {
+      transaction.hash = tx?.hash;
+      if (JSON.parse(txns)?.length <= 5) {
         transactions = JSON.parse(txns);
         transactions.push(transaction);
       } else {
