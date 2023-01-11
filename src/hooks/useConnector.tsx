@@ -14,7 +14,7 @@ function useConnector() {
   useEffect(() => {
     if (window.ethereum) {
       window.ethereum.on("chainChanged", () => {
-        window.location.reload();
+        window.location.replace("/");
       });
       window.ethereum.on("accountsChanged", () => {
         window.location.reload();
