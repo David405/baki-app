@@ -1,7 +1,7 @@
 import React from "react";
 import Assets from "../../../components/Home/Assets/Assets";
 import Portfolio from "../../../components/Home/Portfolio/Portfolio";
-import Transactiions from "../../../components/Home/Transactions/Transactiions";
+import Transactiions from "../../../components/Home/Transactions/Transactions";
 import MainLayout from "../../../layouts/MainLayout";
 
 function Home() {

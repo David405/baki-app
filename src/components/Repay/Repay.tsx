@@ -55,7 +55,7 @@ function Repay() {
       } else if (zAsset === "ZNGN") {
         zToken = config.zNGN;
       } else if (zAsset === "ZCFA") {
-        zToken = config.zXAF;
+        zToken = config.zCFA;
       } else if (zAsset === "ZZAR") {
         zToken = config.zZAR;
       }
@@ -214,7 +214,7 @@ function Repay() {
                       onClick={() => selectZAsset("ZCFA")}
                     >
                       <img src={ZCFA} alt="" className="h-7" />
-                      <p className="ml-2">zXAF</p>
+                      <p className="ml-2">zCFA</p>
                     </div>
                     <div
                       className="flex p-2 mb-2 select-asset"

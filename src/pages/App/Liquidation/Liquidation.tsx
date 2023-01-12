@@ -1,4 +1,3 @@
-import React from "react";
 import MainLayout from "../../../layouts/MainLayout";
 import "./Liquidation.css";
 function Liquidation() {
@@ -8,50 +7,67 @@ function Liquidation() {
         <div className="li-header">
           <p className="font-bold">Liquidations</p>
         </div>
-        <div className="flex justify-around p-3">
-          <div className="detail">
-            <p className="font-bold">Owner</p>
-          </div>
-          <div className="detail">
-            <div className="sub-detail">
-              <p className="font-bold">Collateral</p>
+        <div className="li-table-box">
+          <div className="li-table-row li-table-head">
+            <div className="li-table-cell">
+              <p>Owner</p>
+            </div>
+            <div className="li-table-cell">
+              <p>Collateral</p>
+            </div>
+            <div className="li-table-cell">
+              <p>Debt</p>
+            </div>
+            <div className="li-table-cell">
+              <p>Coll Ration</p>
+            </div>
+            <div className="li-table-cell">
+              <p>Action</p>
             </div>
           </div>
-          <div className="detail">
-            <div className="sub-detail">
-              <p className="font-bold text-lg">Debt</p>
-            </div>
-          </div>
-          <div className="detail">
-            <p className="font-bold">Coll Ratio</p>
-          </div>
-          <div className="detail ">
-            <p className="font-bold">Actions</p>
-          </div>
-        </div>
 
-        <div className="flex justify-around p-3">
-          <div className="detail">
-            <p>0xdkekjkj...dsd</p>
-          </div>
-          <div className="detail mr-10">
-            <div className="sub-detail">
-              <p className="text-font-grey">USDC</p>
+          <div className="li-table-row">
+            <div className="li-table-cell">
+              <p>
+                {"0xdkekjkjwy677iug2iw9asjhgasjhgtw8jka6dsd".slice(0, 5)}...{" "}
+                {"0xdkekjkjwy677iug2iw9asjhgasjhgtw8jka6dsd".slice(35, 50)}
+              </p>
             </div>
-            <p>0.00</p>
-          </div>
-          <div className="detail mr-10">
-            <div className="sub-detail">
-              <p className="text-font-grey">TSD</p>
+            <div className="li-table-cell">
+              <p>
+                {0.0?.toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                })}{" "}
+                USDC
+              </p>
             </div>
-            <p>0.00</p>
+            <div className="li-table-cell">
+              <div className="sub-detail">
+                <p className="text-font-grey">TSD</p>
+                <p>
+                  {Number(74647676)?.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
+                </p>
+              </div>
+            </div>
+            <div className="li-table-cell">
+              <div className="sub-detail">
+                <p className="text-font-grey">TSD</p>
+                <p>
+                  {Number(10)?.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
+                  %
+                </p>
+              </div>
+            </div>
+            <div className="li-table-cell">
+              <button className="liquidate bg-dark-orange p-2 rounded text-white ">
+                Liquidate
+              </button>
+            </div>
           </div>
-          <div className="detail mr-10">
-            <p>10%</p>
-          </div>
-          <button className="liquidate bg-dark-orange p-2 rounded text-white ">
-            Liquidate
-          </button>
         </div>
       </div>
     </MainLayout>

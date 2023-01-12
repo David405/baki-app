@@ -20,7 +20,7 @@ export interface State {
   zCFABal: number;
   zZARBal: number;
   activeCol: string;
-  transactions: any;
+  transactions: Array<any>;
 }
 
 const initialState: State = {

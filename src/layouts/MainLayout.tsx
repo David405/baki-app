@@ -146,7 +146,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               <p className="ml-2 ">Swap</p>
             </div>
           </a>
-          {/* <Link to="/liquidation">
+          <a href="/liquidation">
             <div
               className={`layout-route flex p-2 ${
                 location.pathname === "/liquidation" && "route-active"
@@ -165,7 +165,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               />
               <p className="ml-2 ">Liquidation</p>
             </div>
-          </Link> */}
+          </a>
           {/* <Link to="/app/transactions">
             <div
               className={`layout-route flex p-2 ${

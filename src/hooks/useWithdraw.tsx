@@ -4,12 +4,13 @@ import useConnector from "./useConnector";
 import { config } from "../config";
 import vault from "../contracts/vault.json";
 import { updateTransactions } from "../redux/reducers/bakiReducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 declare const window: any;
 
 function useWithdraw() {
   const { provider } = useConnector();
   const dispatch = useDispatch();
+  const { address } = useSelector((state: any) => state.baki);
 
   const [contract, setContract] = useState<any>(null);
   useEffect(() => {
@@ -25,7 +26,8 @@ function useWithdraw() {
     _asset: string
   ) => {
     try {
-      let transactions = [];
+      let transactions: any = {};
+      let _transactions = [];
       let transaction = {
         action: "",
         status: "",
@@ -62,12 +64,14 @@ function useWithdraw() {
       transaction.action = "Withdraw";
       transaction.status = "Successful";
       transaction.hash = tx?.hash;
-      if (JSON.parse(txns)?.length <= 5) {
-        transactions = JSON.parse(txns);
-        transactions.push(transaction);
+      if (JSON.parse(txns)[address]?.length <= 5) {
+        _transactions = JSON.parse(txns)[address];
+        _transactions.push(transaction);
       } else {
-        transactions.push(transaction);
+        _transactions.push(transaction);
       }
+
+      transactions[address] = _transactions;
 
       await window.localStorage.setItem(
         "transactions",
@@ -76,7 +80,8 @@ function useWithdraw() {
       dispatch(updateTransactions(transactions));
       return true;
     } catch (err: any) {
-      let transactions = [];
+      let transactions: any = {};
+      let _transactions = [];
       let transaction = {
         action: "",
         status: "",
@@ -107,12 +112,14 @@ function useWithdraw() {
       transaction.hash = "";
       const txns = await window.localStorage.getItem("transactions");
 
-      if (JSON.parse(txns)?.length < 5) {
-        transactions = JSON.parse(txns);
-        transactions.push(transaction);
+      if (JSON.parse(txns)[address]?.length < 5) {
+        _transactions = JSON.parse(txns)[address];
+        _transactions.push(transaction);
       } else {
         transactions.push(transaction);
       }
+
+      transactions[address] = _transactions;
 
       await window.localStorage.setItem(
         "transactions",

@@ -15,9 +15,7 @@ declare const window: any;
 const useDeposit = () => {
   const { provider } = useConnector();
   const dispatch = useDispatch();
-  const { address, activeCol, rewardBal } = useSelector(
-    (state: any) => state.baki
-  );
+  const { address, rewardBal } = useSelector((state: any) => state.baki);
   const [contract, setContract] = useState<any>(null);
   useEffect(() => {
     if (provider) {
@@ -40,7 +38,8 @@ const useDeposit = () => {
   const deposit = async (depositAmount: number, mintAmount: number) => {
     let hash = "";
     try {
-      let transactions = [];
+      let transactions: any = {};
+      let _transactions = [];
       let transaction = {
         action: "",
         status: "",
@@ -76,12 +75,14 @@ const useDeposit = () => {
       transaction.status = "Successful";
       transaction.hash = tx.hash;
       hash = tx.hash;
-      if (JSON.parse(txns)?.length < 5) {
-        transactions = JSON.parse(txns);
-        transactions.push(transaction);
+      if (JSON.parse(txns)[address]?.length < 5) {
+        _transactions = JSON.parse(txns)[address];
+        _transactions.push(transaction);
       } else {
-        transactions.push(transaction);
+        _transactions.push(transaction);
       }
+
+      transactions[address] = _transactions;
 
       await window.localStorage.setItem(
         "transactions",
@@ -90,7 +91,8 @@ const useDeposit = () => {
       dispatch(updateTransactions(transactions));
       return true;
     } catch (err: any) {
-      let transactions = [];
+      let transactions: any = {};
+      let _transactions = [];
       let transaction = {
         action: "",
         status: "",
@@ -121,12 +123,14 @@ const useDeposit = () => {
       transaction.hash = hash;
       const txns = await window.localStorage.getItem("transactions");
 
-      if (JSON.parse(txns)?.length < 5) {
-        transactions = JSON.parse(txns);
-        transactions.push(transaction);
+      if (JSON.parse(txns)[address]?.length < 5) {
+        _transactions = JSON.parse(txns)[address];
+        _transactions.push(transaction);
       } else {
-        transactions.push(transaction);
+        _transactions.push(transaction);
       }
+
+      transactions[address] = _transactions;
 
       await window.localStorage.setItem(
         "transactions",
@@ -140,7 +144,8 @@ const useDeposit = () => {
   const claimReward = async () => {
     let hash = "";
     try {
-      let transactions = [];
+      let transactions: any = {};
+      let _transactions = [];
       let transaction = {
         action: "",
         status: "",
@@ -166,17 +171,19 @@ const useDeposit = () => {
       const tx = await contract?.claimFees();
       await tx.wait();
       const txns = await window.localStorage.getItem("transactions");
-      transaction.rewardBody.amount = rewardBal;
+      transaction.rewardBody.amount = rewardBal * 10 ** -6;
       transaction.action = "Reward";
       transaction.status = "Successful";
       transaction.hash = tx?.hash;
       hash = tx?.hash;
-      if (JSON.parse(txns)?.length <= 5) {
-        transactions = JSON.parse(txns);
-        transactions.push(transaction);
+      if (JSON.parse(txns)[address]?.length <= 5) {
+        _transactions = JSON.parse(txns)[address];
+        _transactions.push(transaction);
       } else {
-        transactions.push(transaction);
+        _transactions.push(transaction);
       }
+
+      transactions[address] = _transactions;
 
       await window.localStorage.setItem(
         "transactions",
@@ -186,7 +193,8 @@ const useDeposit = () => {
 
       return true;
     } catch (err: any) {
-      let transactions = [];
+      let transactions: any = {};
+      let _transactions = [];
       let transaction = {
         action: "",
         status: "",
@@ -216,12 +224,14 @@ const useDeposit = () => {
       transaction.action = "Reward";
       transaction.status = "Failed";
       transaction.hash = hash;
-      if (JSON.parse(txns)?.length <= 5) {
-        transactions = JSON.parse(txns);
-        transactions.push(transaction);
+      if (JSON.parse(txns)[address]?.length <= 5) {
+        _transactions = JSON.parse(txns)[address];
+        _transactions.push(transaction);
       } else {
-        transactions.push(transaction);
+        _transactions.push(transaction);
       }
+
+      transactions[address] = transactions;
 
       await window.localStorage.setItem(
         "transactions",

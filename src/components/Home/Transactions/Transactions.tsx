@@ -1,19 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/jsx-no-target-blank */
-import React from "react";
 import "./Transactions.css";
-// import { Link } from "react-router-dom";
-import ZUSD from "../../../assets/ZUSD.png";
-import ZNGN from "../../../assets/ZNGN.png";
-import ZCFA from "../../../assets/ZXAF.png";
-import ZZAR from "../../../assets/ZZAR.png";
-import USDC from "../../../assets/usdc.png";
 import empty from "../../../assets/empty.png";
 
 import { useSelector } from "react-redux";
 function Transactiions() {
-  const { transactions } = useSelector((state: any) => state.baki);
+  const { transactions, address } = useSelector((state: any) => state.baki);
+
   return (
     <div className="transactions">
       <div className="flex justify-between">
@@ -31,19 +25,21 @@ function Transactiions() {
             <p>View Transaction</p>
           </div>
         </div>
-        {!transactions?.length && (
+        {!transactions[address]?.length && (
           <div className="transactions-no">
             <img src={empty} alt="" />
             <p>No transactions were found !!</p>
           </div>
         )}
-        {transactions?.map((transaction: any, index: number) => (
+        {transactions[address]?.map((transaction: any, index: number) => (
           <div
             className="table-row"
             key={index}
             style={{
               borderBottom:
-                index === transactions.length - 1 ? "none" : "1px solid #ccc",
+                index === transactions[address].length - 1
+                  ? "none"
+                  : "1px solid #ccc",
             }}
           >
             <div className="table-cell">

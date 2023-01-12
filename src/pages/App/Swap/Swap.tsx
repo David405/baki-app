@@ -14,7 +14,7 @@ import useToken from "../../../hooks/useToken";
 import useSwap from "../../../hooks/useSwap";
 import axios from "axios";
 import { config } from "../../../config";
-import Transactiions from "../../../components/Home/Transactions/Transactiions";
+import Transactions from "../../../components/Home/Transactions/Transactions";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import useData from "../../../hooks/useData";
@@ -71,8 +71,9 @@ function Swap() {
     if (fromZAsset === toZAsset) return;
     if (fromAmount && toAmount && stage === 2) {
       setLoading(true);
+      let receivedAmt = toAmount - fromAmount * 0.992;
       try {
-        await swap(fromAmount, fromZAsset, toZAsset);
+        await swap(fromAmount, fromZAsset, toZAsset, receivedAmt);
         setLoading(false);
         setStage(1);
         toast.success("Transaction Successful !!");
@@ -414,8 +415,13 @@ function Swap() {
                     <span className="font-bold mr-2">Trading fee:</span>
                     {fromAmount * 0.992} {toZAsset}
                   </p>
+                  <p className="mb-3">
+                    <span className="font-bold mr-2">Expected Output:</span>
+                    {toAmount - fromAmount * 0.992} {toZAsset}
+                  </p>
                 </>
               )}
+
               <p>
                 <span className="font-bold mr-2">Fees:</span>
                 0.8%
@@ -488,7 +494,7 @@ function Swap() {
               </>
             )}
           </div>
-          <Transactiions />
+          <Transactions />
         </div>
       </MainLayout>
     </>

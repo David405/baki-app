@@ -6,7 +6,7 @@ import MainLayout from "../../../layouts/MainLayout";
 import { useSelector } from "react-redux";
 import useDeposit from "../../../hooks/useDeposit";
 import useData from "../../../hooks/useData";
-import Transactiions from "../../../components/Home/Transactions/Transactiions";
+import Transactiions from "../../../components/Home/Transactions/Transactions";
 import loader from "../../../assets/loader/loader.gif";
 import { toast } from "react-toastify";
 import "./Mint.css";
