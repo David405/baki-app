@@ -133,9 +133,9 @@ function Mint() {
               </button>
             </div>
           </div>
-        </div>
 
-        <Transactiions />
+          <Transactiions />
+        </div>
       </MainLayout>
     </>
   );

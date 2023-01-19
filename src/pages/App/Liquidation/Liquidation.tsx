@@ -1,6 +1,12 @@
+import { useSelector } from "react-redux";
+import useLiquidations from "../../../hooks/useLiquidations";
 import MainLayout from "../../../layouts/MainLayout";
+import empty from "../../../assets/empty.png";
+
 import "./Liquidation.css";
 function Liquidation() {
+  const { liquidateNow } = useLiquidations();
+  const { liquidations } = useSelector((state: any) => state.baki);
   return (
     <MainLayout>
       <div className="liquidation">
@@ -13,61 +19,46 @@ function Liquidation() {
               <p>Owner</p>
             </div>
             <div className="li-table-cell">
-              <p>Collateral</p>
+              <p>Potential Rewards</p>
             </div>
-            <div className="li-table-cell">
-              <p>Debt</p>
-            </div>
-            <div className="li-table-cell">
-              <p>Coll Ration</p>
-            </div>
+
             <div className="li-table-cell">
               <p>Action</p>
             </div>
           </div>
+          {!liquidations?.length && (
+            <div className="transactions-no">
+              <img src={empty} alt="" />
+              <p>No liquidations were found !!</p>
+            </div>
+          )}
+          {liquidations?.map((liquidation: any, index: number) => (
+            <div className="li-table-row" key={index}>
+              <div className="li-table-cell">
+                <p>
+                  {"0xdkekjkjwy677iug2iw9asjhgasjhgtw8jka6dsd".slice(0, 5)}...{" "}
+                  {"0xdkekjkjwy677iug2iw9asjhgasjhgtw8jka6dsd".slice(35, 50)}
+                </p>
+              </div>
+              <div className="li-table-cell">
+                <p>
+                  {0.0?.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
+                  zUSD
+                </p>
+              </div>
 
-          <div className="li-table-row">
-            <div className="li-table-cell">
-              <p>
-                {"0xdkekjkjwy677iug2iw9asjhgasjhgtw8jka6dsd".slice(0, 5)}...{" "}
-                {"0xdkekjkjwy677iug2iw9asjhgasjhgtw8jka6dsd".slice(35, 50)}
-              </p>
-            </div>
-            <div className="li-table-cell">
-              <p>
-                {0.0?.toLocaleString(undefined, {
-                  maximumFractionDigits: 2,
-                })}{" "}
-                USDC
-              </p>
-            </div>
-            <div className="li-table-cell">
-              <div className="sub-detail">
-                <p className="text-font-grey">TSD</p>
-                <p>
-                  {Number(74647676)?.toLocaleString(undefined, {
-                    maximumFractionDigits: 2,
-                  })}
-                </p>
+              <div className="li-table-cell">
+                <button
+                  className="liquidate bg-dark-orange p-2 rounded text-white "
+                  onClick={liquidateNow}
+                >
+                  Liquidate
+                </button>
               </div>
             </div>
-            <div className="li-table-cell">
-              <div className="sub-detail">
-                <p className="text-font-grey">TSD</p>
-                <p>
-                  {Number(10)?.toLocaleString(undefined, {
-                    maximumFractionDigits: 2,
-                  })}
-                  %
-                </p>
-              </div>
-            </div>
-            <div className="li-table-cell">
-              <button className="liquidate bg-dark-orange p-2 rounded text-white ">
-                Liquidate
-              </button>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </MainLayout>

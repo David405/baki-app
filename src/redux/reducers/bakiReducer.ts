@@ -21,6 +21,8 @@ export interface State {
   zZARBal: number;
   activeCol: string;
   transactions: Array<any>;
+  liquidations: Array<any>;
+  totalVolume: number;
 }
 
 const initialState: State = {
@@ -42,6 +44,8 @@ const initialState: State = {
   zZARBal: 0,
   activeCol: "USDC",
   transactions: [],
+  liquidations: [],
+  totalVolume: 0,
 };
 
 export const bakiSlice = createSlice({
@@ -87,6 +91,12 @@ export const bakiSlice = createSlice({
       state.zCFABal = action.payload.zCFA;
       state.zZARBal = action.payload.zZAR;
     },
+    updateLiquidations: (state, action: PayloadAction<any>) => {
+      state.liquidations = action.payload;
+    },
+    updateTotalVolume: (state, action: PayloadAction<number>) => {
+      state.totalVolume = action.payload;
+    },
   },
 });
 
@@ -104,6 +114,8 @@ export const {
   updateUserCollateral,
   updateTransactions,
   updateBalances,
+  updateLiquidations,
+  updateTotalVolume,
 } = bakiSlice.actions;
 
 export default bakiSlice.reducer;

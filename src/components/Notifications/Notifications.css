@@ -16,6 +16,33 @@
 .notification:hover {
   background-color: #192249;
 }
+
+.view-notifications {
+  display: flex;
+  justify-content: center;
+}
+
+.notification-body {
+  width: 50%;
+  height: 50vh;
+  background-color: #fff;
+  border-radius: 10px;
+  color: #000;
+  padding: 20px;
+}
+
+.vn-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.vn-body {
+  padding-top: 20px;
+}
+
+.vn-body p {
+  margin-top: 20px;
+}
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
 }

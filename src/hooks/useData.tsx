@@ -13,6 +13,8 @@ import {
   updateRewardBalance,
   updateTransactions,
   updateBalances,
+  updateTotalVolume,
+  updateLiquidations,
 } from "../redux/reducers/bakiReducer";
 import { config } from "../config";
 import vault from "../contracts/vault.json";
@@ -56,10 +58,12 @@ function useData() {
     dispatch(updateGlobalNetMint(Number(globalNetMint?._hex)));
 
     // get total collateral
-    // const totalCollateral: any = await contract?.getUserCollateralBalance();
-    // console.log(totalCollateral);
+    const totalCollateral: any = await contract?.getUserCollateralBalance();
+    dispatch(updateTotalCollateral(Number(totalCollateral?._hex)));
 
-    // dispatch(updateTotalCollateral(Number(totalCollateral?._hex)));
+    // get totalVolume
+    const totalVolume: any = await contract?.totalSwapVolume();
+    dispatch(updateTotalVolume(Number(totalVolume?._hex)));
   };
 
   const getzTokenBal = async () => {
