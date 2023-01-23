@@ -116,7 +116,11 @@ function useData() {
 
   const getTransactions = async () => {
     let transactions = await window.localStorage.getItem("transactions");
-    dispatch(updateTransactions(JSON.parse(transactions)));
+    if (transactions) {
+      dispatch(updateTransactions(JSON.parse(transactions)));
+    } else {
+      dispatch(updateTransactions([]));
+    }
   };
 
   const getRewardBalance = async () => {

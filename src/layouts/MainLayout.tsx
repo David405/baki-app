@@ -25,6 +25,7 @@ import avax from "../assets/avax.png";
 import celo from "../assets/celo.png";
 import { useSelector } from "react-redux";
 import { config } from "../config";
+import useConnector from "../hooks/useConnector";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -39,6 +40,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   const [show, setShow] = useState<boolean>(false);
   const { address, network } = useSelector((state: any) => state.baki);
   const [visibility, setVisibility] = useState<boolean>(false);
+  const { disconnectWallet } = useConnector();
 
   const toggleSidebar = (_mode: boolean) => {
     setIsOpen(_mode);
@@ -299,12 +301,19 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                 </div>
               )}
             </div>
-            {!address && (
+            {!address ? (
               <button
                 onClick={() => setVisibility(true)}
                 className="text-white bg-dark-orange rounded-full font-bold p-2  mr-2 "
               >
                 Connect Wallet
+              </button>
+            ) : (
+              <button
+                onClick={disconnectWallet}
+                className="text-white bg-grey rounded-full font-bold p-2  mr-2 "
+              >
+                Disconnect
               </button>
             )}
           </div>

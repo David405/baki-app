@@ -69,8 +69,15 @@ function useConnector() {
     }
   }
 
+  const disconnectWallet = async () => {
+    localStorage.removeItem("baki_user");
+    dispatch(updateAddress(""));
+    console.log(window.ethereum.enable());
+  };
+
   return {
     connectWallet,
+    disconnectWallet,
     changeNetwork,
     provider,
   };

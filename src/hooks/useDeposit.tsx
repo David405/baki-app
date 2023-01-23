@@ -89,6 +89,8 @@ const useDeposit = () => {
         JSON.stringify(transactions)
       );
       dispatch(updateTransactions(transactions));
+      console.log("Done");
+
       return true;
     } catch (err: any) {
       let transactions: any = {};

@@ -6,7 +6,10 @@ import empty from "../../../assets/empty.png";
 import "./Liquidation.css";
 function Liquidation() {
   const { liquidateNow } = useLiquidations();
-  const { liquidations } = useSelector((state: any) => state.baki);
+  const { liquidations, liquidLoading } = useSelector(
+    (state: any) => state.baki
+  );
+
   return (
     <MainLayout>
       <div className="liquidation">
@@ -26,23 +29,24 @@ function Liquidation() {
               <p>Action</p>
             </div>
           </div>
-          {!liquidations?.length && (
+          {!liquidations?.length && !liquidLoading && (
             <div className="transactions-no">
               <img src={empty} alt="" />
               <p>No liquidations were found !!</p>
             </div>
           )}
+          {liquidLoading && <div>Loading ...</div>}
           {liquidations?.map((liquidation: any, index: number) => (
             <div className="li-table-row" key={index}>
               <div className="li-table-cell">
                 <p>
-                  {"0xdkekjkjwy677iug2iw9asjhgasjhgtw8jka6dsd".slice(0, 5)}...{" "}
-                  {"0xdkekjkjwy677iug2iw9asjhgasjhgtw8jka6dsd".slice(35, 50)}
+                  {liquidation.address?.slice(0, 5)}...{" "}
+                  {liquidation.address?.slice(35, 50)}
                 </p>
               </div>
               <div className="li-table-cell">
                 <p>
-                  {0.0?.toLocaleString(undefined, {
+                  {liquidation.value?.toLocaleString(undefined, {
                     maximumFractionDigits: 2,
                   })}
                   zUSD
@@ -52,7 +56,7 @@ function Liquidation() {
               <div className="li-table-cell">
                 <button
                   className="liquidate bg-dark-orange p-2 rounded text-white "
-                  onClick={liquidateNow}
+                  onClick={() => liquidateNow(liquidation?.address)}
                 >
                   Liquidate
                 </button>
