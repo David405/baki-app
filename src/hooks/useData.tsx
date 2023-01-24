@@ -12,6 +12,9 @@ import {
   updateGlobalDebt,
   updateRewardBalance,
   updateTransactions,
+  updateBalances,
+  updateTotalVolume,
+  updateLiquidations,
 } from "../redux/reducers/bakiReducer";
 import { config } from "../config";
 import vault from "../contracts/vault.json";
@@ -33,14 +36,16 @@ function useData() {
 
   useEffect(() => {
     getPosition();
-    getGlobalDebt();
+    // getGlobalDebt();
     getTransactions();
+    getzTokenBal();
   }, [address]);
 
   useEffect(() => {
     getUserDebt();
     getRewardBalance();
     getTransactions();
+    getzTokenBal();
   }, [userNetMint, globalNetMint, address]);
 
   const getPosition = async () => {
@@ -53,10 +58,26 @@ function useData() {
     dispatch(updateGlobalNetMint(Number(globalNetMint?._hex)));
 
     // get total collateral
-    // const totalCollateral: any = await contract?.getUserCollateralBalance();
-    // console.log(totalCollateral);
+    const totalCollateral: any = await contract?.getUserCollateralBalance();
+    dispatch(updateTotalCollateral(Number(totalCollateral?._hex)));
 
-    // dispatch(updateTotalCollateral(Number(totalCollateral?._hex)));
+    // get totalVolume
+    const totalVolume: any = await contract?.totalSwapVolume();
+    dispatch(updateTotalVolume(Number(totalVolume?._hex)));
+  };
+
+  const getzTokenBal = async () => {
+    let zUSD = await contract?.getBalance(config.zUSD);
+    let zNGN = await contract?.getBalance(config.zNGN);
+    let zCFA = await contract?.getBalance(config.zCFA);
+    let zZAR = await contract?.getBalance(config.zZAR);
+    let ballances = {
+      zUSD: Number(zUSD?._hex) / 10 ** 18,
+      zNGN: Number(zNGN?._hex) / 10 ** 18,
+      zCFA: Number(zCFA?._hex) / 10 ** 18,
+      zZAR: Number(zZAR?._hex) / 10 ** 18,
+    };
+    dispatch(updateBalances(ballances));
   };
 
   const getUserDebt = async () => {
@@ -95,7 +116,11 @@ function useData() {
 
   const getTransactions = async () => {
     let transactions = await window.localStorage.getItem("transactions");
-    dispatch(updateTransactions(JSON.parse(transactions)));
+    if (transactions) {
+      dispatch(updateTransactions(JSON.parse(transactions)));
+    } else {
+      dispatch(updateTransactions([]));
+    }
   };
 
   const getRewardBalance = async () => {

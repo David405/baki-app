@@ -25,6 +25,7 @@ import avax from "../assets/avax.png";
 import celo from "../assets/celo.png";
 import { useSelector } from "react-redux";
 import { config } from "../config";
+import useConnector from "../hooks/useConnector";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -39,6 +40,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   const [show, setShow] = useState<boolean>(false);
   const { address, network } = useSelector((state: any) => state.baki);
   const [visibility, setVisibility] = useState<boolean>(false);
+  const { disconnectWallet } = useConnector();
 
   const toggleSidebar = (_mode: boolean) => {
     setIsOpen(_mode);
@@ -108,7 +110,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               <p className="ml-2 ">Home</p>
             </div>
           </Link> */}
-          <Link to="/mint">
+          <a href="/mint">
             <div
               className={`layout-route flex p-2 ${
                 location.pathname === "/mint" && "route-active"
@@ -126,8 +128,8 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               />
               <p className="ml-2 ">My Position</p>
             </div>
-          </Link>
-          <Link to="/swap">
+          </a>
+          <a href="/swap">
             <div
               className={`layout-route flex p-2 ${
                 location.pathname === "/swap" && "route-active"
@@ -145,8 +147,8 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               />
               <p className="ml-2 ">Swap</p>
             </div>
-          </Link>
-          {/* <Link to="/liquidation">
+          </a>
+          <a href="/liquidation">
             <div
               className={`layout-route flex p-2 ${
                 location.pathname === "/liquidation" && "route-active"
@@ -165,7 +167,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               />
               <p className="ml-2 ">Liquidation</p>
             </div>
-          </Link> */}
+          </a>
           {/* <Link to="/app/transactions">
             <div
               className={`layout-route flex p-2 ${
@@ -285,7 +287,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               )}
               {show && (
                 <div className="text-white mt-2 p-1  cursor-pointer absolute w-10 networks">
-                  {config.networks.map((network: any, index: number) => (
+                  {config.networks?.map((network: any, index: number) => (
                     <div key={index} className="flex p-2 mb-2 network">
                       <img
                         src={network.name === "Celo" ? celo : avax}
@@ -299,12 +301,19 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                 </div>
               )}
             </div>
-            {!address && (
+            {!address ? (
               <button
                 onClick={() => setVisibility(true)}
                 className="text-white bg-dark-orange rounded-full font-bold p-2  mr-2 "
               >
                 Connect Wallet
+              </button>
+            ) : (
+              <button
+                onClick={disconnectWallet}
+                className="text-white bg-grey rounded-full font-bold p-2  mr-2 "
+              >
+                Disconnect
               </button>
             )}
           </div>

@@ -3,12 +3,24 @@ import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { useDispatch } from "react-redux";
 import { updateAddress, updateNetwork } from "../redux/reducers/bakiReducer";
+import { useNavigate } from "react-router-dom";
 declare const window: any;
 
 function useConnector() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [provider, setProvider] = useState<any>(null);
 
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on("chainChanged", () => {
+        window.location.replace("/");
+      });
+      window.ethereum.on("accountsChanged", () => {
+        window.location.reload();
+      });
+    }
+  });
   useEffect(() => {
     // check Connection
     checkConnection();
@@ -24,6 +36,8 @@ function useConnector() {
   const checkNetwork = async () => {
     try {
       const network = await provider.getNetwork();
+      if (network.chainId !== 43113) return navigate("/error");
+
       dispatch(updateNetwork(network));
     } catch (error) {}
   };
@@ -55,8 +69,15 @@ function useConnector() {
     }
   }
 
+  const disconnectWallet = async () => {
+    localStorage.removeItem("baki_user");
+    dispatch(updateAddress(""));
+    console.log(window.ethereum.enable());
+  };
+
   return {
     connectWallet,
+    disconnectWallet,
     changeNetwork,
     provider,
   };

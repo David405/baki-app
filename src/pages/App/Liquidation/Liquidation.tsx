@@ -1,57 +1,68 @@
-import React from "react";
+import { useSelector } from "react-redux";
+import useLiquidations from "../../../hooks/useLiquidations";
 import MainLayout from "../../../layouts/MainLayout";
+import empty from "../../../assets/empty.png";
+
 import "./Liquidation.css";
 function Liquidation() {
+  const { liquidateNow } = useLiquidations();
+  const { liquidations, liquidLoading } = useSelector(
+    (state: any) => state.baki
+  );
+
   return (
     <MainLayout>
       <div className="liquidation">
         <div className="li-header">
           <p className="font-bold">Liquidations</p>
         </div>
-        <div className="flex justify-around p-3">
-          <div className="detail">
-            <p className="font-bold">Owner</p>
-          </div>
-          <div className="detail">
-            <div className="sub-detail">
-              <p className="font-bold">Collateral</p>
+        <div className="li-table-box">
+          <div className="li-table-row li-table-head">
+            <div className="li-table-cell">
+              <p>Owner</p>
             </div>
-          </div>
-          <div className="detail">
-            <div className="sub-detail">
-              <p className="font-bold text-lg">Debt</p>
+            <div className="li-table-cell">
+              <p>Potential Rewards</p>
             </div>
-          </div>
-          <div className="detail">
-            <p className="font-bold">Coll Ratio</p>
-          </div>
-          <div className="detail ">
-            <p className="font-bold">Actions</p>
-          </div>
-        </div>
 
-        <div className="flex justify-around p-3">
-          <div className="detail">
-            <p>0xdkekjkj...dsd</p>
-          </div>
-          <div className="detail mr-10">
-            <div className="sub-detail">
-              <p className="text-font-grey">USDC</p>
+            <div className="li-table-cell">
+              <p>Action</p>
             </div>
-            <p>0.00</p>
           </div>
-          <div className="detail mr-10">
-            <div className="sub-detail">
-              <p className="text-font-grey">TSD</p>
+          {!liquidations?.length && !liquidLoading && (
+            <div className="transactions-no">
+              <img src={empty} alt="" />
+              <p>No liquidations were found !!</p>
             </div>
-            <p>0.00</p>
-          </div>
-          <div className="detail mr-10">
-            <p>10%</p>
-          </div>
-          <button className="liquidate bg-dark-orange p-2 rounded text-white ">
-            Liquidate
-          </button>
+          )}
+          {liquidLoading && <div>Loading ...</div>}
+          {liquidations?.map((liquidation: any, index: number) => (
+            <div className="li-table-row" key={index}>
+              <div className="li-table-cell">
+                <p>
+                  {liquidation.address?.slice(0, 5)}...{" "}
+                  {liquidation.address?.slice(35, 50)}
+                </p>
+              </div>
+              <div className="li-table-cell">
+                <p>
+                  {liquidation.value?.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
+                  zUSD
+                </p>
+              </div>
+
+              <div className="li-table-cell">
+                <button
+                  className="liquidate bg-dark-orange p-2 rounded text-white "
+                  onClick={() => liquidateNow(liquidation?.address)}
+                >
+                  Liquidate
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </MainLayout>

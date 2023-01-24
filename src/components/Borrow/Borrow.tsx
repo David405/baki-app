@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import useDeposit from "../../hooks/useDeposit";
 import useToken from "../../hooks/useToken";
 import { useSelector } from "react-redux";
-import redstone from "redstone-api";
+// import redstone from "redstone-api";
 import { config } from "../../config";
 import { toast } from "react-toastify";
 
@@ -20,9 +20,8 @@ declare const window: any;
 
 function Borrow() {
   const { deposit } = useDeposit();
-  const { totalCollateral, userDebt, collateral, activeCol } = useSelector(
-    (state: any) => state.baki
-  );
+  const { zUSDBal, userDebt, collateral, activeCol, userColBalance } =
+    useSelector((state: any) => state.baki);
   const [perVal, setPerVal] = useState<number>(0);
   const [onFocus, setOnFocus] = useState<boolean>(false);
   const [depositAmount, setDepositAmount] = useState<any>(0);
@@ -36,11 +35,13 @@ function Borrow() {
   const [loading, setLoading] = useState<boolean>(false);
   const { approve } = useToken("USDC", false);
   const getColRate = async () => {
-    const price = await redstone.getPrice(activeCol);
-    setColRate(price.value);
+    // const price = await redstone.getPrice(activeCol);
+    // setColRate(price.value);
   };
   useEffect(() => {
-    if (depositAmount && mintAmount) {
+    if (depositAmount < 0 || mintAmount < 0) return;
+
+    if (depositAmount || mintAmount) {
       setShow(true);
     } else {
       setShow(false);
@@ -52,42 +53,43 @@ function Borrow() {
   }, [depositAmount]);
 
   const handleApprove = async () => {
+    if (depositAmount < 0 || mintAmount < 0) return;
     if (stage === 1) {
       setLoadingApprove(true);
       let result = await approve(depositAmount);
       if (result) {
-        toast.success("Approved !!");
+        toast.success("Transaction Approved !!");
         setStage(2);
         setLoadingApprove(false);
       } else {
         setLoadingApprove(false);
-        toast.error("Approval failed !!");
+        toast.error("Transaction Failed !!");
       }
     }
   };
   const mint = async () => {
-    if (depositAmount && mintAmount && stage === 2) {
+    if (depositAmount < 0 || mintAmount < 0) return;
+    if (depositAmount || (mintAmount && stage === 2)) {
       setLoading(true);
       let result = await deposit(depositAmount, mintAmount);
       if (result) {
         setLoading(false);
         setStage(1);
-        toast.success("Transaction successful !!");
+        toast.success("Transaction Successful !!");
         window.location.reload();
       } else {
-        toast.error("Transaction failed !!");
+        toast.error("Transaction Failed !!");
         setLoading(false);
       }
     }
   };
 
   const calculateValue = (percentage: number) => {
-    if (depositAmount) {
+    if (depositAmount || userColBalance) {
       setPerVal(percentage);
-      let colBalance: any = totalCollateral * 10 ** -18;
-      let debt = userDebt * 10 ** -18;
+      let debt = userDebt;
       let colRatio = 1.5;
-      let val2 = (colBalance + Number(depositAmount)) / colRatio;
+      let val2 = (userColBalance + Number(depositAmount)) / colRatio;
       let val3 = val2 - debt;
       let maxVal = Math.max(0, val3);
       setMintAmount(maxVal * percentage);
@@ -110,11 +112,18 @@ function Borrow() {
             <div className="flex justify-between">
               <p>Deposit Collateral</p>
               <p
+                onClick={() => setDepositAmount(collateral)}
                 style={{
                   fontSize: 12,
+                  cursor: "pointer",
                 }}
               >
-                Balance: {collateral}
+                Balance:
+                <span className="ml-2">
+                  {collateral?.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
+                </span>
               </p>
             </div>
             <div className="flex justify-between items-center">
@@ -198,8 +207,21 @@ function Borrow() {
             <p>Choose amount to Mint</p>
           </div>
           <div className="deposit-body">
-            <div>
+            <div className="flex justify-between">
               <p>Mint zUSD</p>
+              <p
+                style={{
+                  fontSize: 12,
+                  cursor: "pointer",
+                }}
+              >
+                Balance:
+                <span className="ml-2">
+                  {zUSDBal?.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
+                </span>
+              </p>
             </div>
             <div className="flex justify-between items-center">
               <button className="choose px-2 py-1">
@@ -285,15 +307,26 @@ function Borrow() {
         <div className="position flex-1">
           <div className="flex flex-col justify-center items-center">
             <p className="heading">Deposit Value</p>
-            <p className="font-bold ">${Number(depositAmount).toFixed(2)}</p>
+            <p className="font-bold ">
+              $
+              {Number(depositAmount).toLocaleString(undefined, {
+                maximumFractionDigits: 2,
+              })}
+            </p>
           </div>
           <div className="flex flex-col justify-center items-center">
-            <p className="heading">Safe Position</p>
-            <div className="indicator"></div>
+            <p className="heading">Position Health</p>
+            <div
+              className="indicator"
+              style={{
+                backgroundColor:
+                  userColBalance / userDebt >= 1.5 ? "green" : "red",
+              }}
+            ></div>
           </div>
           <div className="flex flex-col justify-center items-center">
             <p className="heading">cRatio</p>
-            <p>1.50 %</p>
+            <p>{((userColBalance / userDebt) * 100).toFixed(2)} %</p>
           </div>
         </div>
       </div>

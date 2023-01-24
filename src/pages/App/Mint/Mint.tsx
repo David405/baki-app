@@ -6,7 +6,7 @@ import MainLayout from "../../../layouts/MainLayout";
 import { useSelector } from "react-redux";
 import useDeposit from "../../../hooks/useDeposit";
 import useData from "../../../hooks/useData";
-import Transactiions from "../../../components/Home/Transactions/Transactiions";
+import Transactiions from "../../../components/Home/Transactions/Transactions";
 import loader from "../../../assets/loader/loader.gif";
 import { toast } from "react-toastify";
 import "./Mint.css";
@@ -26,10 +26,10 @@ function Mint() {
     let result = await claimReward();
     setLoading(false);
     if (result) {
-      toast.success("Transaction successful !!");
+      toast.success("Transaction Successful !!");
       window.location.reload();
     } else {
-      toast.error("Transaction failed !!");
+      toast.error("Transaction Failed !!");
     }
   };
   return (
@@ -70,27 +70,38 @@ function Mint() {
               <p className="heading">Position Health</p>
               <p
                 style={{
-                  color: "green",
+                  color: userColBalance / userDebt >= 1.5 ? "green" : "red",
                 }}
               >
-                Safe
+                {userColBalance / userDebt >= 1.5 ? "Safe" : "Unsafe"}
               </p>
             </div>
             <div className="user-detail mid-detail">
               <p className="heading">Collateral</p>
               <p>
-                {userColBalance?.toFixed(2)}{" "}
-                {network.chainId === 43113 && "USDC"}
+                {userColBalance?.toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                })}
+                {network.chainId === 43113 && " USDC"}
                 {network.chainId === 44787 && "cUSD"}
               </p>
             </div>
             <div className="user-detail mid-detail">
               <p className="heading">Value</p>
-              <p>${userColBalance?.toFixed(2)}</p>
+              <p>
+                $
+                {userColBalance?.toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                })}
+              </p>
             </div>
             <div className="user-detail">
               <p className="heading">Debt</p>
-              <p>{userDebt?.toFixed(2)}</p>
+              <p>
+                {userDebt?.toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                })}
+              </p>
             </div>
           </div>
 
@@ -98,7 +109,14 @@ function Mint() {
             <div>
               <p className="font-bold claim-heading">Claim your rewards</p>
               <p className="claim-amount">
-                Total: {rewardBal ? `$${rewardBal.toFixed(2)}` : "$0.00"}
+                Total:
+                <span>
+                  {" "}
+                  {(rewardBal * 10 ** -6).toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
+                  <span className="ml-1">zUSD</span>
+                </span>
               </p>
               <button className="claim-btn" onClick={handleClaimReward}>
                 {loading ? (
@@ -115,9 +133,9 @@ function Mint() {
               </button>
             </div>
           </div>
-        </div>
 
-        <Transactiions />
+          <Transactiions />
+        </div>
       </MainLayout>
     </>
   );

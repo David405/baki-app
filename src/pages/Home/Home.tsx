@@ -1,9 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-empty-pattern */
 /* eslint-disable react/jsx-no-target-blank */
 import React from "react";
 import baki from "../../assets/baki.png";
 import "./Home.css";
 import { Link } from "react-router-dom";
+import useConnector from "../../hooks/useConnector";
+import millify from "millify";
+import { useSelector } from "react-redux";
+import useData from "../../hooks/useData";
+
 function Home() {
+  const {} = useConnector();
+  const test = useData();
+  const { totalVolume, totalCollateral } = useSelector(
+    (state: any) => state.baki
+  );
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-red-100 ">
       <img src={baki} alt="" className="" />
@@ -27,7 +39,13 @@ function Home() {
       </div>
       <div className="flex mt-12 w-3/5 justify-center">
         <div className="p-4 flex justify-center items-center w-1/5 flex-col home-detail">
-          <div className="text-lg text-dark-orange font-bold">$0.00</div>
+          <div className="text-lg text-dark-orange font-bold">
+            $
+            {millify(totalCollateral / 10 ** 18, {
+              units: ["", "K", "M", "B", "T", "P", "E"],
+              space: true,
+            })}
+          </div>
           <p className="text-xs">Global Collateral</p>
         </div>
         <div className="p-4 flex justify-center items-center w-1/5 flex-col home-detail">
@@ -35,8 +53,13 @@ function Home() {
           <p className="text-xs">zToken Market Cap</p>
         </div>
         <div className="p-4 flex justify-center items-center w-1/5 flex-col home-detail">
-          <div className="text-lg text-dark-orange font-bold">0</div>
-          <p className="text-xs">Total Volume</p>
+          <div className="text-lg text-dark-orange font-bold">
+            {millify(totalVolume, {
+              units: ["", "K", "M", "B", "T", "P", "E"],
+              space: true,
+            })}
+          </div>
+          <p className="text-xs">Trading Volume</p>
         </div>
         <div className="p-4 flex text-dark-orange justify-center items-center w-1/5 flex-col home-last-item">
           <div className="text-lg font-bold">0.8%</div>

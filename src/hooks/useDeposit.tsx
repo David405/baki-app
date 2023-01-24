@@ -15,7 +15,7 @@ declare const window: any;
 const useDeposit = () => {
   const { provider } = useConnector();
   const dispatch = useDispatch();
-  const { address, activeCol } = useSelector((state: any) => state.baki);
+  const { address, rewardBal } = useSelector((state: any) => state.baki);
   const [contract, setContract] = useState<any>(null);
   useEffect(() => {
     if (provider) {
@@ -31,19 +31,36 @@ const useDeposit = () => {
   const getValues = async () => {
     // Get Coll balance
     let ball = await contract?.getBalance(config.USDC);
-    dispatch(updateCollateral(Number(ball._hex) / 10 ** 18));
-    let colBall = await contract.getUserCollateralBalance();
-    dispatch(updateUserCollateral(Number(colBall._hex) / 10 ** 18));
+    dispatch(updateCollateral(Number(ball?._hex) / 10 ** 18));
+    let colBall = await contract?.getUserCollateralBalance();
+    dispatch(updateUserCollateral(Number(colBall?._hex) / 10 ** 18));
   };
   const deposit = async (depositAmount: number, mintAmount: number) => {
+    let hash = "";
     try {
-      let transactions = [];
+      let transactions: any = {};
+      let _transactions = [];
       let transaction = {
-        amount: 0,
-        currency: "",
         action: "",
         status: "",
         hash: "",
+        depositBody: {
+          mintAmount: 0,
+          colAmount: 0,
+        },
+        swapBody: {
+          fromCurrency: "",
+          fromAmount: 0,
+          toCurrency: "",
+          toAmount: 0,
+        },
+        rewardBody: {
+          amount: 0,
+        },
+        repayBody: {
+          repayAmount: 0,
+          withdrawAmount: 0,
+        },
       };
 
       const tx = await contract?.depositAndMint(
@@ -52,47 +69,70 @@ const useDeposit = () => {
       );
       await tx.wait();
       const txns = await window.localStorage.getItem("transactions");
-      transaction.amount = depositAmount;
-      transaction.currency = "ZUSD";
-      transaction.action = "Deposited";
-      transaction.status = "successfull";
+      transaction.depositBody.colAmount = depositAmount;
+      transaction.depositBody.mintAmount = mintAmount;
+      transaction.action = "Deposit";
+      transaction.status = "Successful";
       transaction.hash = tx.hash;
-      if (JSON.parse(txns).length < 5) {
-        transactions = JSON.parse(txns);
-        transactions.push(transaction);
+      hash = tx.hash;
+      if (JSON.parse(txns)[address]?.length < 5) {
+        _transactions = JSON.parse(txns)[address];
+        _transactions.push(transaction);
       } else {
-        transactions.push(transaction);
+        _transactions.push(transaction);
       }
+
+      transactions[address] = _transactions;
 
       await window.localStorage.setItem(
         "transactions",
         JSON.stringify(transactions)
       );
       dispatch(updateTransactions(transactions));
+      console.log("Done");
+
       return true;
     } catch (err: any) {
-      let transactions = [];
+      let transactions: any = {};
+      let _transactions = [];
       let transaction = {
-        amount: 0,
-        currency: "",
         action: "",
         status: "",
         hash: "",
+        depositBody: {
+          mintAmount: 0,
+          colAmount: 0,
+        },
+        swapBody: {
+          fromCurrency: "",
+          fromAmount: 0,
+          toCurrency: "",
+          toAmount: 0,
+        },
+        rewardBody: {
+          amount: 0,
+        },
+        repayBody: {
+          repayAmount: 0,
+          withdrawAmount: 0,
+        },
       };
 
-      transaction.amount = depositAmount;
-      transaction.currency = "ZUSD";
-      transaction.action = "Deposited";
-      transaction.status = "failed";
-      transaction.hash = "";
+      transaction.depositBody.colAmount = depositAmount;
+      transaction.depositBody.mintAmount = mintAmount;
+      transaction.action = "Deposit";
+      transaction.status = "Failed";
+      transaction.hash = hash;
       const txns = await window.localStorage.getItem("transactions");
 
-      if (JSON.parse(txns).length < 5) {
-        transactions = JSON.parse(txns);
-        transactions.push(transaction);
+      if (JSON.parse(txns)[address]?.length < 5) {
+        _transactions = JSON.parse(txns)[address];
+        _transactions.push(transaction);
       } else {
-        transactions.push(transaction);
+        _transactions.push(transaction);
       }
+
+      transactions[address] = _transactions;
 
       await window.localStorage.setItem(
         "transactions",
@@ -104,29 +144,48 @@ const useDeposit = () => {
   };
 
   const claimReward = async () => {
+    let hash = "";
     try {
-      let transactions = [];
+      let transactions: any = {};
+      let _transactions = [];
       let transaction = {
-        amount: 0,
-        currency: "",
         action: "",
         status: "",
         hash: "",
+        depositBody: {
+          mintAmount: 0,
+          colAmount: 0,
+        },
+        swapBody: {
+          fromCurrency: "",
+          fromAmount: 0,
+          toCurrency: "",
+          toAmount: 0,
+        },
+        rewardBody: {
+          amount: 0,
+        },
+        repayBody: {
+          repayAmount: 0,
+          withdrawAmount: 0,
+        },
       };
       const tx = await contract?.claimFees();
       await tx.wait();
       const txns = await window.localStorage.getItem("transactions");
-      transaction.amount = 0;
-      transaction.currency = "ZUSD";
-      transaction.action = "Reward Claimed";
-      transaction.status = "successfull";
-      transaction.hash = tx.hash;
-      if (JSON.parse(txns).length <= 5) {
-        transactions = JSON.parse(txns);
-        transactions.push(transaction);
+      transaction.rewardBody.amount = rewardBal * 10 ** -6;
+      transaction.action = "Reward";
+      transaction.status = "Successful";
+      transaction.hash = tx?.hash;
+      hash = tx?.hash;
+      if (JSON.parse(txns)[address]?.length <= 5) {
+        _transactions = JSON.parse(txns)[address];
+        _transactions.push(transaction);
       } else {
-        transactions.push(transaction);
+        _transactions.push(transaction);
       }
+
+      transactions[address] = _transactions;
 
       await window.localStorage.setItem(
         "transactions",
@@ -136,28 +195,45 @@ const useDeposit = () => {
 
       return true;
     } catch (err: any) {
-      let transactions = [];
+      let transactions: any = {};
+      let _transactions = [];
       let transaction = {
-        amount: 0,
-        currency: "",
         action: "",
         status: "",
         hash: "",
+        depositBody: {
+          mintAmount: 0,
+          colAmount: 0,
+        },
+        swapBody: {
+          fromCurrency: "",
+          fromAmount: 0,
+          toCurrency: "",
+          toAmount: 0,
+        },
+        rewardBody: {
+          amount: 0,
+        },
+        repayBody: {
+          repayAmount: 0,
+          withdrawAmount: 0,
+        },
       };
-      const tx = await contract?.claimFees();
-      await tx.wait();
+
       const txns = await window.localStorage.getItem("transactions");
-      transaction.amount = 0;
-      transaction.currency = "ZUSD";
-      transaction.action = "Reward Claimed";
-      transaction.status = "failed";
-      transaction.hash = tx.hash;
-      if (JSON.parse(txns).length <= 5) {
-        transactions = JSON.parse(txns);
-        transactions.push(transaction);
+
+      transaction.rewardBody.amount = rewardBal;
+      transaction.action = "Reward";
+      transaction.status = "Failed";
+      transaction.hash = hash;
+      if (JSON.parse(txns)[address]?.length <= 5) {
+        _transactions = JSON.parse(txns)[address];
+        _transactions.push(transaction);
       } else {
-        transactions.push(transaction);
+        _transactions.push(transaction);
       }
+
+      transactions[address] = transactions;
 
       await window.localStorage.setItem(
         "transactions",

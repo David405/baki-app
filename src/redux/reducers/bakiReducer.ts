@@ -15,8 +15,15 @@ export interface State {
   totalCollateral: number;
   globalDebt: number;
   collateral: number;
+  zUSDBal: number;
+  zNGNBal: number;
+  zCFABal: number;
+  zZARBal: number;
   activeCol: string;
-  transactions: any;
+  transactions: Array<any>;
+  liquidations: Array<any>;
+  totalVolume: number;
+  liquidLoading: boolean;
 }
 
 const initialState: State = {
@@ -32,8 +39,15 @@ const initialState: State = {
   totalCollateral: 0,
   globalDebt: 0,
   collateral: 0,
+  zUSDBal: 0,
+  zNGNBal: 0,
+  zCFABal: 0,
+  zZARBal: 0,
   activeCol: "USDC",
   transactions: [],
+  liquidations: [],
+  totalVolume: 0,
+  liquidLoading: false,
 };
 
 export const bakiSlice = createSlice({
@@ -73,6 +87,21 @@ export const bakiSlice = createSlice({
     updateTransactions: (state, action: PayloadAction<any>) => {
       state.transactions = action.payload;
     },
+    updateBalances: (state, action: PayloadAction<any>) => {
+      state.zUSDBal = action.payload.zUSD;
+      state.zNGNBal = action.payload.zNGN;
+      state.zCFABal = action.payload.zCFA;
+      state.zZARBal = action.payload.zZAR;
+    },
+    updateLiquidations: (state, action: PayloadAction<any>) => {
+      state.liquidations = action.payload;
+    },
+    updateTotalVolume: (state, action: PayloadAction<number>) => {
+      state.totalVolume = action.payload;
+    },
+    updateLiqLoading: (state, action: PayloadAction<boolean>) => {
+      state.liquidLoading = action.payload;
+    },
   },
 });
 
@@ -89,6 +118,10 @@ export const {
   updateCollateral,
   updateUserCollateral,
   updateTransactions,
+  updateBalances,
+  updateLiquidations,
+  updateTotalVolume,
+  updateLiqLoading,
 } = bakiSlice.actions;
 
 export default bakiSlice.reducer;

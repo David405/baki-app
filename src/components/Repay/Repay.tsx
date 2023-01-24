@@ -5,8 +5,6 @@ import ZUSD from "../../assets/ZUSD.png";
 import ZNGN from "../../assets/ZNGN.png";
 import ZCFA from "../../assets/ZXAF.png";
 import ZZAR from "../../assets/ZZAR.png";
-import CUSD from "../../assets/cUSD.png";
-import AVAX from "../../assets/avax.png";
 import USDC from "../../assets/usdc.png";
 import loader from "../../assets/loader/loader.gif";
 import "./Repay.css";
@@ -14,9 +12,13 @@ import useToken from "../../hooks/useToken";
 import { config } from "../../config";
 import useWithdraw from "../../hooks/useWithdraw";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 declare const window: any;
 
 function Repay() {
+  const { zUSDBal, zNGNBal, zCFABal, zZARBal, userColBalance } = useSelector(
+    (state: any) => state.baki
+  );
   const [zTokenAmount, setZTokenAmount] = useState<any>(0);
   const [colAmount, setColAmount] = useState<any>(0);
   const [stage, setStage] = useState<number>(1);
@@ -38,10 +40,10 @@ function Repay() {
       if (result) {
         setStage(2);
         setLoadingApprove(false);
-        toast.success("Approved !!");
+        toast.success("Transaction Approved !!");
       } else {
         setLoadingApprove(false);
-        toast.error("Approval failed !!");
+        toast.error("Transaction Failed !!");
       }
     }
   };
@@ -53,7 +55,7 @@ function Repay() {
       } else if (zAsset === "ZNGN") {
         zToken = config.zNGN;
       } else if (zAsset === "ZCFA") {
-        zToken = config.zXAF;
+        zToken = config.zCFA;
       } else if (zAsset === "ZZAR") {
         zToken = config.zZAR;
       }
@@ -61,29 +63,31 @@ function Repay() {
       const result = await withdraw(
         Number(zTokenAmount),
         Number(colAmount),
-        zToken
+        zToken,
+        zAsset
       );
       if (result) {
         setZTokenAmount(0);
         setColAmount(0);
-        toast.success("Transaction successful !!");
+        toast.success("Transaction Successful !!");
         setStage(1);
         setLoading(false);
         window.location.reload();
       } else {
-        toast.error("Transaction failed !!");
+        toast.error("Transaction Failed !!");
         setLoading(false);
       }
     }
   };
 
   useEffect(() => {
-    if (zTokenAmount && colAmount) {
+    if (zTokenAmount < 0) return;
+    if (zTokenAmount) {
       setShow(true);
     } else {
       setShow(false);
     }
-  }, [zTokenAmount, colAmount]);
+  }, [zTokenAmount]);
 
   const selectZAsset = (_asset: string) => {
     setZAsset(_asset);
@@ -103,6 +107,34 @@ function Repay() {
           <div className="deposit-body">
             <div className="flex justify-between">
               <p>Repay zToken</p>
+              {zAsset && (
+                <p
+                  style={{
+                    fontSize: 12,
+                    cursor: "pointer",
+                  }}
+                >
+                  Balance:
+                  <span className="ml-2">
+                    {zAsset === "ZUSD" &&
+                      zUSDBal?.toLocaleString(undefined, {
+                        maximumFractionDigits: 2,
+                      })}
+                    {zAsset === "ZNGN" &&
+                      zNGNBal?.toLocaleString(undefined, {
+                        maximumFractionDigits: 2,
+                      })}
+                    {zAsset === "ZCFA" &&
+                      zCFABal?.toLocaleString(undefined, {
+                        maximumFractionDigits: 2,
+                      })}
+                    {zAsset === "ZZAR" &&
+                      zZARBal?.toLocaleString(undefined, {
+                        maximumFractionDigits: 2,
+                      })}
+                  </span>
+                </p>
+              )}
             </div>
             <div className="flex justify-between items-center">
               <input
@@ -182,7 +214,7 @@ function Repay() {
                       onClick={() => selectZAsset("ZCFA")}
                     >
                       <img src={ZCFA} alt="" className="h-7" />
-                      <p className="ml-2">zXAF</p>
+                      <p className="ml-2">zCFA</p>
                     </div>
                     <div
                       className="flex p-2 mb-2 select-asset"
@@ -202,8 +234,22 @@ function Repay() {
             <p>Choose amount to withdraw</p>
           </div>
           <div className="deposit-body">
-            <div>
+            <div className="flex justify-between">
               <p>Withdraw Collateral</p>
+              <p
+                onClick={() => setColAmount(userColBalance)}
+                style={{
+                  fontSize: 12,
+                  cursor: "pointer",
+                }}
+              >
+                Balance:
+                <span className="ml-2">
+                  {userColBalance?.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
+                </span>
+              </p>
             </div>
             <div className="flex justify-between items-center">
               <div>

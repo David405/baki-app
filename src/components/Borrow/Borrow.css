@@ -78,13 +78,13 @@
   height: 9px;
   width: 121px;
   border-radius: 13px;
-  background-color: #d9d9d9;
+
   margin-top: 10px;
 }
 
 .borrow .heading {
   color: #a7adb2;
-  font-size: 10px;
+  font-size: 14px;
 }
 
 .action-btns {

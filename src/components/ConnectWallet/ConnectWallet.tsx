@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { FC } from "react";
 import "./ConnectWallet.css";
 import metamask from "../../assets/metamask.png";
@@ -33,7 +34,7 @@ const ConnectWallet: FC<ConnectWalletProps> = ({ visible, onClose }) => {
             Connect with Metamask to connect
           </p>
         </button>
-        <button className="flex flex-col justify-center items-center text-font-grey text-sm p-4 connect cursor-pointer">
+        {/* <button className="flex flex-col justify-center items-center text-font-grey text-sm p-4 connect cursor-pointer">
           <img src={walletconnect} alt="Wallet Connect" />
           <p
             style={{
@@ -43,7 +44,7 @@ const ConnectWallet: FC<ConnectWalletProps> = ({ visible, onClose }) => {
           >
             Connect with WalletConnect to connect (Not available)
           </p>
-        </button>
+        </button> */}
       </div>
     </div>
   );

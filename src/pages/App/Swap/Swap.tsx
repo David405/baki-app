@@ -14,8 +14,10 @@ import useToken from "../../../hooks/useToken";
 import useSwap from "../../../hooks/useSwap";
 import axios from "axios";
 import { config } from "../../../config";
-import Transactiions from "../../../components/Home/Transactions/Transactiions";
+import Transactions from "../../../components/Home/Transactions/Transactions";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import useData from "../../../hooks/useData";
 
 axios.defaults.headers.common["apikey"] = config.exchangeRatesAPIKEY;
 function Swap() {
@@ -25,14 +27,19 @@ function Swap() {
   const [show, setShow] = useState<boolean>(false);
   const [showFromZAssets, setShowFromZAssets] = useState<boolean>(false);
   const [showToZAssets, setShowToZAssets] = useState<boolean>(false);
-  const [fromZAsset, setFromZAsset] = useState<string>("");
-  const [toZAsset, setToZAsset] = useState<string>("");
+  const [fromZAsset, setFromZAsset] = useState<string>("zUSD");
+  const [toZAsset, setToZAsset] = useState<string>("zNGN");
   const [loadingApprove, setLoadingApprove] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [rate, setRate] = useState<number>(0);
   const [swapOutput, setSwapOutput] = useState<number>(0);
   const { approve } = useToken(fromZAsset, true);
   const { swap } = useSwap();
+  let test = useData();
+
+  const { zUSDBal, zNGNBal, zCFABal, zZARBal } = useSelector(
+    (state: any) => state.baki
+  );
 
   const getRates = async (base: string, target: string) => {
     try {
@@ -53,10 +60,10 @@ function Swap() {
       if (result) {
         setStage(2);
         setLoadingApprove(false);
-        toast.success("Approved !!");
+        toast.success("Transaction Approved !!");
       } else {
         setLoadingApprove(false);
-        toast.error("Approval failed !!");
+        toast.error("Transaction Failed !!");
       }
     }
   };
@@ -64,14 +71,15 @@ function Swap() {
     if (fromZAsset === toZAsset) return;
     if (fromAmount && toAmount && stage === 2) {
       setLoading(true);
+      let receivedAmt = toAmount - fromAmount * 0.992;
       try {
-        await swap(fromAmount, fromZAsset, toZAsset);
+        await swap(fromAmount, fromZAsset, toZAsset, receivedAmt);
         setLoading(false);
         setStage(1);
         toast.success("Transaction Successful !!");
       } catch (error) {
         console.error(error);
-        toast.error("Transaction failed !!");
+        toast.error("Transaction Failed !!");
         setLoading(false);
       }
     }
@@ -87,6 +95,7 @@ function Swap() {
     }
   };
   useEffect(() => {
+    if (fromAmount < 0) return;
     if (fromAmount && toAmount) {
       setShow(true);
     } else {
@@ -157,46 +166,78 @@ function Swap() {
           <div className="swap">
             <div className="swap-top">
               <div className="asset-box">
-                <button
-                  className="swap-assets rounded-full"
-                  onClick={() => setShowFromZAssets(!showFromZAssets)}
-                >
-                  <span className="flex items-center">
-                    {fromZAsset && (
-                      <>
-                        {fromZAsset === "zUSD" && (
-                          <img src={ZUSD} alt="ZUSD" className="h-7" />
-                        )}
-                        {fromZAsset === "zNGN" && (
-                          <img src={ZNGN} alt="ZNGN" className="h-7" />
-                        )}
-                        {fromZAsset === "zCFA" && (
-                          <img src={ZCFA} alt="ZCFA" className="h-7" />
-                        )}
-                        {fromZAsset === "zZAR" && (
-                          <img src={ZZAR} alt="ZZAR" className="h-7" />
-                        )}
-                      </>
+                <div className="flex justify-between items-center">
+                  <button
+                    className="swap-assets rounded-full"
+                    onClick={() => setShowFromZAssets(!showFromZAssets)}
+                  >
+                    <span className="flex items-center">
+                      {fromZAsset && (
+                        <>
+                          {fromZAsset === "zUSD" && (
+                            <img src={ZUSD} alt="ZUSD" className="h-7" />
+                          )}
+                          {fromZAsset === "zNGN" && (
+                            <img src={ZNGN} alt="ZNGN" className="h-7" />
+                          )}
+                          {fromZAsset === "zCFA" && (
+                            <img src={ZCFA} alt="ZCFA" className="h-7" />
+                          )}
+                          {fromZAsset === "zZAR" && (
+                            <img src={ZZAR} alt="ZZAR" className="h-7" />
+                          )}
+                        </>
+                      )}
+                      <p
+                        className="ml-2"
+                        style={{
+                          fontSize: fromZAsset ? 14 : 12,
+                        }}
+                      >
+                        {fromZAsset ? fromZAsset : "Choose Asset"}
+                      </p>
+                    </span>
+                    {showFromZAssets ? (
+                      <AiOutlineUp
+                        size={18}
+                        color={"#5A5A65"}
+                        className="mr-2"
+                      />
+                    ) : (
+                      <AiOutlineDown
+                        size={18}
+                        color={"#5A5A65"}
+                        className="mr-2"
+                      />
                     )}
-                    <p
-                      className="ml-2"
-                      style={{
-                        fontSize: fromZAsset ? 14 : 12,
-                      }}
-                    >
-                      {fromZAsset ? fromZAsset : "Choose Asset"}
-                    </p>
-                  </span>
-                  {showFromZAssets ? (
-                    <AiOutlineUp size={18} color={"#5A5A65"} className="mr-2" />
-                  ) : (
-                    <AiOutlineDown
-                      size={18}
-                      color={"#5A5A65"}
-                      className="mr-2"
-                    />
-                  )}
-                </button>
+                  </button>
+                  <p
+                    style={{
+                      fontSize: 12,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Balance:
+                    <span className="ml-2">
+                      {fromZAsset === "zUSD" &&
+                        zUSDBal?.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })}
+                      {fromZAsset === "zNGN" &&
+                        zNGNBal?.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })}
+                      {fromZAsset === "zCFA" &&
+                        zCFABal?.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })}
+                      {fromZAsset === "zZAR" &&
+                        zZARBal?.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })}
+                    </span>
+                  </p>
+                </div>
                 {showFromZAssets && (
                   <div
                     className="mt-2 text-font-grey cursor-pointer absolute rounded  select-assets"
@@ -246,46 +287,78 @@ function Swap() {
                 <img src={swapArrow} alt="" />
               </div>
               <div className="asset-box">
-                <button
-                  className="swap-assets rounded-full"
-                  onClick={() => setShowToZAssets(!showToZAssets)}
-                >
-                  <span className="flex items-center">
-                    {toZAsset && (
-                      <>
-                        {toZAsset === "zUSD" && (
-                          <img src={ZUSD} alt="ZUSD" className="h-7" />
-                        )}
-                        {toZAsset === "zNGN" && (
-                          <img src={ZNGN} alt="ZNGN" className="h-7" />
-                        )}
-                        {toZAsset === "zCFA" && (
-                          <img src={ZCFA} alt="ZCFA" className="h-7" />
-                        )}
-                        {toZAsset === "zZAR" && (
-                          <img src={ZZAR} alt="ZZAR" className="h-7" />
-                        )}
-                      </>
+                <div className="flex justify-between items-center">
+                  <button
+                    className="swap-assets rounded-full"
+                    onClick={() => setShowToZAssets(!showToZAssets)}
+                  >
+                    <span className="flex items-center">
+                      {toZAsset && (
+                        <>
+                          {toZAsset === "zUSD" && (
+                            <img src={ZUSD} alt="ZUSD" className="h-7" />
+                          )}
+                          {toZAsset === "zNGN" && (
+                            <img src={ZNGN} alt="ZNGN" className="h-7" />
+                          )}
+                          {toZAsset === "zCFA" && (
+                            <img src={ZCFA} alt="ZCFA" className="h-7" />
+                          )}
+                          {toZAsset === "zZAR" && (
+                            <img src={ZZAR} alt="ZZAR" className="h-7" />
+                          )}
+                        </>
+                      )}
+                      <p
+                        className="ml-2"
+                        style={{
+                          fontSize: toZAsset ? 14 : 12,
+                        }}
+                      >
+                        {toZAsset ? toZAsset : "Choose Asset"}
+                      </p>
+                    </span>
+                    {showToZAssets ? (
+                      <AiOutlineUp
+                        size={18}
+                        color={"#5A5A65"}
+                        className="mr-2"
+                      />
+                    ) : (
+                      <AiOutlineDown
+                        size={18}
+                        color={"#5A5A65"}
+                        className="mr-2"
+                      />
                     )}
-                    <p
-                      className="ml-2"
-                      style={{
-                        fontSize: toZAsset ? 14 : 12,
-                      }}
-                    >
-                      {toZAsset ? toZAsset : "Choose Asset"}
-                    </p>
-                  </span>
-                  {showToZAssets ? (
-                    <AiOutlineUp size={18} color={"#5A5A65"} className="mr-2" />
-                  ) : (
-                    <AiOutlineDown
-                      size={18}
-                      color={"#5A5A65"}
-                      className="mr-2"
-                    />
-                  )}
-                </button>
+                  </button>
+                  <p
+                    style={{
+                      fontSize: 12,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Balance:
+                    <span className="ml-2">
+                      {toZAsset === "zUSD" &&
+                        zUSDBal?.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })}
+                      {toZAsset === "zNGN" &&
+                        zNGNBal?.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })}
+                      {toZAsset === "zCFA" &&
+                        zCFABal?.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })}
+                      {toZAsset === "zZAR" &&
+                        zZARBal?.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })}
+                    </span>
+                  </p>
+                </div>
                 {showToZAssets && (
                   <div
                     className="mt-2 text-font-grey cursor-pointer absolute rounded  select-assets"
@@ -339,11 +412,16 @@ function Swap() {
                     1 {fromZAsset} = {rate?.toFixed(2)} {toZAsset}
                   </p>
                   <p className="mb-3">
-                    <span className="font-bold mr-2">Trading fee:</span>{" "}
+                    <span className="font-bold mr-2">Trading fee:</span>
                     {fromAmount * 0.992} {toZAsset}
+                  </p>
+                  <p className="mb-3">
+                    <span className="font-bold mr-2">Expected Output:</span>
+                    {toAmount - fromAmount * 0.992} {toZAsset}
                   </p>
                 </>
               )}
+
               <p>
                 <span className="font-bold mr-2">Fees:</span>
                 0.8%
@@ -416,7 +494,7 @@ function Swap() {
               </>
             )}
           </div>
-          <Transactiions />
+          <Transactions />
         </div>
       </MainLayout>
     </>
