@@ -33,28 +33,26 @@ const useLiquidations = () => {
   const getLiquidations = async () => {
     try {
       dispatch(updateLiqLoading(true));
-      const result = await contract?.getUserFromLiquidationZone();
+      const result: any[] = await contract?.getUserFromLiquidationZone();
+      console.log(result);
+
       let liquidations: Array<{ address: string; value: number }> = [];
       let liquidation = {
         address: "",
         value: 0,
       };
-      if (result) {
-        result?.map(async (user: any) => {
-          let res = await contract?.getPotentialTotalReward(user);
-          liquidation.address = user;
-          liquidation.value = Number(res._hex) * 10 ** -18;
-        });
 
-        setTimeout(() => {
-          dispatch(updateLiqLoading(false));
-          liquidations.push(liquidation);
-          console.log("liquidations", liquidations);
-          dispatch(updateLiquidations(liquidations));
-        }, 2000);
-      } else {
-        dispatch(updateLiquidations([]));
+      for (let i = 0; i < result?.length; i++) {
+        console.log(result[i]);
+        // let res = await contract?.getPotentialTotalReward(result[i]);
+
+        // liquidation.address = result[i];
+        // liquidation.value = Number(res._hex) * 10 ** -18;
+        // liquidations.push(liquidation);
       }
+
+      // dispatch(updateLiqLoading(false));
+      // dispatch(updateLiquidations(liquidations));
     } catch (error) {
       console.error(error);
     }
@@ -71,10 +69,10 @@ const useLiquidations = () => {
   const liquidateNow = async (address: string) => {
     try {
       const result = await contract?.liquidate(address);
-
-      dispatch(updateLiquidations(result));
+      return true;
     } catch (error) {
       console.error(error);
+      return false;
     }
   };
 

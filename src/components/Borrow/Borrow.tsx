@@ -210,6 +210,7 @@ function Borrow() {
             <div className="flex justify-between">
               <p>Mint zUSD</p>
               <p
+                onClick={() => setMintAmount(zUSDBal)}
                 style={{
                   fontSize: 12,
                   cursor: "pointer",

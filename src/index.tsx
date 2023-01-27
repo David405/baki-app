@@ -6,6 +6,14 @@ import reportWebVitals from "./reportWebVitals";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
+// import { Web3ReactProvider } from "@web3-react/core";
+// import { Web3Provider } from "@ethersproject/providers";
+
+// function getLibrary(provider: any): Web3Provider {
+//   const library = new Web3Provider(provider, "any");
+//   library.pollingInterval = 15000;
+//   return library;
+// }
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

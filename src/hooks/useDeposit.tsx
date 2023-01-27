@@ -17,6 +17,7 @@ const useDeposit = () => {
   const dispatch = useDispatch();
   const { address, rewardBal } = useSelector((state: any) => state.baki);
   const [contract, setContract] = useState<any>(null);
+
   useEffect(() => {
     if (provider) {
       const signer = provider.getSigner();
@@ -245,7 +246,18 @@ const useDeposit = () => {
     }
   };
 
-  return { deposit, claimReward };
+  const getUSDValue = async (_amount: number) => {
+    try {
+      const result = await contract?.getUSDValueOfCollateral(_amount);
+      console.log({ result, _amount });
+
+      return result;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return { deposit, claimReward, getUSDValue };
 };
 
 export default useDeposit;

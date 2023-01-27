@@ -4,11 +4,19 @@ import { ethers } from "ethers";
 import { useDispatch } from "react-redux";
 import { updateAddress, updateNetwork } from "../redux/reducers/bakiReducer";
 import { useNavigate } from "react-router-dom";
+// import {
+//   injected,
+//   walletconnect,
+//   resetWalletConnector,
+// } from "../Helpers/connectors";
+import { useWeb3React } from "@web3-react/core";
+
 declare const window: any;
 
 function useConnector() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const web3reactContext = useWeb3React();
   const [provider, setProvider] = useState<any>(null);
 
   useEffect(() => {
@@ -33,6 +41,34 @@ function useConnector() {
     checkNetwork();
   }, [provider]);
 
+  //web3react context
+  const checkInfoSimple = async () => {
+    try {
+      console.log("web3reactContext");
+      console.log(web3reactContext);
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
+  //web3react walletconnect
+  // const connectWalletConnectSimple = async () => {
+  //   try {
+  //     resetWalletConnector(walletconnect);
+  //     await web3reactContext.activate(walletconnect);
+  //   } catch (ex) {
+  //     console.log(ex);
+  //   }
+  // };
+
+  // //web3react coinbase
+  // const connectCoinbaseSimple = async () => {
+  //   try {
+  //     await web3reactContext.activate(walletlink);
+  //   } catch (ex) {
+  //     console.log(ex);
+  //   }
+  // };
   const checkNetwork = async () => {
     try {
       const network = await provider.getNetwork();
@@ -52,6 +88,11 @@ function useConnector() {
       .catch((error: any) => {
         console.error(error);
       });
+    // try {
+    //   await web3reactContext.activate(injected);
+    // } catch (ex) {
+    //   console.log(ex);
+    // }
   };
   const changeNetwork = async () => {};
   function checkConnection() {
@@ -70,15 +111,18 @@ function useConnector() {
   }
 
   const disconnectWallet = async () => {
-    localStorage.removeItem("baki_user");
-    dispatch(updateAddress(""));
-    console.log(window.ethereum.enable());
+    // try {
+    //   web3reactContext.deactivate();
+    // } catch (ex) {
+    //   console.log(ex);
+    // }
   };
 
   return {
     connectWallet,
     disconnectWallet,
     changeNetwork,
+    checkInfoSimple,
     provider,
   };
 }

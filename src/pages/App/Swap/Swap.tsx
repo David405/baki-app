@@ -211,32 +211,70 @@ function Swap() {
                       />
                     )}
                   </button>
-                  <p
-                    style={{
-                      fontSize: 12,
-                      cursor: "pointer",
-                    }}
-                  >
-                    Balance:
-                    <span className="ml-2">
-                      {fromZAsset === "zUSD" &&
-                        zUSDBal?.toLocaleString(undefined, {
+                  {fromZAsset === "zUSD" && (
+                    <p
+                      onClick={() => setFromAmount(zUSDBal)}
+                      style={{
+                        fontSize: 12,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Balance:
+                      <span className="ml-2">
+                        {zUSDBal?.toLocaleString(undefined, {
                           maximumFractionDigits: 2,
                         })}
-                      {fromZAsset === "zNGN" &&
-                        zNGNBal?.toLocaleString(undefined, {
+                      </span>
+                    </p>
+                  )}
+                  {fromZAsset === "zNGN" && (
+                    <p
+                      onClick={() => setFromAmount(zNGNBal)}
+                      style={{
+                        fontSize: 12,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Balance:
+                      <span className="ml-2">
+                        {zNGNBal?.toLocaleString(undefined, {
                           maximumFractionDigits: 2,
                         })}
-                      {fromZAsset === "zCFA" &&
-                        zCFABal?.toLocaleString(undefined, {
+                      </span>
+                    </p>
+                  )}
+                  {fromZAsset === "zCFA" && (
+                    <p
+                      onClick={() => setFromAmount(zCFABal)}
+                      style={{
+                        fontSize: 12,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Balance:
+                      <span className="ml-2">
+                        {zCFABal?.toLocaleString(undefined, {
                           maximumFractionDigits: 2,
                         })}
-                      {fromZAsset === "zZAR" &&
-                        zZARBal?.toLocaleString(undefined, {
+                      </span>
+                    </p>
+                  )}
+                  {fromZAsset === "zZAR" && (
+                    <p
+                      onClick={() => setFromAmount(zZARBal)}
+                      style={{
+                        fontSize: 12,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Balance:
+                      <span className="ml-2">
+                        {zZARBal?.toLocaleString(undefined, {
                           maximumFractionDigits: 2,
                         })}
-                    </span>
-                  </p>
+                      </span>
+                    </p>
+                  )}
                 </div>
                 {showFromZAssets && (
                   <div
@@ -332,32 +370,70 @@ function Swap() {
                       />
                     )}
                   </button>
-                  <p
-                    style={{
-                      fontSize: 12,
-                      cursor: "pointer",
-                    }}
-                  >
-                    Balance:
-                    <span className="ml-2">
-                      {toZAsset === "zUSD" &&
-                        zUSDBal?.toLocaleString(undefined, {
+                  {toZAsset === "zUSD" && (
+                    <p
+                      onClick={() => setToAmount(zUSDBal)}
+                      style={{
+                        fontSize: 12,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Balance:
+                      <span className="ml-2">
+                        {zUSDBal?.toLocaleString(undefined, {
                           maximumFractionDigits: 2,
                         })}
-                      {toZAsset === "zNGN" &&
-                        zNGNBal?.toLocaleString(undefined, {
+                      </span>
+                    </p>
+                  )}
+                  {toZAsset === "zNGN" && (
+                    <p
+                      onClick={() => setToAmount(zNGNBal)}
+                      style={{
+                        fontSize: 12,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Balance:
+                      <span className="ml-2">
+                        {zNGNBal?.toLocaleString(undefined, {
                           maximumFractionDigits: 2,
                         })}
-                      {toZAsset === "zCFA" &&
-                        zCFABal?.toLocaleString(undefined, {
+                      </span>
+                    </p>
+                  )}
+                  {toZAsset === "zCFA" && (
+                    <p
+                      onClick={() => setToAmount(zCFABal)}
+                      style={{
+                        fontSize: 12,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Balance:
+                      <span className="ml-2">
+                        {zCFABal?.toLocaleString(undefined, {
                           maximumFractionDigits: 2,
                         })}
-                      {toZAsset === "zZAR" &&
-                        zZARBal?.toLocaleString(undefined, {
+                      </span>
+                    </p>
+                  )}
+                  {toZAsset === "zZAR" && (
+                    <p
+                      onClick={() => setToAmount(zZARBal)}
+                      style={{
+                        fontSize: 12,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Balance:
+                      <span className="ml-2">
+                        {zZARBal?.toLocaleString(undefined, {
                           maximumFractionDigits: 2,
                         })}
-                    </span>
-                  </p>
+                      </span>
+                    </p>
+                  )}
                 </div>
                 {showToZAssets && (
                   <div
