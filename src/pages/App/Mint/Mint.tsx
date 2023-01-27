@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Borrow from "../../../components/Borrow/Borrow";
 import Repay from "../../../components/Repay/Repay";
 import MainLayout from "../../../layouts/MainLayout";
@@ -14,7 +14,8 @@ declare const window: any;
 
 function Mint() {
   const [action, setAction] = useState<string>("borrow");
-  const { claimReward } = useDeposit();
+  const [value, setValue] = useState<number>();
+  const { claimReward, getUSDValue } = useDeposit();
   let test = useData();
   const { colBalance, userColBalance, userDebt, network, rewardBal } =
     useSelector((state: any) => state.baki);
@@ -32,6 +33,12 @@ function Mint() {
       toast.error("Transaction Failed !!");
     }
   };
+
+  useEffect(() => {
+    getUSDValue(userColBalance).then(_value => {
+      setValue(_value);
+    });
+  }, []);
   return (
     <>
       <MainLayout>
@@ -89,8 +96,8 @@ function Mint() {
             <div className="user-detail mid-detail">
               <p className="heading">Value</p>
               <p>
-                $
-                {userColBalance?.toLocaleString(undefined, {
+                ${value}
+                {value?.toLocaleString(undefined, {
                   maximumFractionDigits: 2,
                 })}
               </p>
@@ -111,7 +118,6 @@ function Mint() {
               <p className="claim-amount">
                 Total:
                 <span>
-                  {" "}
                   {(rewardBal * 10 ** -6).toLocaleString(undefined, {
                     maximumFractionDigits: 2,
                   })}

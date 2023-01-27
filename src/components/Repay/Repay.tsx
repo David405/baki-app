@@ -25,7 +25,7 @@ function Repay() {
   const [show, setShow] = useState<boolean>(false);
   const [showZAssets, setShowZAssets] = useState<boolean>(false);
   const [showColAssets, setShowColAssets] = useState<boolean>(false);
-  const [zAsset, setZAsset] = useState<string>("");
+  const [zAsset, setZAsset] = useState<string>("ZUSD");
   const [colAsset, setColAsset] = useState<string>("");
   const [loadingApprove, setLoadingApprove] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -34,6 +34,7 @@ function Repay() {
   const { withdraw } = useWithdraw();
 
   const handleApprove = async () => {
+    if (zTokenAmount < 0 || colAmount < 0) return;
     if (stage === 1) {
       setLoadingApprove(true);
       let result = await approve(zTokenAmount);
@@ -48,6 +49,7 @@ function Repay() {
     }
   };
   const repay = async () => {
+    if (zTokenAmount < 0 || colAmount < 0) return;
     if (stage === 2) {
       let zToken = "";
       if (zAsset === "ZUSD") {
@@ -108,32 +110,72 @@ function Repay() {
             <div className="flex justify-between">
               <p>Repay zToken</p>
               {zAsset && (
-                <p
-                  style={{
-                    fontSize: 12,
-                    cursor: "pointer",
-                  }}
-                >
-                  Balance:
-                  <span className="ml-2">
-                    {zAsset === "ZUSD" &&
-                      zUSDBal?.toLocaleString(undefined, {
-                        maximumFractionDigits: 2,
-                      })}
-                    {zAsset === "ZNGN" &&
-                      zNGNBal?.toLocaleString(undefined, {
-                        maximumFractionDigits: 2,
-                      })}
-                    {zAsset === "ZCFA" &&
-                      zCFABal?.toLocaleString(undefined, {
-                        maximumFractionDigits: 2,
-                      })}
-                    {zAsset === "ZZAR" &&
-                      zZARBal?.toLocaleString(undefined, {
-                        maximumFractionDigits: 2,
-                      })}
-                  </span>
-                </p>
+                <>
+                  {zAsset === "ZUSD" && (
+                    <p
+                      onClick={() => setZTokenAmount(zUSDBal)}
+                      style={{
+                        fontSize: 12,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Balance:
+                      <span className="ml-2">
+                        {zUSDBal?.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })}
+                      </span>
+                    </p>
+                  )}
+                  {zAsset === "ZNGN" && (
+                    <p
+                      onClick={() => setZTokenAmount(zNGNBal)}
+                      style={{
+                        fontSize: 12,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Balance:
+                      <span className="ml-2">
+                        {zNGNBal?.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })}
+                      </span>
+                    </p>
+                  )}
+                  {zAsset === "ZCFA" && (
+                    <p
+                      onClick={() => setZTokenAmount(zCFABal)}
+                      style={{
+                        fontSize: 12,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Balance:
+                      <span className="ml-2">
+                        {zCFABal?.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })}
+                      </span>
+                    </p>
+                  )}
+                  {zAsset === "ZZAR" && (
+                    <p
+                      onClick={() => setZTokenAmount(zZARBal)}
+                      style={{
+                        fontSize: 12,
+                        cursor: "pointer",
+                      }}
+                    >
+                      Balance:
+                      <span className="ml-2">
+                        {zZARBal?.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })}
+                      </span>
+                    </p>
+                  )}
+                </>
               )}
             </div>
             <div className="flex justify-between items-center">
