@@ -58,8 +58,8 @@ function useWithdraw() {
       );
       await tx.wait();
       const txns = await window.localStorage.getItem("transactions");
-      transaction.repayBody.repayAmount = Number(_amountToRepay);
-      transaction.repayBody.withdrawAmount = Number(_amountToWithdraw);
+      transaction.repayBody.repayAmount = Number(_amountToRepay) * 100;
+      transaction.repayBody.withdrawAmount = Number(_amountToWithdraw) * 100;
       transaction.repayBody.repayCurrency = _asset;
       transaction.action = "Withdraw";
       transaction.status = "Successful";

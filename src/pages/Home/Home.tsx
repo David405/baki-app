@@ -5,13 +5,13 @@ import React from "react";
 import baki from "../../assets/baki.png";
 import "./Home.css";
 import { Link } from "react-router-dom";
-import useConnector from "../../hooks/useConnector";
+// import useConnector from "../../hooks/useConnector";
 import millify from "millify";
 import { useSelector } from "react-redux";
 import useData from "../../hooks/useData";
 
 function Home() {
-  const {} = useConnector();
+  // const {} = useConnector();
   const test = useData();
   const { totalVolume, totalCollateral } = useSelector(
     (state: any) => state.baki
@@ -62,7 +62,13 @@ function Home() {
           <p className="text-xs">Trading Volume</p>
         </div>
         <div className="p-4 flex text-dark-orange justify-center items-center w-1/5 flex-col home-last-item">
-          <div className="text-lg font-bold">0.8%</div>
+          <div className="text-lg font-bold">
+            {" "}
+            {millify(Number(totalVolume / 10 ** 15) * 0.008, {
+              units: ["", "K", "M", "B", "T", "P", "E"],
+              space: true,
+            })}
+          </div>
           <p className="text-xs">Trading Fees</p>
         </div>
       </div>
