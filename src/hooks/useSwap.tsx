@@ -76,8 +76,8 @@ function useSwap() {
         },
       };
       const txns = await window.localStorage.getItem("transactions");
-      transaction.swapBody.fromAmount = Number(_amount);
-      transaction.swapBody.toAmount = Number(_receiveAmt);
+      transaction.swapBody.fromAmount = Number(_amount) * 100;
+      transaction.swapBody.toAmount = Number(_receiveAmt) * 100;
       transaction.swapBody.fromCurrency = _fromzToken;
       transaction.swapBody.toCurrency = _tozToken;
       transaction.action = "Swap";

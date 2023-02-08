@@ -9,14 +9,14 @@ import { useNavigate } from "react-router-dom";
 //   walletconnect,
 //   resetWalletConnector,
 // } from "../Helpers/connectors";
-import { useWeb3React } from "@web3-react/core";
+// import { useWeb3React } from "@web3-react/core";
 
 declare const window: any;
 
 function useConnector() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const web3reactContext = useWeb3React();
+
   const [provider, setProvider] = useState<any>(null);
 
   useEffect(() => {
@@ -45,7 +45,6 @@ function useConnector() {
   const checkInfoSimple = async () => {
     try {
       console.log("web3reactContext");
-      console.log(web3reactContext);
     } catch (ex) {
       console.log(ex);
     }

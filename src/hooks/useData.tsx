@@ -57,13 +57,17 @@ function useData() {
     const globalNetMint = await contract?.getNetGlobalMintValue();
     dispatch(updateGlobalNetMint(Number(globalNetMint?._hex)));
 
-    // get total collateral
-    const totalCollateral: any = await contract?.getUserCollateralBalance();
-    dispatch(updateTotalCollateral(Number(totalCollateral?._hex)));
+    // // get total collateral
+    // const totalCollateral: any = await contract?.getUserCollateralBalance();
+    // dispatch(updateTotalCollateral(Number(totalCollateral?._hex)));
 
     // get totalVolume
     const totalVolume: any = await contract?.totalSwapVolume();
     dispatch(updateTotalVolume(Number(totalVolume?._hex)));
+
+    // get global Collateral
+    const globalCol: any = await contract?.totalCollateral();
+    dispatch(updateTotalCollateral(Number(globalCol?._hex)));
   };
 
   const getzTokenBal = async () => {
