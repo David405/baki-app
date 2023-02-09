@@ -5,7 +5,7 @@ const Error = () => {
     <div className="error">
       <img src={error} alt="" />
       <p className="heading">Baki is not yet deployed to this network</p>
-      <p className="subheading">Please switch to Avalanche c-Chain</p>
+      <p className="subheading">Please switch to Avalanche Fuji Test Net</p>
     </div>
   );
 };
