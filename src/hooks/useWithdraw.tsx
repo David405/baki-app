@@ -52,14 +52,14 @@ function useWithdraw() {
         },
       };
       const tx = await contract.repayAndWithdraw(
-        _amountToRepay,
-        _amountToWithdraw,
+        _amountToRepay * 100,
+        _amountToWithdraw * 100,
         _zToken
       );
       await tx.wait();
       const txns = await window.localStorage.getItem("transactions");
-      transaction.repayBody.repayAmount = Number(_amountToRepay) * 100;
-      transaction.repayBody.withdrawAmount = Number(_amountToWithdraw) * 100;
+      transaction.repayBody.repayAmount = Number(_amountToRepay);
+      transaction.repayBody.withdrawAmount = Number(_amountToWithdraw);
       transaction.repayBody.repayCurrency = _asset;
       transaction.action = "Withdraw";
       transaction.status = "Successful";

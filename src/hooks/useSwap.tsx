@@ -49,7 +49,7 @@ function useSwap() {
     }
     let hash = "";
     try {
-      const tx = await contract.swap(Number(_amount), from, to);
+      const tx = await contract.swap(Number(_amount) * 100, from, to);
       await tx.wait();
       let transactions: any = {};
       let _transactions = [];
@@ -76,8 +76,8 @@ function useSwap() {
         },
       };
       const txns = await window.localStorage.getItem("transactions");
-      transaction.swapBody.fromAmount = Number(_amount) * 100;
-      transaction.swapBody.toAmount = Number(_receiveAmt) * 100;
+      transaction.swapBody.fromAmount = Number(_amount);
+      transaction.swapBody.toAmount = Number(_receiveAmt);
       transaction.swapBody.fromCurrency = _fromzToken;
       transaction.swapBody.toCurrency = _tozToken;
       transaction.action = "Swap";

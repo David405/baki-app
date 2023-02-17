@@ -65,13 +65,13 @@ const useDeposit = () => {
       };
 
       const tx = await contract?.depositAndMint(
-        Number(depositAmount),
-        Math.round(mintAmount)
+        Math.round(Number(depositAmount) * 100),
+        Math.round(mintAmount * 100)
       );
       await tx.wait();
       const txns = await window.localStorage.getItem("transactions");
-      transaction.depositBody.colAmount = depositAmount * 100;
-      transaction.depositBody.mintAmount = mintAmount * 100;
+      transaction.depositBody.colAmount = depositAmount;
+      transaction.depositBody.mintAmount = mintAmount;
       transaction.action = "Deposit";
       transaction.status = "Successful";
       transaction.hash = tx.hash;
