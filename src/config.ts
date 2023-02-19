@@ -1,10 +1,10 @@
 export const config: any = {
-  vaultAddress: "0x1122dc9FfE1391FeaA98A4eBA52661dDE6111A49",
-  zUSD: "0x0C0d84Bc9Af6C4A2Cc75406376538e2B6f0A39d8",
-  zNGN: "0x19E66c04907a2BF819CBD08261a78f7e28930545",
-  zZAR: "0xD454128E7572aFd38577B5ea97c06244Cda768B6",
-  zCFA: "0x9153B86Af4d5C8b554Aa36b2660f257045a34B4d",
-  USDC: "0x2aC77d3c40C49D88c7fFc20BC0584A496E495786",
+  vaultAddress: "0x3ab5E7a3466d0e5B556e0005D705cbC3ADc34767",
+  zUSD: "0x985cF17100E8f9839d5D4fE2f910CFaDA230fF51",
+  zNGN: "0x8da29a5C650e87cf111a83686Ef47E45987b3d27",
+  zZAR: "0xd9F0d372e2A2189c355381BDAA38B2391B37Faf2",
+  zCFA: "0xa9C24b74Bd8332a374fb0278A308b52A1432BaD1",
+  USDC: "0xF4b95520519894CFbffCE3A36532090f292812B5",
 
   networks: [
     {
@@ -18,17 +18,6 @@ export const config: any = {
       },
       blockExplorerUrls: ["https://explorer.avax.network/"],
     },
-    // {
-    //   chainId: `0x${Number(44787).toString(16)}`,
-    //   rpcUrls: ["https://alfajores-forno.celo-testnet.org/"],
-    //   name: "Celo",
-    //   nativeCurrency: {
-    //     name: "CELO",
-    //     symbol: "CELO",
-    //     decimals: 18,
-    //   },
-    //   blockExplorerUrls: ["https://alfajoresblockscout.celo-testnet.org"],
-    // },
   ],
   exchangeRatesAPIKEY: "DARFb80BUBixEzeCe6fgq5JouZR6QuSq",
   coinlayerAPIKEY: "49505e855f2ab02b59638b6895755f23",
