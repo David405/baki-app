@@ -137,6 +137,9 @@ function useData() {
   };
 
   const getTransactions = async () => {
+    let fee = await contract?.swapFee();
+    console.log({ fee: Number(fee) });
+
     let transactions = await window.localStorage.getItem("transactions");
     if (transactions) {
       dispatch(updateTransactions(JSON.parse(transactions)));

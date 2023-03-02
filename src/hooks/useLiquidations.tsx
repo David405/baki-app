@@ -34,7 +34,6 @@ const useLiquidations = () => {
     try {
       dispatch(updateLiqLoading(true));
       const result: any[] = await contract?.getUserFromLiquidationZone();
-      console.log(result);
 
       let liquidations: Array<{ address: string; value: number }> = [];
       let liquidation = {
