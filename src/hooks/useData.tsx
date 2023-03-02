@@ -18,6 +18,7 @@ import {
 } from "../redux/reducers/bakiReducer";
 import { config } from "../config";
 import vault from "../contracts/vault.json";
+import axios from "axios";
 declare const window: any;
 function useData() {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ function useData() {
 
   useEffect(() => {
     getPosition();
-    // getGlobalDebt();
+    getGlobalDebt();
     getTransactions();
     getzTokenBal();
   }, [address]);
@@ -47,6 +48,17 @@ function useData() {
     getTransactions();
     getzTokenBal();
   }, [userNetMint, globalNetMint, address]);
+
+  const getRates = async (base: string, target: string) => {
+    try {
+      const result = await axios.get(
+        `https://api.apilayer.com/exchangerates_data/latest?symbols=${target}&base=${base}`
+      );
+      return result.data.rates;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const getPosition = async () => {
     // get user net mint
@@ -106,15 +118,18 @@ function useData() {
     let totalzXAF = await contract?.getTotalSupply(config.zCFA);
     let totalzZAR = await contract?.getTotalSupply(config.zZAR);
 
-    let NGNUSDRate = (await contract?.NGNUSD()) / 1000;
-    let XAFUSDRate = (await contract?.XAFUSD()) / 1000;
-    let ZARUSDRate = (await contract?.ZARUSD()) / 1000;
+    let NGNUSDRate = await getRates("USD", "NGN");
+    let XAFUSDRate = await getRates("USD", "XAF");
+    let ZARUSDRate = await getRates("USD", "ZAR");
 
     const globalDebt =
       Number(totalzUSD?._hex) +
-      Number(totalzNGN?._hex) / NGNUSDRate +
-      Number(totalzZAR?._hex) / ZARUSDRate +
-      Number(totalzXAF?._hex) / XAFUSDRate;
+      Number(totalzNGN?._hex) / NGNUSDRate?.NGN +
+      Number(totalzZAR?._hex) / ZARUSDRate?.ZAR +
+      Number(totalzXAF?._hex) / XAFUSDRate?.XAF;
+
+    console.log(globalDebt);
+
     dispatch(updateGlobalDebt(globalDebt));
   };
 

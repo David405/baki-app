@@ -13,7 +13,7 @@ import useData from "../../hooks/useData";
 function Home() {
   // const {} = useConnector();
   const test = useData();
-  const { totalVolume, totalCollateral } = useSelector(
+  const { totalVolume, totalCollateral, globalDebt } = useSelector(
     (state: any) => state.baki
   );
   return (
@@ -49,7 +49,13 @@ function Home() {
           <p className="text-xs">Global Collateral</p>
         </div>
         <div className="p-4 flex justify-center items-center w-1/5 flex-col home-detail">
-          <div className="text-lg text-dark-orange  font-bold">$0.00</div>
+          <div className="text-lg text-dark-orange  font-bold">
+            ${" "}
+            {millify(Number(globalDebt / 10 ** 15), {
+              units: ["", "K", "M", "B", "T", "P", "E"],
+              space: true,
+            })}
+          </div>
           <p className="text-xs">zToken Market Cap</p>
         </div>
         <div className="p-4 flex justify-center items-center w-1/5 flex-col home-detail">
