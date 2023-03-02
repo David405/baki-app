@@ -44,15 +44,15 @@ const useLiquidations = () => {
 
       for (let i = 0; i < result?.length; i++) {
         console.log(result[i]);
-        // let res = await contract?.getPotentialTotalReward(result[i]);
+        let res = await contract?.getPotentialTotalReward(result[i]);
 
-        // liquidation.address = result[i];
-        // liquidation.value = Number(res._hex) * 10 ** -18;
-        // liquidations.push(liquidation);
+        liquidation.address = result[i];
+        liquidation.value = Number(res._hex) * 10 ** -18;
+        liquidations.push(liquidation);
       }
 
-      // dispatch(updateLiqLoading(false));
-      // dispatch(updateLiquidations(liquidations));
+      dispatch(updateLiqLoading(false));
+      dispatch(updateLiquidations(liquidations));
     } catch (error) {
       console.error(error);
     }
