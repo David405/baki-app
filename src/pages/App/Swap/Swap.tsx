@@ -496,11 +496,11 @@ function Swap() {
                     </p>
                     <p className="mb-3">
                       <span className="font-bold mr-2">Trading fee:</span>
-                      {fromAmount * 0.992} {toZAsset}
+                      {swapOutput * 0.008} {toZAsset}
                     </p>
                     <p className="mb-3">
                       <span className="font-bold mr-2">Expected Output:</span>
-                      {toAmount - fromAmount * 0.992} {toZAsset}
+                      {swapOutput - swapOutput * 0.008} {toZAsset}
                     </p>
                   </>
                 )}

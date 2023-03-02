@@ -36,10 +36,10 @@ function useData() {
   }, [provider]);
 
   useEffect(() => {
-    getPosition();
     getGlobalDebt();
     getTransactions();
     getzTokenBal();
+    getPosition();
   }, [address]);
 
   useEffect(() => {
@@ -122,13 +122,16 @@ function useData() {
     let XAFUSDRate = await getRates("USD", "XAF");
     let ZARUSDRate = await getRates("USD", "ZAR");
 
-    const globalDebt =
-      Number(totalzUSD?._hex) +
-      Number(totalzNGN?._hex) / NGNUSDRate?.NGN +
-      Number(totalzZAR?._hex) / ZARUSDRate?.ZAR +
-      Number(totalzXAF?._hex) / XAFUSDRate?.XAF;
+    totalzUSD = Number(totalzUSD?._hex) / 10 ** 18;
+    totalzNGN = Number(totalzNGN?._hex) / 10 ** 18;
+    totalzZAR = Number(totalzZAR?._hex) / 10 ** 18;
+    totalzXAF = Number(totalzXAF?._hex) / 10 ** 18;
 
-    console.log(globalDebt);
+    let globalDebt =
+      totalzUSD +
+      totalzNGN / NGNUSDRate?.NGN +
+      totalzZAR / ZARUSDRate?.ZAR +
+      totalzXAF / XAFUSDRate?.XAF;
 
     dispatch(updateGlobalDebt(globalDebt));
   };
