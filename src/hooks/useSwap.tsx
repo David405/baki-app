@@ -84,9 +84,13 @@ function useSwap() {
       transaction.status = "Successful";
       transaction.hash = tx?.hash;
       hash = tx?.hash;
-      if (JSON.parse(txns)[address]?.length <= 5) {
-        _transactions = JSON.parse(txns)[address];
-        _transactions.push(transaction);
+      if (txns) {
+        if (JSON.parse(txns)[address]?.length <= 5) {
+          _transactions = JSON.parse(txns)[address];
+          _transactions.push(transaction);
+        } else {
+          _transactions.push(transaction);
+        }
       } else {
         _transactions.push(transaction);
       }
@@ -135,13 +139,16 @@ function useSwap() {
       transaction.hash = hash;
       const txns = await window.localStorage.getItem("transactions");
 
-      if (JSON.parse(txns)[address]?.length < 5) {
-        _transactions = JSON.parse(txns)[address];
-        _transactions.push(transaction);
+      if (txns) {
+        if (JSON.parse(txns)[address]?.length <= 5) {
+          _transactions = JSON.parse(txns)[address];
+          _transactions.push(transaction);
+        } else {
+          _transactions.push(transaction);
+        }
       } else {
         _transactions.push(transaction);
       }
-
       transactions[address] = _transactions;
 
       await window.localStorage.setItem(

@@ -64,9 +64,15 @@ function useWithdraw() {
       transaction.action = "Withdraw";
       transaction.status = "Successful";
       transaction.hash = tx?.hash;
-      if (JSON.parse(txns)[address]?.length <= 5) {
-        _transactions = JSON.parse(txns)[address];
-        _transactions.push(transaction);
+      console.log(transaction);
+
+      if (txns) {
+        if (JSON.parse(txns)[address]?.length <= 5) {
+          _transactions = JSON.parse(txns)[address];
+          _transactions.push(transaction);
+        } else {
+          _transactions.push(transaction);
+        }
       } else {
         _transactions.push(transaction);
       }
@@ -112,11 +118,15 @@ function useWithdraw() {
       transaction.hash = "";
       const txns = await window.localStorage.getItem("transactions");
 
-      if (JSON.parse(txns)[address]?.length < 5) {
-        _transactions = JSON.parse(txns)[address];
-        _transactions.push(transaction);
+      if (txns) {
+        if (JSON.parse(txns)[address]?.length <= 5) {
+          _transactions = JSON.parse(txns)[address];
+          _transactions.push(transaction);
+        } else {
+          _transactions.push(transaction);
+        }
       } else {
-        transactions.push(transaction);
+        _transactions.push(transaction);
       }
 
       transactions[address] = _transactions;

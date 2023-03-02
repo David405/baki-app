@@ -76,7 +76,9 @@ function Borrow() {
         setLoading(false);
         setStage(1);
         toast.success("Transaction Successful !!");
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } else {
         toast.error("Transaction Failed !!");
         setLoading(false);

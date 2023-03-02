@@ -74,7 +74,9 @@ function Repay() {
         toast.success("Transaction Successful !!");
         setStage(1);
         setLoading(false);
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } else {
         toast.error("Transaction Failed !!");
         setLoading(false);

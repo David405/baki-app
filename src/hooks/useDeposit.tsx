@@ -76,9 +76,13 @@ const useDeposit = () => {
       transaction.status = "Successful";
       transaction.hash = tx.hash;
       hash = tx.hash;
-      if (JSON.parse(txns)[address]?.length < 5) {
-        _transactions = JSON.parse(txns)[address];
-        _transactions.push(transaction);
+      if (txns) {
+        if (JSON.parse(txns)[address]?.length < 5) {
+          _transactions = JSON.parse(txns)[address];
+          _transactions.push(transaction);
+        } else {
+          _transactions.push(transaction);
+        }
       } else {
         _transactions.push(transaction);
       }
@@ -124,11 +128,16 @@ const useDeposit = () => {
       transaction.action = "Deposit";
       transaction.status = "Failed";
       transaction.hash = hash;
+
       const txns = await window.localStorage.getItem("transactions");
 
-      if (JSON.parse(txns)[address]?.length < 5) {
-        _transactions = JSON.parse(txns)[address];
-        _transactions.push(transaction);
+      if (txns) {
+        if (JSON.parse(txns)[address]?.length < 5) {
+          _transactions = JSON.parse(txns)[address];
+          _transactions.push(transaction);
+        } else {
+          _transactions.push(transaction);
+        }
       } else {
         _transactions.push(transaction);
       }
@@ -139,6 +148,7 @@ const useDeposit = () => {
         "transactions",
         JSON.stringify(transactions)
       );
+
       console.error(err.error);
       return false;
     }
@@ -179,9 +189,13 @@ const useDeposit = () => {
       transaction.status = "Successful";
       transaction.hash = tx?.hash;
       hash = tx?.hash;
-      if (JSON.parse(txns)[address]?.length <= 5) {
-        _transactions = JSON.parse(txns)[address];
-        _transactions.push(transaction);
+      if (txns) {
+        if (JSON.parse(txns)[address]?.length <= 5) {
+          _transactions = JSON.parse(txns)[address];
+          _transactions.push(transaction);
+        } else {
+          _transactions.push(transaction);
+        }
       } else {
         _transactions.push(transaction);
       }
@@ -227,9 +241,13 @@ const useDeposit = () => {
       transaction.action = "Reward";
       transaction.status = "Failed";
       transaction.hash = hash;
-      if (JSON.parse(txns)[address]?.length <= 5) {
-        _transactions = JSON.parse(txns)[address];
-        _transactions.push(transaction);
+      if (txns) {
+        if (JSON.parse(txns)[address]?.length <= 5) {
+          _transactions = JSON.parse(txns)[address];
+          _transactions.push(transaction);
+        } else {
+          _transactions.push(transaction);
+        }
       } else {
         _transactions.push(transaction);
       }

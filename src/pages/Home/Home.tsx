@@ -63,7 +63,6 @@ function Home() {
         </div>
         <div className="p-4 flex text-dark-orange justify-center items-center w-1/5 flex-col home-last-item">
           <div className="text-lg font-bold">
-            {" "}
             {millify(Number(totalVolume / 10 ** 15) * 0.008, {
               units: ["", "K", "M", "B", "T", "P", "E"],
               space: true,

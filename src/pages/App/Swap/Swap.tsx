@@ -53,6 +53,7 @@ function Swap() {
   };
 
   const handleApprove = async () => {
+    if (loadingApprove) return;
     if (fromZAsset === toZAsset) return;
     if (stage === 1) {
       setLoadingApprove(true);
@@ -68,6 +69,8 @@ function Swap() {
     }
   };
   const handleSwap = async () => {
+    if (loading) return;
+
     if (fromZAsset === toZAsset) return;
     if (fromAmount && toAmount && stage === 2) {
       setLoading(true);
@@ -77,6 +80,9 @@ function Swap() {
         setLoading(false);
         setStage(1);
         toast.success("Transaction Successful !!");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } catch (error) {
         console.error(error);
         toast.error("Transaction Failed !!");
@@ -481,34 +487,41 @@ function Swap() {
                 />
               </div>
             </div>
-            <div className="text-font-grey px-6 py-4 swap-details">
-              {fromZAsset && toZAsset && (
-                <>
-                  <p className="mb-4">
-                    1 {fromZAsset} = {rate?.toFixed(2)} {toZAsset}
-                  </p>
-                  <p className="mb-3">
-                    <span className="font-bold mr-2">Trading fee:</span>
-                    {fromAmount * 0.992} {toZAsset}
-                  </p>
-                  <p className="mb-3">
-                    <span className="font-bold mr-2">Expected Output:</span>
-                    {toAmount - fromAmount * 0.992} {toZAsset}
-                  </p>
-                </>
-              )}
+            {rate ? (
+              <div className="text-font-grey px-6 py-4 swap-details">
+                {fromZAsset && toZAsset && (
+                  <>
+                    <p className="mb-4">
+                      1 {fromZAsset} = {rate?.toFixed(2)} {toZAsset}
+                    </p>
+                    <p className="mb-3">
+                      <span className="font-bold mr-2">Trading fee:</span>
+                      {fromAmount * 0.992} {toZAsset}
+                    </p>
+                    <p className="mb-3">
+                      <span className="font-bold mr-2">Expected Output:</span>
+                      {toAmount - fromAmount * 0.992} {toZAsset}
+                    </p>
+                  </>
+                )}
 
-              <p>
-                <span className="font-bold mr-2">Fees:</span>
-                0.8%
-              </p>
-            </div>
+                <p>
+                  <span className="font-bold mr-2">Fees:</span>
+                  0.8%
+                </p>
+              </div>
+            ) : (
+              <div className="w-full mt-3">
+                <p className="text-center">Loading ....</p>
+              </div>
+            )}
             {show && (
               <>
                 <div className="action-btns">
                   <button
                     style={{
-                      backgroundColor: stage === 1 ? "#f97f41" : "#ccc",
+                      backgroundColor:
+                        stage === 1 && !loadingApprove ? "#f97f41" : "#ccc",
                     }}
                     onClick={handleApprove}
                   >
