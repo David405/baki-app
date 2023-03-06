@@ -24,6 +24,7 @@ export interface State {
   liquidations: Array<any>;
   totalVolume: number;
   liquidLoading: boolean;
+  fee: number;
 }
 
 const initialState: State = {
@@ -48,6 +49,7 @@ const initialState: State = {
   liquidations: [],
   totalVolume: 0,
   liquidLoading: false,
+  fee: 0,
 };
 
 export const bakiSlice = createSlice({
@@ -102,6 +104,9 @@ export const bakiSlice = createSlice({
     updateLiqLoading: (state, action: PayloadAction<boolean>) => {
       state.liquidLoading = action.payload;
     },
+    updateFee: (state, action: PayloadAction<number>) => {
+      state.fee = action.payload;
+    },
   },
 });
 
@@ -122,6 +127,7 @@ export const {
   updateLiquidations,
   updateTotalVolume,
   updateLiqLoading,
+  updateFee,
 } = bakiSlice.actions;
 
 export default bakiSlice.reducer;

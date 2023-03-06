@@ -67,43 +67,52 @@ function Liquidation() {
               Loading ...
             </div>
           )}
-          {liquidations?.map((liquidation: any, index: number) => (
-            <div className="li-table-row" key={index}>
-              <div className="li-table-cell">
-                <p>
-                  {liquidation.address?.slice(0, 5)}...{" "}
-                  {liquidation.address?.slice(35, 50)}
-                </p>
-              </div>
-              <div className="li-table-cell">
-                <p>
-                  {liquidation.value?.toLocaleString(undefined, {
-                    maximumFractionDigits: 2,
-                  })}
-                  <span className="ml-1"> zUSD</span>
-                </p>
-              </div>
+          {!liquidLoading &&
+            liquidations?.map((liquidation: any, index: number) => (
+              <div className="li-table-row" key={index}>
+                <div className="li-table-cell">
+                  <p>
+                    {liquidation.address?.slice(0, 5)}...{" "}
+                    {liquidation.address?.slice(35, 50)}
+                  </p>
+                </div>
+                <div className="li-table-cell">
+                  <p>
+                    {liquidation.reward?.toLocaleString(undefined, {
+                      maximumFractionDigits: 2,
+                    })}
+                    <span className="ml-1"> zUSD</span>
+                  </p>
+                </div>
+                <div className="li-table-cell">
+                  <p>
+                    {liquidation.requiredZUSD?.toLocaleString(undefined, {
+                      maximumFractionDigits: 2,
+                    })}
+                    <span className="ml-1"> zUSD</span>
+                  </p>
+                </div>
 
-              <div className="li-table-cell">
-                <button
-                  className="liquidate bg-dark-orange p-2 rounded text-white "
-                  onClick={() => handleLiquidate(liquidation?.address)}
-                >
-                  {loading ? (
-                    <img
-                      src={loader}
-                      style={{
-                        height: "40px",
-                      }}
-                      alt="Loader"
-                    />
-                  ) : (
-                    "Liquidate"
-                  )}
-                </button>
+                <div className="li-table-cell">
+                  <button
+                    className="liquidate bg-dark-orange p-2 rounded text-white "
+                    onClick={() => handleLiquidate(liquidation?.address)}
+                  >
+                    {loading ? (
+                      <img
+                        src={loader}
+                        style={{
+                          height: "40px",
+                        }}
+                        alt="Loader"
+                      />
+                    ) : (
+                      "Liquidate"
+                    )}
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </MainLayout>

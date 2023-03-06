@@ -37,7 +37,7 @@ function Swap() {
   const { swap } = useSwap();
   let test = useData();
 
-  const { zUSDBal, zNGNBal, zCFABal, zZARBal } = useSelector(
+  const { zUSDBal, zNGNBal, zCFABal, zZARBal, fee } = useSelector(
     (state: any) => state.baki
   );
 
@@ -496,18 +496,18 @@ function Swap() {
                     </p>
                     <p className="mb-3">
                       <span className="font-bold mr-2">Trading fee:</span>
-                      {swapOutput * 0.008} {toZAsset}
+                      {(swapOutput * fee) / 100} {toZAsset}
                     </p>
                     <p className="mb-3">
                       <span className="font-bold mr-2">Expected Output:</span>
-                      {swapOutput - swapOutput * 0.008} {toZAsset}
+                      {swapOutput - (swapOutput * fee) / 100} {toZAsset}
                     </p>
                   </>
                 )}
 
                 <p>
                   <span className="font-bold mr-2">Fees:</span>
-                  0.8%
+                  {fee}%
                 </p>
               </div>
             ) : (

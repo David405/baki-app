@@ -33,12 +33,18 @@ const useLiquidations = () => {
   const getLiquidations = async () => {
     try {
       dispatch(updateLiqLoading(true));
+
       const result: any[] = await contract?.getUserFromLiquidationZone();
 
-      let liquidations: Array<{ address: string; value: number }> = [];
+      let liquidations: Array<{
+        address: string;
+        reward: number;
+        requiredZUSD: number;
+      }> = [];
       let liquidation = {
         address: "",
-        value: 0,
+        reward: 0,
+        requiredZUSD: 0,
       };
 
       for (let i = 0; i < result?.length; i++) {
@@ -46,7 +52,8 @@ const useLiquidations = () => {
         let res = await contract?.getPotentialTotalReward(result[i]);
 
         liquidation.address = result[i];
-        liquidation.value = Number(res._hex) * 10 ** -18;
+        liquidation.reward = Number(res._hex) * 10 ** -18;
+        liquidation.requiredZUSD = 0;
         liquidations.push(liquidation);
       }
 

@@ -15,6 +15,7 @@ import {
   updateBalances,
   updateTotalVolume,
   updateLiquidations,
+  updateFee,
 } from "../redux/reducers/bakiReducer";
 import { config } from "../config";
 import vault from "../contracts/vault.json";
@@ -138,7 +139,8 @@ function useData() {
 
   const getTransactions = async () => {
     let fee = await contract?.swapFee();
-    console.log({ fee: Number(fee) });
+
+    dispatch(updateFee(Number(fee) / 10000));
 
     let transactions = await window.localStorage.getItem("transactions");
     if (transactions) {
