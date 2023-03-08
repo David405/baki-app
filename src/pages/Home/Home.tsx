@@ -50,8 +50,8 @@ function Home() {
         </div>
         <div className="p-4 flex justify-center items-center w-1/5 flex-col home-detail">
           <div className="text-lg text-dark-orange  font-bold">
-            ${" "}
-            {millify(Number(globalDebt / 10 ** 15), {
+            $
+            {millify(Number(globalDebt), {
               units: ["", "K", "M", "B", "T", "P", "E"],
               space: true,
             })}

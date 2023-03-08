@@ -267,7 +267,6 @@ const useDeposit = () => {
   const getUSDValue = async (_amount: number) => {
     try {
       const result = await contract?.getUSDValueOfCollateral(_amount);
-      console.log({ result, _amount });
 
       return result;
     } catch (error) {
