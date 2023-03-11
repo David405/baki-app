@@ -48,12 +48,12 @@ const useLiquidations = () => {
       };
 
       for (let i = 0; i < result?.length; i++) {
-        console.log(result[i]);
         let res = await contract?.getPotentialTotalReward(result[i]);
+        let required = await contract?.getUserDebt(result[i]);
 
         liquidation.address = result[i];
         liquidation.reward = Number(res._hex) * 10 ** -18;
-        liquidation.requiredZUSD = 0;
+        liquidation.requiredZUSD = required * 10 ** -18;
         liquidations.push(liquidation);
       }
 
@@ -63,16 +63,16 @@ const useLiquidations = () => {
       console.error(error);
     }
   };
-  const manageUsersLiquidation = async () => {
-    try {
-      const result = await contract?.manageUsersInLiquidationZone();
-      dispatch(updateLiquidations(result));
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const manageUsersLiquidation = async () => {
+  //   try {
+  //     const result = await contract?.manageUsersInLiquidationZone();
+  //     dispatch(updateLiquidations(result));
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  const liquidateNow = async (address: string) => {
+  const _liquidate = async (address: string) => {
     try {
       const result = await contract?.liquidate(address);
       return true;
@@ -82,7 +82,7 @@ const useLiquidations = () => {
     }
   };
 
-  return { liquidateNow };
+  return { _liquidate };
 };
 
 export default useLiquidations;

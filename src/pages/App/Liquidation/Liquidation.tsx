@@ -8,7 +8,7 @@ import "./Liquidation.css";
 import { useState } from "react";
 declare const window: any;
 function Liquidation() {
-  const { liquidateNow } = useLiquidations();
+  const { _liquidate } = useLiquidations();
   const [loading, setLoading] = useState<boolean>(false);
   const { liquidations, liquidLoading } = useSelector(
     (state: any) => state.baki
@@ -16,7 +16,7 @@ function Liquidation() {
 
   const handleLiquidate = async (_address: string) => {
     setLoading(true);
-    const result = await liquidateNow(_address);
+    const result = await _liquidate(_address);
     if (result) {
       setLoading(false);
       toast.success("Liquidation Successful !!");
