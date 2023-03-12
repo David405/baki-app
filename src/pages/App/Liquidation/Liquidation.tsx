@@ -81,7 +81,7 @@ function Liquidation() {
                     {liquidation.reward?.toLocaleString(undefined, {
                       maximumFractionDigits: 2,
                     })}
-                    <span className="ml-1"> zUSD</span>
+                    <span className="ml-1"> USDC</span>
                   </p>
                 </div>
                 <div className="li-table-cell">
