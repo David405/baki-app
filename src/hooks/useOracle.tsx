@@ -16,10 +16,22 @@ function useOracle() {
     }
   }, [provider]);
 
-  const getNGNUSD = () => {};
-  const getXAFUSD = () => {};
-  const getZARUSD = () => {};
-  const getCOLUSD = () => {};
+  const getNGNUSD = async () => {
+    const result = await contract.NGNUSD();
+    return Number(result?._hex) / 1000;
+  };
+  const getXAFUSD = async () => {
+    const result = await contract.XAFUSD();
+    return Number(result?._hex) / 1000;
+  };
+  const getZARUSD = async () => {
+    const result = await contract.ZARUSD();
+    return Number(result?._hex) / 1000;
+  };
+  const getCOLUSD = async () => {
+    const result = await contract.collateralUSD();
+    return Number(result?._hex) / 1000;
+  };
   return {
     getCOLUSD,
     getXAFUSD,

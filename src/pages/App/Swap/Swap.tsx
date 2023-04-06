@@ -12,6 +12,7 @@ import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import "./Swap.css";
 import useToken from "../../../hooks/useToken";
 import useSwap from "../../../hooks/useSwap";
+import useOracle from "../../../hooks/useOracle";
 import axios from "axios";
 import { config } from "../../../config";
 import Transactions from "../../../components/Home/Transactions/Transactions";
@@ -35,18 +36,37 @@ function Swap() {
   const [swapOutput, setSwapOutput] = useState<number>(0);
   const { approve } = useToken(fromZAsset, true);
   const { swap } = useSwap();
+  const { getNGNUSD, getXAFUSD, getZARUSD, getCOLUSD } = useOracle();
+
   let test = useData();
 
   const { zUSDBal, zNGNBal, zCFABal, zZARBal, fee } = useSelector(
     (state: any) => state.baki
   );
 
-  const getRates = async (base: string, target: string) => {
+  const getRates = async () => {
+    // try {
+
+    //   const result = await axios.get(
+    //     `https://api.apilayer.com/exchangerates_data/latest?symbols=${target}&base=${base}`
+    //   );
+    //   return result.data.rates;
+    // } catch (error) {
+    //   console.error(error);
+    // }
+
     try {
-      const result = await axios.get(
-        `https://api.apilayer.com/exchangerates_data/latest?symbols=${target}&base=${base}`
-      );
-      return result.data.rates;
+      let NGNUSDRate = await getNGNUSD();
+      let XAFUSDRate = await getXAFUSD();
+      let ZARUSDRate = await getZARUSD();
+      let COLUSDRate = await getCOLUSD();
+
+      return {
+        NGN: NGNUSDRate,
+        XAF: XAFUSDRate,
+        ZAR: ZARUSDRate,
+        USD: COLUSDRate,
+      };
     } catch (error) {
       console.error(error);
     }
@@ -113,10 +133,7 @@ function Swap() {
     if (fromAmount) {
       setLoading(true);
       setLoadingApprove(true);
-      getRates(
-        fromZAsset.substring(1),
-        toZAsset.substring(1) === "CFA" ? "XAF" : toZAsset.substring(1)
-      )
+      getRates()
         .then((result: any) => {
           if (toZAsset.substring(1) === "NGN") {
             setRate(result.NGN);
@@ -146,16 +163,12 @@ function Swap() {
           setLoadingApprove(false);
         });
     } else {
-      getRates(
-        fromZAsset.substring(1),
-        toZAsset.substring(1) === "CFA" ? "XAF" : toZAsset.substring(1)
-      ).then(res => {
-        let currency =
-          toZAsset.substring(1) === "CFA" ? "XAF" : toZAsset.substring(1);
-        setRate(res[currency]);
+      getRates().then(res => {
+        setRate(Number(res?.NGN));
+        console.log({ rate, test: res?.NGN });
       });
     }
-  }, [fromAmount, toZAsset, fromZAsset]);
+  }, [fromAmount, toZAsset, fromZAsset, rate]);
 
   const selectFromZAsset = (_asset: string) => {
     setFromZAsset(_asset);

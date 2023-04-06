@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useConnector from "./useConnector";
+import useOracle from "./useOracle";
 import { ethers } from "ethers";
 import {
   updateGlobalNetMint,
@@ -20,6 +21,7 @@ import {
 import { config } from "../config";
 import vault from "../contracts/vault.json";
 import axios from "axios";
+
 declare const window: any;
 function useData() {
   const dispatch = useDispatch();
@@ -27,6 +29,7 @@ function useData() {
     (state: any) => state.baki
   );
   const { provider } = useConnector();
+  const { getNGNUSD, getXAFUSD, getZARUSD } = useOracle();
   const [contract, setContract] = useState<any>(null);
 
   useEffect(() => {
@@ -119,9 +122,9 @@ function useData() {
     let totalzXAF = await contract?.getTotalSupply(config.zCFA);
     let totalzZAR = await contract?.getTotalSupply(config.zZAR);
 
-    let NGNUSDRate = await getRates("USD", "NGN");
-    let XAFUSDRate = await getRates("USD", "XAF");
-    let ZARUSDRate = await getRates("USD", "ZAR");
+    let NGNUSDRate = await getNGNUSD();
+    let XAFUSDRate = await getXAFUSD();
+    let ZARUSDRate = await getZARUSD();
 
     totalzUSD = Number(totalzUSD?._hex) / 10 ** 18;
     totalzNGN = Number(totalzNGN?._hex) / 10 ** 18;
@@ -130,9 +133,9 @@ function useData() {
 
     let globalDebt =
       totalzUSD +
-      totalzNGN / NGNUSDRate?.NGN +
-      totalzZAR / ZARUSDRate?.ZAR +
-      totalzXAF / XAFUSDRate?.XAF;
+      totalzNGN / NGNUSDRate +
+      totalzZAR / ZARUSDRate +
+      totalzXAF / XAFUSDRate;
 
     dispatch(updateGlobalDebt(globalDebt));
   };
