@@ -27,7 +27,9 @@ function useToken(asset: string, zAsset: boolean) {
     try {
       const multiple = 10 ** 18;
       let amount = BigInt((_depositAmount + 10) * multiple);
-      const tx = await contract.approve(config.vaultAddress, amount);
+      const tx = await contract.approve(config.vaultAddress, amount, {
+        gasLimit: 100000,
+      });
       await tx.wait();
       return true;
     } catch (error) {
