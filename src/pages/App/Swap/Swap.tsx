@@ -46,16 +46,6 @@ function Swap() {
   );
 
   const getRates = async () => {
-    // try {
-
-    //   const result = await axios.get(
-    //     `https://api.apilayer.com/exchangerates_data/latest?symbols=${target}&base=${base}`
-    //   );
-    //   return result.data.rates;
-    // } catch (error) {
-    //   console.error(error);
-    // }
-
     try {
       let NGNUSDRate = await getNGNUSD();
       let XAFUSDRate = await getXAFUSD();

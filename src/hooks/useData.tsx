@@ -53,16 +53,16 @@ function useData() {
     getzTokenBal();
   }, [userNetMint, globalNetMint, address]);
 
-  const getRates = async (base: string, target: string) => {
-    try {
-      const result = await axios.get(
-        `https://api.apilayer.com/exchangerates_data/latest?symbols=${target}&base=${base}`
-      );
-      return result.data.rates;
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const getRates = async (base: string, target: string) => {
+  //   try {
+  //     const result = await axios.get(
+  //       `https://api.apilayer.com/exchangerates_data/latest?symbols=${target}&base=${base}`
+  //     );
+  //     return result.data.rates;
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const getPosition = async () => {
     // get user net mint

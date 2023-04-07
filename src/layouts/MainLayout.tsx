@@ -190,9 +190,9 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           </Link> */}
         </div>
         <div className="sidebar-footer flex justify-center items-center">
-          <Link to="/">
+          <a href="/liquidation">
             <img src={bakifooter} alt="logo" />
-          </Link>
+          </a>
         </div>
       </div>
       <div className="flex-1 h-screen">
