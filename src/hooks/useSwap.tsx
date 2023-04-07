@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 declare const window: any;
 function useSwap() {
   const { provider } = useConnector();
-  const { address } = useSelector((state: any) => state.baki);
+  const { address, fee } = useSelector((state: any) => state.baki);
 
   const dispatch = useDispatch();
   const [contract, setContract] = useState<any>(null);
@@ -75,9 +75,10 @@ function useSwap() {
           withdrawAmount: 0,
         },
       };
+      let _toAmt = _receiveAmt - (_receiveAmt * fee) / 100;
       const txns = await window.localStorage.getItem("transactions");
       transaction.swapBody.fromAmount = Number(_amount);
-      transaction.swapBody.toAmount = Number(_receiveAmt);
+      transaction.swapBody.toAmount = Number(_toAmt);
       transaction.swapBody.fromCurrency = _fromzToken;
       transaction.swapBody.toCurrency = _tozToken;
       transaction.action = "Swap";

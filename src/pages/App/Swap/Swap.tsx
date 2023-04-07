@@ -95,9 +95,9 @@ function Swap() {
     if (fromZAsset === toZAsset) return;
     if (fromAmount && toAmount && stage === 2) {
       setLoading(true);
-      let receivedAmt = toAmount - fromAmount * 0.992;
+
       try {
-        await swap(fromAmount, fromZAsset, toZAsset, receivedAmt);
+        await swap(fromAmount, fromZAsset, toZAsset, swapOutput);
         setLoading(false);
         setStage(1);
         toast.success("Transaction Successful !!");
@@ -166,7 +166,6 @@ function Swap() {
     } else {
       getRates().then(res => {
         setRate(Number(res?.NGN));
-        console.log({ rate, test: res?.NGN });
       });
     }
   }, [fromAmount, toZAsset, fromZAsset, rate]);
@@ -534,8 +533,7 @@ function Swap() {
                 <div className="action-btns">
                   <button
                     style={{
-                      backgroundColor:
-                        stage === 1 && !loadingApprove ? "#f97f41" : "#ccc",
+                      backgroundColor: stage === 1 ? "#f97f41" : "#ccc",
                     }}
                     onClick={handleApprove}
                   >
