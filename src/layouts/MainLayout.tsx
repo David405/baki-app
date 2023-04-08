@@ -196,6 +196,19 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
         </div>
       </div>
       <div className="flex-1 h-screen">
+        <div
+          className="w-full flex justify-center bg-red-200"
+          style={{
+            backgroundColor: "#f97f41",
+          }}
+        >
+          <p>
+            <b> 😄 Request test USDC from the Baki Faucet 👉</b>
+          </p>
+          <a href="/faucet" className="ml-2">
+            Get test USDC
+          </a>
+        </div>
         <div className="flex justify-between p-5 ">
           {!isTabletOrMobile && (
             <div className=" relatively ml-3">

@@ -1,0 +1,29 @@
+.faucet {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  width: 1000px;
+}
+
+.mint-btn {
+  margin-top: 20px;
+  height: 50px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #fe8263;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.mint-btn:hover {
+  background-color: #f0562f;
+}
