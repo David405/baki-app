@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import Borrow from "../../../components/Borrow/Borrow";
@@ -18,8 +17,9 @@ function Mint() {
   const [value, setValue] = useState<number>();
   const { claimReward, getUSDValue } = useDeposit();
   let test = useData();
-  const { colBalance, userColBalance, userDebt, network, rewardBal } =
-    useSelector((state: any) => state.baki);
+  const { userColBalance, userDebt, network, rewardBal } = useSelector(
+    (state: any) => state.baki
+  );
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleClaimReward = async () => {
@@ -39,7 +39,7 @@ function Mint() {
     getUSDValue(userColBalance).then(_value => {
       setValue(_value);
     });
-  }, []);
+  }, [value, getUSDValue, userColBalance]);
   return (
     <>
       <MainLayout>
@@ -97,7 +97,7 @@ function Mint() {
             <div className="user-detail mid-detail">
               <p className="heading">Value</p>
               <p>
-                ${value}
+                $
                 {value?.toLocaleString(undefined, {
                   maximumFractionDigits: 2,
                 })}

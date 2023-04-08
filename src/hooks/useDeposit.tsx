@@ -11,12 +11,14 @@ import {
   updateUserCollateral,
   updateTransactions,
 } from "../redux/reducers/bakiReducer";
+import useOracle from "./useOracle";
 declare const window: any;
 const useDeposit = () => {
   const { provider } = useConnector();
   const dispatch = useDispatch();
   const { address, rewardBal } = useSelector((state: any) => state.baki);
   const [contract, setContract] = useState<any>(null);
+  const { getCOLUSD } = useOracle();
 
   useEffect(() => {
     if (provider) {
@@ -266,9 +268,8 @@ const useDeposit = () => {
 
   const getUSDValue = async (_amount: number) => {
     try {
-      const result = await contract?.getUSDValueOfCollateral(_amount);
-
-      return result;
+      let USDVal = await getCOLUSD();
+      return _amount * USDVal;
     } catch (error) {
       console.error(error);
     }
