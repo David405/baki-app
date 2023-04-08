@@ -69,13 +69,17 @@ const Notifications: FC<NotificationProps> = ({ visible, onClose }) => {
             <AiOutlineClose size={20} color="#fff" />
           </button>
         </div>
-        <div
+
+        <div className="w-full flex justify-center items-center h-full">
+          <p>No notification to show !!</p>
+        </div>
+        {/* <div
           className="py-3 pl-2 notification"
           onClick={() => setViewing(true)}
         >
           <p className="font-bold">Welcome to Baki</p>
           <p className="text-xs">Infinite liquidity provider</p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

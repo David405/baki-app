@@ -238,9 +238,9 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
 
           <div className="flex items-center">
             <button className="mr-6" onClick={() => setViewNotifications(true)}>
-              <div className="absolute bg-red-600 rounded-full h-3 w-3 flex justify-center items-center text-white ml-3">
+              {/* <div className="absolute bg-red-600 rounded-full h-3 w-3 flex justify-center items-center text-white ml-3">
                 <p className="text-xs">1</p>
-              </div>
+              </div> */}
               <img
                 src={notification}
                 alt="notification"
