@@ -52,8 +52,8 @@ function useWithdraw() {
         },
       };
       const tx = await contract.repayAndWithdraw(
-        _amountToRepay * 100,
-        _amountToWithdraw * 100,
+        ethers.utils.parseUnits(String(_amountToRepay), "ether"),
+        ethers.utils.parseUnits(String(_amountToWithdraw), "ether"),
         _zToken
       );
       await tx.wait();

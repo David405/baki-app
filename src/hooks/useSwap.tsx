@@ -49,7 +49,11 @@ function useSwap() {
     }
     let hash = "";
     try {
-      const tx = await contract.swap(Number(_amount) * 100, from, to);
+      const tx = await contract.swap(
+        ethers.utils.parseUnits(String(_amount), "ether"),
+        from,
+        to
+      );
       await tx.wait();
       let transactions: any = {};
       let _transactions = [];

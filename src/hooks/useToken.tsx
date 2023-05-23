@@ -25,11 +25,13 @@ function useToken(asset: string, zAsset: boolean) {
 
   const approve = async (_depositAmount: number) => {
     try {
-      const multiple = 10 ** 18;
-      let amount = BigInt((_depositAmount + 10) * multiple);
-      const tx = await contract.approve(config.vaultAddress, amount, {
-        gasLimit: 100000,
-      });
+      const tx = await contract.approve(
+        config.vaultAddress,
+        ethers.utils.parseUnits(String(_depositAmount), "ether"),
+        {
+          gasLimit: 100000,
+        }
+      );
       await tx.wait();
       return true;
     } catch (error) {

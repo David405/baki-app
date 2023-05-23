@@ -67,8 +67,8 @@ const useDeposit = () => {
       };
 
       const tx = await contract?.depositAndMint(
-        Math.round(Number(depositAmount) * 100),
-        Math.round(mintAmount * 100)
+        ethers.utils.parseUnits(String(depositAmount), "ether"),
+        ethers.utils.parseUnits(String(mintAmount), "ether")
       );
       await tx.wait();
       const txns = await window.localStorage.getItem("transactions");
