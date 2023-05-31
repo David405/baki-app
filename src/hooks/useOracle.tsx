@@ -32,11 +32,26 @@ function useOracle() {
     const result = await contract.collateralUSD();
     return Number(result?._hex) / 1000;
   };
+  const getNGNXAF = async () => {
+    const result = await contract.NGNXAF();
+    return Number(result?._hex) / 1000;
+  };
+  const getZARXAF = async () => {
+    const result = await contract.ZARXAF();
+    return Number(result?._hex) / 1000;
+  };
+  const getNGNZAR = async () => {
+    const result = await contract.NGNZAR();
+    return Number(result?._hex) / 1000;
+  };
   return {
     getCOLUSD,
     getXAFUSD,
     getZARUSD,
     getNGNUSD,
+    getNGNXAF,
+    getZARXAF,
+    getNGNZAR,
   };
 }
 

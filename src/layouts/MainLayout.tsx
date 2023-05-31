@@ -203,9 +203,14 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           }}
         >
           <p>
-            <b> 😄 Request test USDC from the Baki Faucet 👉</b>
+            <b> 😄 Request test USDC from the Canza Faucet 👉</b>
           </p>
-          <a href="/faucet" className="ml-2">
+          <a
+            href="https://canza-faucet.netlify.app"
+            className="ml-2"
+            target="_blank"
+            rel="noreferrer"
+          >
             Get test USDC
           </a>
         </div>

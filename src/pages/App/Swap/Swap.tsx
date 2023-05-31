@@ -37,7 +37,15 @@ function Swap() {
   const [swapOutput, setSwapOutput] = useState<number>(0);
   const { approve } = useToken(fromZAsset, true);
   const { swap } = useSwap();
-  const { getNGNUSD, getXAFUSD, getZARUSD, getCOLUSD } = useOracle();
+  const {
+    getNGNUSD,
+    getXAFUSD,
+    getZARUSD,
+    getCOLUSD,
+    getNGNXAF,
+    getZARXAF,
+    getNGNZAR,
+  } = useOracle();
 
   let test = useData();
 
@@ -50,12 +58,18 @@ function Swap() {
       let NGNUSDRate = await getNGNUSD();
       let XAFUSDRate = await getXAFUSD();
       let ZARUSDRate = await getZARUSD();
+      let NGNXAFRate = await getNGNXAF();
+      let ZARXAFRate = await getZARXAF();
+      let NGNZARRate = await getNGNZAR();
       let COLUSDRate = await getCOLUSD();
 
       return {
         NGN: NGNUSDRate,
         XAF: XAFUSDRate,
         ZAR: ZARUSDRate,
+        NGNXAF: NGNXAFRate,
+        ZARXAF: ZARXAFRate,
+        NGNZAR: NGNZARRate,
         USD: COLUSDRate,
       };
     } catch (error) {
@@ -141,14 +155,88 @@ function Swap() {
             const output = result.XAF * fromAmount;
             setSwapOutput(output);
           }
-          if (toZAsset.substring(1) === "USD") {
-            setRate(result.USD);
-            const output = result.USD * fromAmount;
+          if (
+            fromZAsset.substring(1) === "NGN" &&
+            toZAsset.substring(1) === "USD"
+          ) {
+            setRate(1 / result.NGN);
+            const output = (1 / result.NGN) * fromAmount;
             setSwapOutput(output);
           }
+
+          if (
+            fromZAsset.substring(1) === "ZAR" &&
+            toZAsset.substring(1) === "USD"
+          ) {
+            setRate(1 / result.ZAR);
+            const output = (1 / result.ZAR) * fromAmount;
+            setSwapOutput(output);
+          }
+
+          if (
+            fromZAsset.substring(1) === "CFA" &&
+            toZAsset.substring(1) === "USD"
+          ) {
+            setRate(1 / result.XAF);
+            const output = (1 / result.XAF) * fromAmount;
+            setSwapOutput(output);
+          }
+
+          if (
+            fromZAsset.substring(1) === "NGN" &&
+            toZAsset.substring(1) === "CFA"
+          ) {
+            setRate(1 / result.NGNXAF);
+            const output = (1 / result.NGNXAF) * fromAmount;
+            setSwapOutput(output);
+          }
+
+          if (
+            fromZAsset.substring(1) === "ZAR" &&
+            toZAsset.substring(1) === "CFA"
+          ) {
+            setRate(1 / result.ZARXAF);
+            const output = (1 / result.ZARXAF) * fromAmount;
+            setSwapOutput(output);
+          }
+          if (
+            fromZAsset.substring(1) === "CFA" &&
+            toZAsset.substring(1) === "ZAR"
+          ) {
+            setRate(result.ZARXAF);
+            const output = result.ZARXAF * fromAmount;
+            setSwapOutput(output);
+          }
+          if (
+            fromZAsset.substring(1) === "NGN" &&
+            toZAsset.substring(1) === "ZAR"
+          ) {
+            setRate(1 / result.NGNZAR);
+            const output = (1 / result.NGNZAR) * fromAmount;
+            setSwapOutput(output);
+          }
+          if (
+            fromZAsset.substring(1) === "ZAR" &&
+            toZAsset.substring(1) === "NGN"
+          ) {
+            setRate(result.NGNZAR);
+            const output = result.NGNZAR * fromAmount;
+            setSwapOutput(output);
+          }
+
+          if (
+            fromZAsset.substring(1) === "CFA" &&
+            toZAsset.substring(1) === "NGN"
+          ) {
+            setRate(result.NGNXAF);
+            const output = result.NGNXAF * fromAmount;
+            setSwapOutput(output);
+          }
+
           setLoading(false);
           setLoadingApprove(false);
         })
+
         .catch(() => {
           setLoading(false);
           setLoadingApprove(false);
