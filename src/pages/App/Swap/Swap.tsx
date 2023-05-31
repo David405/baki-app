@@ -246,7 +246,7 @@ function Swap() {
         setRate(Number(res?.NGN));
       });
     }
-  }, [fromAmount, toZAsset, fromZAsset, rate]);
+  }, [toZAsset, fromZAsset, rate, fromAmount]);
 
   const selectFromZAsset = (_asset: string) => {
     setFromZAsset(_asset);
