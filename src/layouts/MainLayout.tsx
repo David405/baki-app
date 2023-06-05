@@ -206,7 +206,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
             <b> 😄 Request test USDC from the Canza Faucet 👉</b>
           </p>
           <a
-            href="https://canza-faucet.netlify.app"
+            href="http://faucet.0vb.xyz"
             className="ml-2"
             target="_blank"
             rel="noreferrer"
