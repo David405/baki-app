@@ -70,6 +70,7 @@ const useDeposit = () => {
         ethers.utils.parseUnits(String(depositAmount), "ether"),
         ethers.utils.parseUnits(String(mintAmount), "ether")
       );
+
       await tx.wait();
       const txns = await window.localStorage.getItem("transactions");
       transaction.depositBody.colAmount = depositAmount;

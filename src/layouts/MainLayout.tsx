@@ -26,6 +26,7 @@ import celo from "../assets/celo.png";
 import { useSelector } from "react-redux";
 import { config } from "../config";
 import useConnector from "../hooks/useConnector";
+import { ConnectKitButton } from "connectkit";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -319,7 +320,29 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                 </div>
               )}
             </div>
-            {!address ? (
+            <ConnectKitButton.Custom>
+              {({
+                isConnected,
+                isConnecting,
+                show,
+                hide,
+                address,
+                ensName,
+                chain,
+              }) => {
+                return (
+                  <button
+                    className="text-white bg-dark-orange rounded-full font-bold p-2  mr-2 "
+                    onClick={show}
+                  >
+                    {isConnected
+                      ? `${address?.slice(0, 10)}..${address?.slice(35, 42)}`
+                      : " Connect Wallet"}
+                  </button>
+                );
+              }}
+            </ConnectKitButton.Custom>
+            {/* {!address ? (
               <button
                 onClick={() => setVisibility(true)}
                 className="text-white bg-dark-orange rounded-full font-bold p-2  mr-2 "
@@ -333,7 +356,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               >
                 Disconnect
               </button>
-            )}
+            )} */}
           </div>
         </div>
         <div className="p-4  layout-body">{children}</div>
