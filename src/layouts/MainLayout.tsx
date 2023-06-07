@@ -27,6 +27,7 @@ import { useSelector } from "react-redux";
 import { config } from "../config";
 import useConnector from "../hooks/useConnector";
 import { ConnectKitButton } from "connectkit";
+import { useAccount, useNetwork } from "wagmi";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -39,9 +40,13 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   const [openSidebar, setOpenSidebar] = useState<string>("-300px");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
-  const { address, network } = useSelector((state: any) => state.baki);
+  const { network } = useSelector((state: any) => state.baki);
+  const { address } = useAccount();
   const [visibility, setVisibility] = useState<boolean>(false);
-  const { disconnectWallet } = useConnector();
+
+  const networks = useNetwork();
+
+  console.log(networks);
 
   const toggleSidebar = (_mode: boolean) => {
     setIsOpen(_mode);
@@ -285,17 +290,11 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                   }}
                 >
                   <div className="flex">
-                    {network.chainId === 43113 && (
+                    {networks?.chain?.id === 43113 && (
                       <img src={avax} alt="avax" className="h-6" />
                     )}
-                    {network.chainId === 44787 && (
-                      <img src={celo} alt="celo" className="h-6" />
-                    )}
 
-                    <p className="ml-1">
-                      {network.chainId === 43113 && "Avalanche"}
-                      {network.chainId === 44787 && "Celo"}
-                    </p>
+                    <p className="ml-1">{networks.chain?.name}</p>
                   </div>
                   {show ? (
                     <AiOutlineUp size={18} className="ml-6" />
@@ -306,7 +305,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               )}
               {show && (
                 <div className="text-white mt-2 p-1  cursor-pointer absolute w-10 networks">
-                  {config.networks?.map((network: any, index: number) => (
+                  {networks?.chains?.map((network: any, index: number) => (
                     <div key={index} className="flex p-2 mb-2 network">
                       <img
                         src={network.name === "Celo" ? celo : avax}
@@ -321,42 +320,28 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               )}
             </div>
             <ConnectKitButton.Custom>
-              {({
-                isConnected,
-                isConnecting,
-                show,
-                hide,
-                address,
-                ensName,
-                chain,
-              }) => {
+              {({ isConnected, show }) => {
                 return (
-                  <button
-                    className="text-white bg-dark-orange rounded-full font-bold p-2  mr-2 "
-                    onClick={show}
-                  >
-                    {isConnected
-                      ? `${address?.slice(0, 10)}..${address?.slice(35, 42)}`
-                      : " Connect Wallet"}
-                  </button>
+                  <>
+                    {!isConnected ? (
+                      <button
+                        onClick={show}
+                        className="text-white bg-dark-orange rounded-full font-bold p-2  mr-2 "
+                      >
+                        Connect Wallet
+                      </button>
+                    ) : (
+                      <button
+                        onClick={show}
+                        className="text-white bg-grey rounded-full font-bold p-2  mr-2 "
+                      >
+                        Disconnect
+                      </button>
+                    )}
+                  </>
                 );
               }}
             </ConnectKitButton.Custom>
-            {/* {!address ? (
-              <button
-                onClick={() => setVisibility(true)}
-                className="text-white bg-dark-orange rounded-full font-bold p-2  mr-2 "
-              >
-                Connect Wallet
-              </button>
-            ) : (
-              <button
-                onClick={disconnectWallet}
-                className="text-white bg-grey rounded-full font-bold p-2  mr-2 "
-              >
-                Disconnect
-              </button>
-            )} */}
           </div>
         </div>
         <div className="p-4  layout-body">{children}</div>

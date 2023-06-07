@@ -10,12 +10,14 @@ import { useNavigate } from "react-router-dom";
 //   resetWalletConnector,
 // } from "../Helpers/connectors";
 // import { useWeb3React } from "@web3-react/core";
+import { useWalletClient } from "wagmi";
 
 declare const window: any;
 
 function useConnector() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { data } = useWalletClient();
 
   const [provider, setProvider] = useState<any>(null);
 
@@ -32,8 +34,10 @@ function useConnector() {
   useEffect(() => {
     // check Connection
     checkConnection();
-    // Set Provider
-    setProvider(new ethers.providers.Web3Provider(window.ethereum));
+    if (data) {
+      // Set Provider
+      setProvider(new ethers.providers.Web3Provider(data as any));
+    }
   }, []);
 
   useEffect(() => {
