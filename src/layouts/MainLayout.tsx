@@ -323,7 +323,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               {({ isConnected, show }) => {
                 return (
                   <>
-                    {!isConnected ? (
+                    {!isConnected && !address ? (
                       <button
                         onClick={show}
                         className="text-white bg-dark-orange rounded-full font-bold p-2  mr-2 "
