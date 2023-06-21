@@ -10,26 +10,39 @@ function Transactiions() {
 
   return (
     <div className="transactions">
-      <div className="flex justify-between">
-        <p className="font-bold">Activity</p>
-      </div>
       <div className="table-box">
+        <p className="recent-transactions">Recent Transactions</p>
+
         <div className="table-row table-head">
           <div className="table-cell">
             <p>Action</p>
           </div>
           <div className="table-cell">
-            <p>Status</p>
+            <p>STATUS</p>
           </div>
           <div className="table-cell">
-            <p>View Transaction</p>
+            <p>DATE</p>
+          </div>
+          <div className="table-cell">
+            <p>ACTION</p>
           </div>
         </div>
+
         {!transactions[address]?.length && (
-          <div className="transactions-no">
-            <img src={empty} alt="" />
-            <p>No transactions were found !!</p>
-          </div>
+          <>
+            <img
+              style={{
+                marginLeft: "45%",
+                width: 83,
+                height: 90,
+              }}
+              src="/images/empty.png"
+              alt=""
+            />
+            <div className="transactions-no">
+              <p className="text">You have no recent transaction !!</p>
+            </div>
+          </>
         )}
         {transactions[address]?.map((transaction: any, index: number) => (
           <div
@@ -111,7 +124,7 @@ function Transactiions() {
                   }
                   target={transaction.hash && "_blank"}
                 >
-                  View on explorer
+                  view transaction
                 </a>
               )}
             </div>

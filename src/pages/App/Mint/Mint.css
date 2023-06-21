@@ -1,5 +1,5 @@
 .borrow-repay {
-  width: 75%;
+  width: 83%;
   border: 1px solid #dbdedf;
   border-radius: 10px;
 }
@@ -17,24 +17,29 @@
 }
 .user-details {
   display: flex;
-  border: 1px solid #dbdedf;
-  width: 75%;
+  justify-content: space-between;
+  width: 83%;
   border-radius: 10px;
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 .user-details p {
   font-size: 14px;
 }
 
 .user-detail {
-  padding: 20px;
-  width: 33%;
+  width: 257px;
+  height: 97px;
+  background: #fffaef;
+  border: 0.5px solid rgba(141, 140, 125, 0.5);
+  border-radius: 10px;
+  flex: none;
+  order: 0;
+  align-self: center;
+  flex-grow: 0;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  font-size: 10px;
-  color: #25282b;
+  padding: 20px;
 }
 
 .user-details .mid-detail {
@@ -46,30 +51,100 @@
   color: #a7adb2;
 }
 .claim-rewards {
-  background-image: url("../../../assets/claim.png");
+  display: flex;
+  justify-content: space-between;
+  background-image: url("../../../assets/banner.png");
   background-repeat: no-repeat;
-  height: 200px;
+  height: 170px;
   padding: 30px;
+  padding-right: 330px;
   margin-top: 15px;
 }
 
 .claim-heading {
-  font-size: 22px;
+  width: 336px;
+  height: 41px;
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 54px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -1px;
+  color: #12141d;
 }
 
 .claim-btn {
-  background-color: #f9603d;
-  padding: 5px;
-  border-radius: 20px;
-  width: 14%;
-  color: #fff;
-  margin-top: 10px;
   display: flex;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
+  padding: 16px 43px;
+  gap: 10px;
+  width: 203px;
+  height: 60px;
+  background: #241f17;
+  border-radius: 15px;
+  color: #fff;
 }
 
 .claim-amount {
-  color: #808080;
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 700;
   font-size: 16px;
+  line-height: 20px;
+  color: #2c3031;
+}
+
+.claim-subtitle {
+  font-family: "DM Sans";
+  font-style: normal;
+}
+
+.rewards {
+  font-family: "Lab Grotesque";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.overview {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 17px;
+  color: #451905;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.text {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 165.1%;
+}
+.indicator {
+  height: 5px;
+  width: 40px;
+  border-radius: 13px;
+  margin-top: 10px;
+}
+
+.detail-subt {
+  width: 47px;
+  height: 27px;
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: -0.02em;
+  color: #473a1d;
 }

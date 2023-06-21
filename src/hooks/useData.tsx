@@ -21,6 +21,7 @@ import {
 import { config } from "../config";
 import vault from "../contracts/vault.json";
 import axios from "axios";
+import { useAccount } from "wagmi";
 
 declare const window: any;
 function useData() {
@@ -73,9 +74,9 @@ function useData() {
     const globalNetMint = await contract?.getNetGlobalMintValue();
     dispatch(updateGlobalNetMint(Number(globalNetMint?._hex)));
 
-    // // get total collateral
-    // const totalCollateral: any = await contract?.getUserCollateralBalance();
-    // dispatch(updateTotalCollateral(Number(totalCollateral?._hex)));
+    // get total collateral
+    const totalCollateral: any = await contract?.getUserCollateralBalance();
+    dispatch(updateTotalCollateral(Number(totalCollateral?._hex)));
 
     // get totalVolume
     const totalVolume: any = await contract?.totalSwapVolume();
@@ -89,6 +90,7 @@ function useData() {
   const getzTokenBal = async () => {
     let zUSD = await contract?.getBalance(config.zUSD);
     let zNGN = await contract?.getBalance(config.zNGN);
+
     let zCFA = await contract?.getBalance(config.zCFA);
     let zZAR = await contract?.getBalance(config.zZAR);
     let ballances = {
@@ -162,8 +164,6 @@ function useData() {
       console.error(error);
     }
   };
-
-  return true;
 }
 
 export default useData;

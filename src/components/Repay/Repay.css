@@ -1,6 +1,7 @@
 .repay .top {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .repay .action-box {
@@ -17,25 +18,44 @@
 }
 
 .repay .deposit-body {
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  gap: 29px;
+  width: 480px;
+  height: 200px;
+  background: #fffaf3;
+  border: 0.2px solid #a6a6a6;
+  box-shadow: 0px 7px 64px rgba(0, 0, 0, 0.07);
+  border-radius: 10px;
 }
 
 .repay .deposit-body input {
-  border: 1px solid #dbdedf;
-  padding: 5px;
-  margin-top: 10px;
-  border-radius: 2px;
-  width: 70%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 10px;
+  width: 312px;
+  height: 50px;
+  background: #ffffff;
+  border: 1px solid rgba(111, 118, 126, 0.2);
+  box-shadow: 0px 7px 64px rgba(0, 0, 0, 0.07);
+  border-radius: 6px;
 }
 
 .repay .choose {
-  border: 1px solid #dbdedf;
-  border-radius: 50px;
-  width: 130px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-top: 10px;
+  padding: 5px 2px;
+  gap: 2px;
+  width: 99.93px;
+  height: 50px;
+  background: #ffffff;
+  border: 1px solid rgba(111, 118, 126, 0.2);
+  border-radius: 6px;
 }
 
 .repay .choose p {
@@ -121,4 +141,32 @@
 .select-asset:hover {
   background-color: #2595ff;
   color: #fff;
+}
+
+.repay .approve {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 21px;
+  gap: 10px;
+  color: #fff;
+  margin-bottom: 10px;
+  height: 40px;
+  background: #241f17;
+  border-radius: 10px;
+}
+
+.repay .withdraw {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 21px;
+  gap: 10px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(36, 31, 23, 0.17);
+  color: #fff;
+  margin-bottom: 8px;
 }

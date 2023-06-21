@@ -125,14 +125,14 @@ function Swap() {
       setToAmount(Number(_value) * rate);
     }
   };
-  useEffect(() => {
-    if (fromAmount < 0) return;
-    if (fromAmount && toAmount) {
-      setShow(true);
-    } else {
-      setShow(false);
-    }
-  }, [fromAmount, toAmount]);
+  // useEffect(() => {
+  //   if (fromAmount < 0) return;
+  //   if (fromAmount && toAmount) {
+  //     setShow(true);
+  //   } else {
+  //     setShow(false);
+  //   }
+  // }, [fromAmount, toAmount]);
 
   useEffect(() => {
     if (fromAmount) {
@@ -236,11 +236,11 @@ function Swap() {
           setLoading(false);
           setLoadingApprove(false);
         })
-
         .catch(() => {
           setLoading(false);
           setLoadingApprove(false);
         });
+      alert("man");
     } else {
       getRates().then(res => {
         setRate(Number(res?.NGN));
@@ -263,51 +263,7 @@ function Swap() {
           <div className="swap">
             <div className="swap-top">
               <div className="asset-box">
-                <div className="flex justify-between items-center">
-                  <button
-                    className="swap-assets rounded-full"
-                    onClick={() => setShowFromZAssets(!showFromZAssets)}
-                  >
-                    <span className="flex items-center">
-                      {fromZAsset && (
-                        <>
-                          {fromZAsset === "zUSD" && (
-                            <img src={ZUSD} alt="ZUSD" className="h-7" />
-                          )}
-                          {fromZAsset === "zNGN" && (
-                            <img src={ZNGN} alt="ZNGN" className="h-7" />
-                          )}
-                          {fromZAsset === "zCFA" && (
-                            <img src={ZCFA} alt="ZCFA" className="h-7" />
-                          )}
-                          {fromZAsset === "zZAR" && (
-                            <img src={ZZAR} alt="ZZAR" className="h-7" />
-                          )}
-                        </>
-                      )}
-                      <p
-                        className="ml-2"
-                        style={{
-                          fontSize: fromZAsset ? 14 : 12,
-                        }}
-                      >
-                        {fromZAsset ? fromZAsset : "Choose Asset"}
-                      </p>
-                    </span>
-                    {showFromZAssets ? (
-                      <AiOutlineUp
-                        size={18}
-                        color={"#5A5A65"}
-                        className="mr-2"
-                      />
-                    ) : (
-                      <AiOutlineDown
-                        size={18}
-                        color={"#5A5A65"}
-                        className="mr-2"
-                      />
-                    )}
-                  </button>
+                <div className="flex justify-end">
                   {fromZAsset === "zUSD" && (
                     <p
                       onClick={() => setFromAmount(zUSDBal)}
@@ -373,73 +329,25 @@ function Swap() {
                     </p>
                   )}
                 </div>
-                {showFromZAssets && (
-                  <div
-                    className="mt-2 text-font-grey cursor-pointer absolute rounded  select-assets"
-                    style={{
-                      marginLeft: 0,
-                    }}
-                  >
-                    <div
-                      className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectFromZAsset("zUSD")}
-                    >
-                      <img src={ZUSD} alt="zusd" className="h-7" />
-                      <p className="ml-2">zUSD</p>
-                    </div>
-                    <div
-                      className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectFromZAsset("zNGN")}
-                    >
-                      <img src={ZNGN} alt="" className="h-7" />
-                      <p className="ml-2">zNGN</p>
-                    </div>
-                    <div
-                      className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectFromZAsset("zCFA")}
-                    >
-                      <img src={ZCFA} alt="" className="h-7" />
-                      <p className="ml-2">zCFA</p>
-                    </div>
-                    <div
-                      className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectFromZAsset("zZAR")}
-                    >
-                      <img src={ZZAR} alt="" className="h-7" />
-                      <p className="ml-2">zZAR</p>
-                    </div>
-                  </div>
-                )}
-                <input
-                  type="number"
-                  placeholder="0"
-                  value={fromAmount}
-                  onChange={e => handleFields(e.target.value, "From")}
-                  disabled={fromZAsset && toZAsset ? false : true}
-                />
-              </div>
-              <div className="swap-icon">
-                <img src={swapArrow} alt="" />
-              </div>
-              <div className="asset-box">
-                <div className="flex justify-between items-center">
+
+                <div className="flex justify-between">
                   <button
-                    className="swap-assets rounded-full"
-                    onClick={() => setShowToZAssets(!showToZAssets)}
+                    className="swap-assets "
+                    onClick={() => setShowFromZAssets(!showFromZAssets)}
                   >
                     <span className="flex items-center">
-                      {toZAsset && (
+                      {fromZAsset && (
                         <>
-                          {toZAsset === "zUSD" && (
+                          {fromZAsset === "zUSD" && (
                             <img src={ZUSD} alt="ZUSD" className="h-7" />
                           )}
-                          {toZAsset === "zNGN" && (
+                          {fromZAsset === "zNGN" && (
                             <img src={ZNGN} alt="ZNGN" className="h-7" />
                           )}
-                          {toZAsset === "zCFA" && (
+                          {fromZAsset === "zCFA" && (
                             <img src={ZCFA} alt="ZCFA" className="h-7" />
                           )}
-                          {toZAsset === "zZAR" && (
+                          {fromZAsset === "zZAR" && (
                             <img src={ZZAR} alt="ZZAR" className="h-7" />
                           )}
                         </>
@@ -447,13 +355,13 @@ function Swap() {
                       <p
                         className="ml-2"
                         style={{
-                          fontSize: toZAsset ? 14 : 12,
+                          fontSize: fromZAsset ? 14 : 12,
                         }}
                       >
-                        {toZAsset ? toZAsset : "Choose Asset"}
+                        {fromZAsset ? fromZAsset : "Choose Asset"}
                       </p>
                     </span>
-                    {showToZAssets ? (
+                    {showFromZAssets ? (
                       <AiOutlineUp
                         size={18}
                         color={"#5A5A65"}
@@ -467,6 +375,58 @@ function Swap() {
                       />
                     )}
                   </button>
+                  {showFromZAssets && (
+                    <div
+                      className="mt-14 text-font-grey cursor-pointer absolute rounded  select-assets"
+                      style={{
+                        marginLeft: 0,
+                      }}
+                    >
+                      <div
+                        className="flex p-2 mb-2 select-asset"
+                        onClick={() => selectFromZAsset("zUSD")}
+                      >
+                        <img src={ZUSD} alt="zusd" className="h-7" />
+                        <p className="ml-2">zUSD</p>
+                      </div>
+                      <div
+                        className="flex p-2 mb-2 select-asset"
+                        onClick={() => selectFromZAsset("zNGN")}
+                      >
+                        <img src={ZNGN} alt="" className="h-7" />
+                        <p className="ml-2">zNGN</p>
+                      </div>
+                      <div
+                        className="flex p-2 mb-2 select-asset"
+                        onClick={() => selectFromZAsset("zCFA")}
+                      >
+                        <img src={ZCFA} alt="" className="h-7" />
+                        <p className="ml-2">zCFA</p>
+                      </div>
+                      <div
+                        className="flex p-2 mb-2 select-asset"
+                        onClick={() => selectFromZAsset("zZAR")}
+                      >
+                        <img src={ZZAR} alt="" className="h-7" />
+                        <p className="ml-2">zZAR</p>
+                      </div>
+                    </div>
+                  )}
+                  <input
+                    type="number"
+                    placeholder="0"
+                    value={fromAmount}
+                    className="ml-2"
+                    onChange={e => handleFields(e.target.value, "From")}
+                    disabled={fromZAsset && toZAsset ? false : true}
+                  />
+                </div>
+              </div>
+              <div className="swap-icon">
+                <img src={swapArrow} alt="" />
+              </div>
+              <div className="asset-box">
+                <div className="flex justify-end">
                   {toZAsset === "zUSD" && (
                     <p
                       onClick={() => setToAmount(zUSDBal)}
@@ -532,50 +492,97 @@ function Swap() {
                     </p>
                   )}
                 </div>
-                {showToZAssets && (
-                  <div
-                    className="mt-2 text-font-grey cursor-pointer absolute rounded  select-assets"
-                    style={{
-                      marginLeft: 0,
-                    }}
+                <div className="flex">
+                  <button
+                    className="swap-assets rounded-full"
+                    onClick={() => setShowToZAssets(!showToZAssets)}
                   >
+                    <span className="flex items-center">
+                      {toZAsset && (
+                        <>
+                          {toZAsset === "zUSD" && (
+                            <img src={ZUSD} alt="ZUSD" className="h-7" />
+                          )}
+                          {toZAsset === "zNGN" && (
+                            <img src={ZNGN} alt="ZNGN" className="h-7" />
+                          )}
+                          {toZAsset === "zCFA" && (
+                            <img src={ZCFA} alt="ZCFA" className="h-7" />
+                          )}
+                          {toZAsset === "zZAR" && (
+                            <img src={ZZAR} alt="ZZAR" className="h-7" />
+                          )}
+                        </>
+                      )}
+                      <p
+                        className="ml-2"
+                        style={{
+                          fontSize: toZAsset ? 14 : 12,
+                        }}
+                      >
+                        {toZAsset ? toZAsset : "Choose Asset"}
+                      </p>
+                    </span>
+                    {showToZAssets ? (
+                      <AiOutlineUp
+                        size={18}
+                        color={"#5A5A65"}
+                        className="mr-2"
+                      />
+                    ) : (
+                      <AiOutlineDown
+                        size={18}
+                        color={"#5A5A65"}
+                        className="mr-2"
+                      />
+                    )}
+                  </button>
+                  {showToZAssets && (
                     <div
-                      className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectToZAsset("zUSD")}
+                      className="mt-2 text-font-grey cursor-pointer absolute rounded  select-assets"
+                      style={{
+                        marginLeft: 0,
+                      }}
                     >
-                      <img src={ZUSD} alt="zusd" className="h-7" />
-                      <p className="ml-2">ZUSD</p>
+                      <div
+                        className="flex p-2 mb-2 select-asset"
+                        onClick={() => selectToZAsset("zUSD")}
+                      >
+                        <img src={ZUSD} alt="zusd" className="h-7" />
+                        <p className="ml-2">ZUSD</p>
+                      </div>
+                      <div
+                        className="flex p-2 mb-2 select-asset"
+                        onClick={() => selectToZAsset("zNGN")}
+                      >
+                        <img src={ZNGN} alt="" className="h-7" />
+                        <p className="ml-2">ZNGN</p>
+                      </div>
+                      <div
+                        className="flex p-2 mb-2 select-asset"
+                        onClick={() => selectToZAsset("zCFA")}
+                      >
+                        <img src={ZCFA} alt="" className="h-7" />
+                        <p className="ml-2">ZCFA</p>
+                      </div>
+                      <div
+                        className="flex p-2 mb-2 select-asset"
+                        onClick={() => selectToZAsset("zZAR")}
+                      >
+                        <img src={ZZAR} alt="" className="h-7" />
+                        <p className="ml-2">ZZAR</p>
+                      </div>
                     </div>
-                    <div
-                      className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectToZAsset("zNGN")}
-                    >
-                      <img src={ZNGN} alt="" className="h-7" />
-                      <p className="ml-2">ZNGN</p>
-                    </div>
-                    <div
-                      className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectToZAsset("zCFA")}
-                    >
-                      <img src={ZCFA} alt="" className="h-7" />
-                      <p className="ml-2">ZCFA</p>
-                    </div>
-                    <div
-                      className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectToZAsset("zZAR")}
-                    >
-                      <img src={ZZAR} alt="" className="h-7" />
-                      <p className="ml-2">ZZAR</p>
-                    </div>
-                  </div>
-                )}
-                <input
-                  type="number"
-                  placeholder="0"
-                  value={toAmount}
-                  onChange={e => handleFields(e.target.value, "To")}
-                  disabled={toZAsset && toZAsset ? false : true}
-                />
+                  )}
+                  <input
+                    type="number"
+                    className="ml-3"
+                    placeholder="0"
+                    value={toAmount}
+                    onChange={e => handleFields(e.target.value, "To")}
+                    disabled={toZAsset && toZAsset ? false : true}
+                  />
+                </div>
               </div>
             </div>
             {rate ? (

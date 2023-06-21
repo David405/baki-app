@@ -1,39 +1,52 @@
 .swap {
-  width: 50%;
-  border: 1px solid #dbdedf;
-  border-radius: 15px;
-  padding: 10px;
+  width: 83%;
+  background: #ffffff;
+  border: 0.5px solid rgba(141, 140, 125, 0.5);
+  border-radius: 10px;
 }
 
 .swap-top {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  padding-top: 20px;
 }
 
 .swap .asset-box {
-  border: 1px solid #dbdedf;
-  border-radius: 15px;
+  background: #fffaf3;
+  border: 0.2px solid #a6a6a6;
+  box-shadow: 0px 7px 64px rgba(0, 0, 0, 0.07);
+  border-radius: 10px;
   padding: 10px;
-  width: 40%;
+  width: 43%;
 }
 
 .swap-assets {
   display: flex;
-  justify-content: space-between;
-  border: 1px solid #dbdedf;
-  width: 50%;
-  padding: 3px;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  font-size: 13px;
+  padding: 8px 12px;
+  gap: 10px;
+  width: 95.93px;
+  height: 50px;
+  background: #ffffff;
+  border: 1px solid rgba(111, 118, 126, 0.2);
+  border-radius: 6px;
 }
 
 .asset-box input {
-  border: 1px solid #dbdedf;
-  padding: 5px;
-  margin-top: 20px;
-  border-radius: 5px;
-  width: 80%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 10px;
+  width: 312px;
+  height: 50px;
+  background: #ffffff;
+  border: 1px solid rgba(111, 118, 126, 0.2);
+  box-shadow: 0px 7px 64px rgba(0, 0, 0, 0.07);
+  border-radius: 6px;
 }
 
 .swap-icon {

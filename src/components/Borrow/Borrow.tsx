@@ -106,21 +106,19 @@ function Borrow() {
   return (
     <div className="borrow">
       <div className="top">
-        <div className="action-box">
-          <div className="deposit-head">
-            <p>Choose amount to Deposit</p>
-          </div>
+        <div>
           <div className="deposit-body">
-            <div className="flex justify-between">
-              <p>Deposit Collateral</p>
+            <div className="flex justify-between ">
+              <p className="title">DEPOSIT COLLATERAL</p>
               <p
                 onClick={() => setDepositAmount(collateral)}
+                className="text"
                 style={{
                   fontSize: 12,
                   cursor: "pointer",
                 }}
               >
-                Balance:
+                USDC balance:
                 <span className="ml-2">
                   {collateral?.toLocaleString(undefined, {
                     maximumFractionDigits: 2,
@@ -129,219 +127,37 @@ function Borrow() {
               </p>
             </div>
             <div className="flex justify-between items-center">
-              <input
-                type="number"
-                placeholder="0"
-                value={depositAmount}
-                onChange={e => setDepositAmount(e.target.value)}
-              />
-              <div>
-                {/* <button
-                  className="choose px-2 py-2"
-                  onClick={() => setShowAssets(!showAssets)}
-                  style={{
-                    marginLeft: 70,
-                  }}
-                >
-                  <span className="flex items-center">
-                    {asset && (
-                      <>
-                        {asset === "AVAX" && (
-                          <img src={AVAX} alt="zusd" className="h-7" />
-                        )}
-                        {asset === "cUSD" && (
-                          <img src={CUSD} alt="cusd" className="h-7" />
-                        )}
-                      </>
-                    )}
-                    <p
-                      className="ml-2"
-                      style={{
-                        fontSize: asset ? 14 : 10,
-                      }}
-                    >
-                      {asset ? asset : "Choose Asset"}
-                    </p>
-                  </span>
-                  {showAssets ? (
-                    <AiOutlineUp size={18} color={"#5A5A65"} className="mr-2" />
-                  ) : (
-                    <AiOutlineDown
-                      size={18}
-                      color={"#5A5A65"}
-                      className="mr-2"
-                    />
-                  )}
-                </button> */}
-                <button className="choose px-2 py-1">
-                  <img className="h-7" src={USDC} alt="zCFA" />
-                  <span className="mr-2 text-font-grey">USDC</span>
-                </button>
-                {/* {showAssets && (
-                  <div
-                    className="mt-2 text-font-grey cursor-pointer absolute rounded  select-assets"
-                    style={{
-                      marginLeft: 70,
-                    }}
-                  >
-                    <div
-                      className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectAsset("AVAX")}
-                    >
-                      <img src={AVAX} alt="zusd" className="h-7" />
-                      <p className="ml-2">AVAX</p>
-                    </div>
-                    <div
-                      className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectAsset("cUSD")}
-                    >
-                      <img src={CUSD} alt="" className="h-7" />
-                      <p className="ml-2">cUSD</p>
-                    </div>
-                  </div>
-                )} */}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="action-box ml-2">
-          <div className="deposit-head">
-            <p>Choose amount to Mint</p>
-          </div>
-          <div className="deposit-body">
-            <div className="flex justify-between">
-              <p>Mint zUSD</p>
-              <p
-                onClick={() => setMintAmount(zUSDBal)}
-                style={{
-                  fontSize: 12,
-                  cursor: "pointer",
-                }}
-              >
-                Balance:
-                <span className="ml-2">
-                  {zUSDBal?.toLocaleString(undefined, {
-                    maximumFractionDigits: 2,
-                  })}
-                </span>
-              </p>
-            </div>
-            <div className="flex justify-between items-center">
-              <button className="choose px-2 py-1">
-                <img className="h-7" src={ZUSD} alt="zCFA" />
-                <span className="mr-2 text-font-grey">zUSD</span>
+              <button className="choose px-1 py-1">
+                <img src="/images/usdc-dark.png" alt="USDC" />
+                <span className="mr-2 text-font-grey">USDC</span>
+                <img src="/images/car-down.png" alt="cerret" />
               </button>
               <input
-                style={{
-                  marginLeft: 70,
-                }}
-                value={mintAmount}
                 type="number"
-                placeholder="0"
-                onChange={e => setMintAmount(e.target.value)}
+                placeholder="Enter Amount"
+                value={depositAmount ? depositAmount : ""}
+                onChange={e => setDepositAmount(e.target.value)}
               />
             </div>
-          </div>
-        </div>
-      </div>
-      <div className="flex justify-between  items-center mt-6">
-        <div className="quick-btns flex-1">
-          <button
-            onClick={() => calculateValue(10 / 100)}
-            style={{
-              borderColor: perVal === 10 / 100 ? "#2595FF" : "#dbdedf",
-              color: perVal === 10 / 100 ? "#2595FF" : "#5A5A65",
-              borderWidth: perVal === 10 / 100 ? 2 : 1,
-            }}
-          >
-            10%
-          </button>
-          <button
-            onClick={() => calculateValue(25 / 100)}
-            style={{
-              borderColor: perVal === 25 / 100 ? "#2595FF" : "#dbdedf",
-              color: perVal === 25 / 100 ? "#2595FF" : "#5A5A65",
-              borderWidth: perVal === 25 / 100 ? 2 : 1,
-            }}
-          >
-            25%
-          </button>
-          <button
-            onClick={() => calculateValue(50 / 100)}
-            style={{
-              borderColor: perVal === 50 / 100 ? "#2595FF" : "#dbdedf",
-              color: perVal === 50 / 100 ? "#2595FF" : "#5A5A65",
-              borderWidth: perVal === 50 / 100 ? 2 : 1,
-            }}
-          >
-            50%
-          </button>
-          <button
-            onClick={() => {
-              calculateValue(75 / 100);
-              setOnFocus(false);
-            }}
-            style={{
-              borderColor: perVal === 75 / 100 ? "#2595FF" : "#dbdedf",
-              color: perVal === 75 / 100 ? "#2595FF" : "#5A5A65",
-              borderWidth: perVal === 75 / 100 ? 2 : 1,
-            }}
-          >
-            75%
-          </button>
-          <div
-            className="custom"
-            onClick={() => {
-              calculateValue(0);
-              setOnFocus(true);
-            }}
-            style={{
-              borderColor: onFocus ? "#2595FF" : "#dbdedf",
-              borderWidth: onFocus ? 2 : 1,
-            }}
-          >
-            <input
-              type="number"
-              placeholder="Custom"
-              onChange={e => calculateValue(Number(e.target.value) / 100)}
-            />
-          </div>
-        </div>
-        <div className="position flex-1">
-          <div className="flex flex-col justify-center items-center">
-            <p className="heading">Deposit Value</p>
-            <p className="font-bold ">
-              $
-              {Number(depositAmount).toLocaleString(undefined, {
-                maximumFractionDigits: 2,
-              })}
-            </p>
-          </div>
-          <div className="flex flex-col justify-center items-center">
-            <p className="heading">Position Health</p>
-            <div
-              className="indicator"
-              style={{
-                backgroundColor:
-                  userColBalance / userDebt >= 1.5 ? "green" : "red",
-              }}
-            ></div>
-          </div>
-          <div className="flex flex-col justify-center items-center">
-            <p className="heading">cRatio</p>
-            <p>{((userColBalance / userDebt) * 100).toFixed(2)} %</p>
-          </div>
-        </div>
-      </div>
-      {show && (
-        <>
-          <div className="action-btns">
-            <button
-              style={{
-                backgroundColor: stage === 1 ? "#f97f41" : "#ccc",
-              }}
-              onClick={handleApprove}
-            >
+            <div className="position flex-1">
+              <div className="position-details">
+                <p>
+                  Deposit Value: $
+                  {Number(depositAmount).toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
+                </p>
+              </div>
+              <div className="position-details">
+                <p>Position Health: Safe</p>
+              </div>
+              <div className="position-details">
+                <p>
+                  cRatio: {((userColBalance / userDebt) * 100).toFixed(2)} %
+                </p>
+              </div>
+            </div>
+            <button className="approve" onClick={handleApprove}>
               {loadingApprove ? (
                 <img
                   src={loader}
@@ -351,54 +167,123 @@ function Borrow() {
                   alt="Loader"
                 />
               ) : (
-                "Approve Collateral"
+                "Approve"
               )}
+            </button>
+          </div>
+        </div>
+        <div>
+          <img src="/images/mint.png" alt="" />
+        </div>
+        <div className="deposit-body">
+          <div className="flex justify-between">
+            <p className="title">Mint zUSD</p>
+            <p
+              onClick={() => setMintAmount(zUSDBal)}
+              className="text"
+              style={{
+                fontSize: 12,
+                cursor: "pointer",
+              }}
+            >
+              zUSD balance:
+              <span className="ml-2">
+                {zUSDBal?.toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+          <div className="flex justify-between items-center">
+            <button className="choose">
+              <img src="/images/zusd.png" alt="zUSD" />
+              <span className="mr-2 text-font-grey">zUSD</span>
+              <img src="/images/car-down.png" alt="cerret" />
+            </button>
+            <input
+              value={mintAmount ? mintAmount : ""}
+              type="number"
+              placeholder="Enter Amount"
+              onChange={e => setMintAmount(e.target.value)}
+            />
+          </div>
+          <div className="quick-btns ">
+            <button
+              onClick={() => calculateValue(10 / 100)}
+              style={{
+                borderColor: perVal === 10 / 100 ? "#682609" : "#dbdedf",
+                color: perVal === 10 / 100 ? "#682609" : "#5A5A65",
+                borderWidth: perVal === 10 / 100 ? 2 : 1,
+              }}
+            >
+              10%
             </button>
             <button
+              onClick={() => calculateValue(25 / 100)}
               style={{
-                backgroundColor: stage === 2 ? "#f97f41" : "#ccc",
+                borderColor: perVal === 25 / 100 ? "#682609" : "#dbdedf",
+                color: perVal === 25 / 100 ? "#682609" : "#5A5A65",
+                borderWidth: perVal === 25 / 100 ? 2 : 1,
               }}
-              onClick={mint}
             >
-              {loading ? (
-                <img
-                  src={loader}
-                  style={{
-                    height: "40px",
-                  }}
-                  alt="Loader"
-                />
-              ) : (
-                "Deposit & Mint"
-              )}
+              25%
             </button>
-          </div>
-          <div className="action-indicators">
-            <div
-              className="circle"
+            <button
+              onClick={() => calculateValue(50 / 100)}
               style={{
-                backgroundColor: "#f97f41",
+                borderColor: perVal === 50 / 100 ? "#682609" : "#dbdedf",
+                color: perVal === 50 / 100 ? "#682609" : "#5A5A65",
+                borderWidth: perVal === 50 / 100 ? 2 : 1,
               }}
             >
-              1
-            </div>
-            <div
-              className="line"
-              style={{
-                backgroundColor: stage === 2 ? "#f97f41" : "#ccc",
+              50%
+            </button>
+            <button
+              onClick={() => {
+                calculateValue(75 / 100);
+                setOnFocus(false);
               }}
-            ></div>
-            <div
-              className="circle"
               style={{
-                backgroundColor: stage === 2 ? "#f97f41" : "#ccc",
+                borderColor: perVal === 75 / 100 ? "#682609" : "#dbdedf",
+                color: perVal === 75 / 100 ? "#682609" : "#5A5A65",
+                borderWidth: perVal === 75 / 100 ? 2 : 1,
               }}
             >
-              2
+              75%
+            </button>
+            <div
+              className="custom"
+              onClick={() => {
+                calculateValue(0);
+                setOnFocus(true);
+              }}
+              style={{
+                borderColor: onFocus ? "#682609" : "#dbdedf",
+                borderWidth: onFocus ? 2 : 1,
+              }}
+            >
+              <input
+                type="number"
+                placeholder="Custom"
+                onChange={e => calculateValue(Number(e.target.value) / 100)}
+              />
             </div>
           </div>
-        </>
-      )}
+          <button className="mint" onClick={mint}>
+            {loading ? (
+              <img
+                src={loader}
+                style={{
+                  height: "40px",
+                }}
+                alt="Loader"
+              />
+            ) : (
+              "Deposit and Mint"
+            )}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 .borrow .top {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .borrow .action-box {
@@ -17,25 +18,81 @@
 }
 
 .borrow .deposit-body {
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  gap: 29px;
+  width: 480px;
+  min-height: 236px;
+  background: #fffaf3;
+  border: 0.2px solid #a6a6a6;
+  box-shadow: 0px 7px 64px rgba(0, 0, 0, 0.07);
+  border-radius: 10px;
 }
 
 .borrow .deposit-body input {
-  border: 1px solid #dbdedf;
-  padding: 5px;
-  margin-top: 10px;
-  border-radius: 2px;
-  width: 70%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 10px;
+  width: 312px;
+  height: 50px;
+  background: #ffffff;
+  border: 1px solid rgba(111, 118, 126, 0.2);
+  box-shadow: 0px 7px 64px rgba(0, 0, 0, 0.07);
+  border-radius: 6px;
+}
+
+.borrow .deposit-body .title {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0d0d0d;
 }
 
 .borrow .choose {
-  border: 1px solid #dbdedf;
-  border-radius: 50px;
-  width: 110px;
   display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  margin-top: 10px;
+  padding: 8px 25px;
+  gap: 3px;
+  width: 99.93px;
+  height: 50px;
+  background: #ffffff;
+  border: 1px solid rgba(111, 118, 126, 0.2);
+  border-radius: 6px;
+}
+
+.borrow .position-details {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 15px;
+  gap: 10px;
+  width: 143px;
+  height: 36px;
+  border: 1px solid #9e9694;
+  border-radius: 8px;
+}
+
+.borrow .position-details p {
+  width: 200px;
+  height: 28px;
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 28px;
+  text-align: center;
+  color: #9e9694;
 }
 
 .quick-btns {
@@ -43,18 +100,27 @@
   justify-content: space-around;
   color: #495055;
 }
-.quick-btns button {
-  border: 1px solid #dbdedf;
+.quick-btns button,
+.custom {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   padding: 5px 15px;
-  border-radius: 10px;
-  height: 35px;
-  margin-right: 10px;
-  font-size: 10px;
+  gap: 10px;
+  width: 72px;
+  height: 36px;
+  background: #ffffff;
+  border: 1px solid #9e9694;
+  border-radius: 8px;
 }
 
 .borrow .custom input {
   width: 100%;
+  height: 10px;
   font-size: 13px;
+  border: none;
 }
 
 .borrow .custom {
@@ -71,15 +137,6 @@
 .borrow .position {
   display: flex;
   justify-content: space-around;
-  margin-left: 10px;
-}
-
-.borrow .indicator {
-  height: 9px;
-  width: 121px;
-  border-radius: 13px;
-
-  margin-top: 10px;
 }
 
 .borrow .heading {
@@ -136,4 +193,32 @@
 .select-asset:hover {
   background-color: #2595ff;
   color: #fff;
+}
+
+.borrow .approve {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 21px;
+  gap: 10px;
+  color: #fff;
+  margin-bottom: 10px;
+  height: 40px;
+  background: #241f17;
+  border-radius: 10px;
+}
+
+.borrow .mint {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 21px;
+  gap: 10px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(36, 31, 23, 0.17);
+  color: #fff;
+  margin-bottom: 8px;
 }

@@ -1,3 +1,6 @@
+.sidebar {
+  background: #241f17;
+}
 .sidebar-top {
   height: 20%;
   border-bottom: 1px solid #ccc;
@@ -12,20 +15,23 @@
   color: #fff;
   cursor: pointer;
   height: 40px;
-  width: 100%;
+  width: 262px;
+  margin-left: 6%;
   margin-bottom: 20px;
 }
 
 .layout-route:hover {
-  color: #5c656c;
-  background-color: #ffe4d7;
-  border-left: 3px solid #f9603d;
+  color: #191a1b;
+  background-color: #ead0a9;
+  border-radius: 4px 0px 0px 4px;
 }
 
 .route-active {
-  color: #5c656c;
+  color: #191a1b;
   background-color: #ffe4d7;
-  border-left: 3px solid #f9603d;
+  /* border-left: 3px solid #f9603d; */
+  background: #ead0a9;
+  border-radius: 4px 0px 0px 4px;
 }
 .sidebar-footer {
   height: 15%;
@@ -49,6 +55,28 @@
 .network:hover {
   background-color: #092bb7;
   border-radius: 20px;
+}
+
+.avatar {
+  border: 2px solid #ffffff;
+}
+.avatar-active {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  margin-left: 22px;
+  top: -8px;
+  border-radius: 40px;
+  background: #379b1e;
+  border: 2px solid #ffffff;
+}
+
+.get-test {
+  width: 168px;
+  height: 47px;
+  background: #ffffff;
+  border: 1px solid #241f17;
+  border-radius: 8px;
 }
 
 /* Extra small devices (phones, 600px and down) */

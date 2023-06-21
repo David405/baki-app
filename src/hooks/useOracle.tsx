@@ -17,31 +17,31 @@ function useOracle() {
   }, [provider]);
 
   const getNGNUSD = async () => {
-    const result = await contract.NGNUSD();
+    const result = await contract?.NGNUSD();
     return Number(result?._hex) / 1000;
   };
   const getXAFUSD = async () => {
-    const result = await contract.XAFUSD();
+    const result = await contract?.XAFUSD();
     return Number(result?._hex) / 1000;
   };
   const getZARUSD = async () => {
-    const result = await contract.ZARUSD();
+    const result = await contract?.ZARUSD();
     return Number(result?._hex) / 1000;
   };
   const getCOLUSD = async () => {
-    const result = await contract.collateralUSD();
+    const result = await contract?.collateralUSD();
     return Number(result?._hex) / 1000;
   };
   const getNGNXAF = async () => {
-    const result = await contract.NGNXAF();
+    const result = await contract?.NGNXAF();
     return Number(result?._hex) / 1000;
   };
   const getZARXAF = async () => {
-    const result = await contract.ZARXAF();
+    const result = await contract?.ZARXAF();
     return Number(result?._hex) / 1000;
   };
   const getNGNZAR = async () => {
-    const result = await contract.NGNZAR();
+    const result = await contract?.NGNZAR();
     return Number(result?._hex) / 1000;
   };
   return {

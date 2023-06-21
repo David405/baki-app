@@ -104,341 +104,228 @@ function Repay() {
   return (
     <div className="repay">
       <div className="top">
-        <div className="action-box">
-          <div className="deposit-head">
-            <p>Choose amount to Repay</p>
+        <div className="deposit-body">
+          <div className="flex justify-between">
+            <p className="text">REPAY ZTOKEN</p>
+            {zAsset && (
+              <>
+                {zAsset === "ZUSD" && (
+                  <p
+                    onClick={() => setZTokenAmount(zUSDBal)}
+                    className="text"
+                    style={{
+                      fontSize: 12,
+                      cursor: "pointer",
+                    }}
+                  >
+                    zUSD balance:
+                    <span className="ml-2">
+                      {zUSDBal?.toLocaleString(undefined, {
+                        maximumFractionDigits: 2,
+                      })}
+                    </span>
+                  </p>
+                )}
+                {zAsset === "ZNGN" && (
+                  <p
+                    onClick={() => setZTokenAmount(zNGNBal)}
+                    style={{
+                      fontSize: 12,
+                      cursor: "pointer",
+                    }}
+                  >
+                    zNGN balance:
+                    <span className="ml-2">
+                      {zNGNBal?.toLocaleString(undefined, {
+                        maximumFractionDigits: 2,
+                      })}
+                    </span>
+                  </p>
+                )}
+                {zAsset === "ZCFA" && (
+                  <p
+                    onClick={() => setZTokenAmount(zCFABal)}
+                    style={{
+                      fontSize: 12,
+                      cursor: "pointer",
+                    }}
+                  >
+                    zCFA balance:
+                    <span className="ml-2">
+                      {zCFABal?.toLocaleString(undefined, {
+                        maximumFractionDigits: 2,
+                      })}
+                    </span>
+                  </p>
+                )}
+                {zAsset === "ZZAR" && (
+                  <p
+                    onClick={() => setZTokenAmount(zZARBal)}
+                    style={{
+                      fontSize: 12,
+                      cursor: "pointer",
+                    }}
+                  >
+                    zZAR balance:
+                    <span className="ml-2">
+                      {zZARBal?.toLocaleString(undefined, {
+                        maximumFractionDigits: 2,
+                      })}
+                    </span>
+                  </p>
+                )}
+              </>
+            )}
           </div>
-          <div className="deposit-body">
-            <div className="flex justify-between">
-              <p>Repay zToken</p>
-              {zAsset && (
-                <>
-                  {zAsset === "ZUSD" && (
-                    <p
-                      onClick={() => setZTokenAmount(zUSDBal)}
-                      style={{
-                        fontSize: 12,
-                        cursor: "pointer",
-                      }}
-                    >
-                      Balance:
-                      <span className="ml-2">
-                        {zUSDBal?.toLocaleString(undefined, {
-                          maximumFractionDigits: 2,
-                        })}
-                      </span>
-                    </p>
+          <div className="flex justify-between items-center">
+            <div>
+              <button
+                className="choose px-2 py-2"
+                onClick={() => setShowZAssets(!showZAssets)}
+              >
+                <span className="flex items-center">
+                  {zAsset && (
+                    <>
+                      {zAsset === "ZUSD" && (
+                        <img src={ZUSD} alt="ZUSD" className="h-6" />
+                      )}
+                      {zAsset === "ZNGN" && (
+                        <img src={ZNGN} alt="ZNGN" className="h-6" />
+                      )}
+                      {zAsset === "ZCFA" && (
+                        <img src={ZCFA} alt="ZCFA" className="h-6" />
+                      )}
+                      {zAsset === "ZZAR" && (
+                        <img src={ZZAR} alt="ZZAR" className="h-6" />
+                      )}
+                    </>
                   )}
-                  {zAsset === "ZNGN" && (
-                    <p
-                      onClick={() => setZTokenAmount(zNGNBal)}
-                      style={{
-                        fontSize: 12,
-                        cursor: "pointer",
-                      }}
-                    >
-                      Balance:
-                      <span className="ml-2">
-                        {zNGNBal?.toLocaleString(undefined, {
-                          maximumFractionDigits: 2,
-                        })}
-                      </span>
-                    </p>
-                  )}
-                  {zAsset === "ZCFA" && (
-                    <p
-                      onClick={() => setZTokenAmount(zCFABal)}
-                      style={{
-                        fontSize: 12,
-                        cursor: "pointer",
-                      }}
-                    >
-                      Balance:
-                      <span className="ml-2">
-                        {zCFABal?.toLocaleString(undefined, {
-                          maximumFractionDigits: 2,
-                        })}
-                      </span>
-                    </p>
-                  )}
-                  {zAsset === "ZZAR" && (
-                    <p
-                      onClick={() => setZTokenAmount(zZARBal)}
-                      style={{
-                        fontSize: 12,
-                        cursor: "pointer",
-                      }}
-                    >
-                      Balance:
-                      <span className="ml-2">
-                        {zZARBal?.toLocaleString(undefined, {
-                          maximumFractionDigits: 2,
-                        })}
-                      </span>
-                    </p>
-                  )}
-                </>
-              )}
-            </div>
-            <div className="flex justify-between items-center">
-              <input
-                type="number"
-                placeholder="0"
-                value={zTokenAmount}
-                onChange={e => setZTokenAmount(e.target.value)}
-                disabled={zAsset ? false : true}
-              />
-              <div>
-                <button
-                  className="choose px-2 py-2"
-                  onClick={() => setShowZAssets(!showZAssets)}
+                  <p
+                    className="ml-2"
+                    style={{
+                      fontSize: zAsset ? 14 : 10,
+                    }}
+                  >
+                    {zAsset ? zAsset : "Choose Asset"}
+                  </p>
+                </span>
+                {showZAssets ? (
+                  <AiOutlineUp size={18} color={"#5A5A65"} />
+                ) : (
+                  <AiOutlineDown size={18} color={"#5A5A65"} />
+                )}
+              </button>
+              {showZAssets && (
+                <div
+                  className="mt-2 text-font-grey cursor-pointer absolute rounded  select-assets"
                   style={{
                     marginLeft: 70,
                   }}
                 >
-                  <span className="flex items-center">
-                    {zAsset && (
-                      <>
-                        {zAsset === "ZUSD" && (
-                          <img src={ZUSD} alt="ZUSD" className="h-7" />
-                        )}
-                        {zAsset === "ZNGN" && (
-                          <img src={ZNGN} alt="ZNGN" className="h-7" />
-                        )}
-                        {zAsset === "ZCFA" && (
-                          <img src={ZCFA} alt="ZCFA" className="h-7" />
-                        )}
-                        {zAsset === "ZZAR" && (
-                          <img src={ZZAR} alt="ZZAR" className="h-7" />
-                        )}
-                      </>
-                    )}
-                    <p
-                      className="ml-2"
-                      style={{
-                        fontSize: zAsset ? 14 : 10,
-                      }}
-                    >
-                      {zAsset ? zAsset : "Choose Asset"}
-                    </p>
-                  </span>
-                  {showZAssets ? (
-                    <AiOutlineUp size={18} color={"#5A5A65"} className="mr-2" />
-                  ) : (
-                    <AiOutlineDown
-                      size={18}
-                      color={"#5A5A65"}
-                      className="mr-2"
-                    />
-                  )}
-                </button>
-                {showZAssets && (
                   <div
-                    className="mt-2 text-font-grey cursor-pointer absolute rounded  select-assets"
-                    style={{
-                      marginLeft: 70,
-                    }}
+                    className="flex p-2 mb-2 select-asset"
+                    onClick={() => selectZAsset("ZUSD")}
                   >
-                    <div
-                      className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectZAsset("ZUSD")}
-                    >
-                      <img src={ZUSD} alt="zusd" className="h-7" />
-                      <p className="ml-2">zUSD</p>
-                    </div>
-                    <div
-                      className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectZAsset("ZNGN")}
-                    >
-                      <img src={ZNGN} alt="" className="h-7" />
-                      <p className="ml-2">zNGN</p>
-                    </div>
-                    <div
-                      className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectZAsset("ZCFA")}
-                    >
-                      <img src={ZCFA} alt="" className="h-7" />
-                      <p className="ml-2">zCFA</p>
-                    </div>
-                    <div
-                      className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectZAsset("ZZAR")}
-                    >
-                      <img src={ZZAR} alt="" className="h-7" />
-                      <p className="ml-2">zZAR</p>
-                    </div>
+                    <img src={ZUSD} alt="zusd" className="h-7" />
+                    <p className="ml-2">zUSD</p>
                   </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="action-box ml-2">
-          <div className="deposit-head">
-            <p>Choose amount to withdraw</p>
-          </div>
-          <div className="deposit-body">
-            <div className="flex justify-between">
-              <p>Withdraw Collateral</p>
-              <p
-                onClick={() => setColAmount(userColBalance)}
-                style={{
-                  fontSize: 12,
-                  cursor: "pointer",
-                }}
-              >
-                Balance:
-                <span className="ml-2">
-                  {userColBalance?.toLocaleString(undefined, {
-                    maximumFractionDigits: 2,
-                  })}
-                </span>
-              </p>
-            </div>
-            <div className="flex justify-between items-center">
-              <div>
-                <button className="choose px-2 py-1">
-                  <img className="h-7" src={USDC} alt="zCFA" />
-                  <span className="mr-2 text-font-grey">USDC</span>
-                </button>
-                {/* <button
-                  className="choose px-2 py-2"
-                  onClick={() => setShowColAssets(!showColAssets)}
-                >
-                  <span className="flex items-center">
-                    {colAsset && (
-                      <>
-                        {colAsset === "AVAX" && (
-                          <img src={AVAX} alt="AVAX" className="h-7" />
-                        )}
-                        {colAsset === "cUSD" && (
-                          <img src={CUSD} alt="cUSD" className="h-7" />
-                        )}
-                      </>
-                    )}
-                    <p
-                      className="ml-2"
-                      style={{
-                        fontSize: colAsset ? 14 : 10,
-                      }}
-                    >
-                      {colAsset ? colAsset : "Choose Asset"}
-                    </p>
-                  </span>
-                  {showColAssets ? (
-                    <AiOutlineUp size={18} color={"#5A5A65"} className="mr-2" />
-                  ) : (
-                    <AiOutlineDown
-                      size={18}
-                      color={"#5A5A65"}
-                      className="mr-2"
-                    />
-                  )}
-                </button>
-                {showColAssets && (
                   <div
-                    className="mt-2 text-font-grey cursor-pointer absolute rounded  select-assets"
-                    style={{
-                      marginLeft: 0,
-                    }}
+                    className="flex p-2 mb-2 select-asset"
+                    onClick={() => selectZAsset("ZNGN")}
                   >
-                    <div
-                      className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectColAsset("AVAX")}
-                    >
-                      <img src={AVAX} alt="zusd" className="h-7" />
-                      <p className="ml-2">AVAX</p>
-                    </div>
-                    <div
-                      className="flex p-2 mb-2 select-asset"
-                      onClick={() => selectColAsset("cUSD")}
-                    >
-                      <img src={CUSD} alt="" className="h-7" />
-                      <p className="ml-2">cUSD</p>
-                    </div>
+                    <img src={ZNGN} alt="" className="h-7" />
+                    <p className="ml-2">zNGN</p>
                   </div>
-                )} */}
-              </div>
-              <input
+                  <div
+                    className="flex p-2 mb-2 select-asset"
+                    onClick={() => selectZAsset("ZCFA")}
+                  >
+                    <img src={ZCFA} alt="" className="h-7" />
+                    <p className="ml-2">zCFA</p>
+                  </div>
+                  <div
+                    className="flex p-2 mb-2 select-asset"
+                    onClick={() => selectZAsset("ZZAR")}
+                  >
+                    <img src={ZZAR} alt="" className="h-7" />
+                    <p className="ml-2">zZAR</p>
+                  </div>
+                </div>
+              )}
+            </div>
+            <input
+              type="number"
+              placeholder="Enter Amount"
+              value={zTokenAmount ? zTokenAmount : ""}
+              onChange={e => setZTokenAmount(e.target.value)}
+              disabled={zAsset ? false : true}
+            />
+          </div>
+          <button onClick={handleApprove} className="approve">
+            {loadingApprove ? (
+              <img
+                src={loader}
                 style={{
-                  marginLeft: 70,
+                  height: "40px",
                 }}
-                value={colAmount}
-                type="number"
-                placeholder="0"
-                onChange={e => setColAmount(e.target.value)}
+                alt="Loader"
               />
-            </div>
+            ) : (
+              "   Approve"
+            )}
+          </button>
+        </div>
+        <div>
+          <img src="/images/mint.png" alt="" />
+        </div>
+        <div className="deposit-body">
+          <div className="flex justify-between">
+            <p className="text">WITHDRAW COLLATERAL</p>
+            <p
+              onClick={() => setColAmount(userColBalance)}
+              style={{
+                fontSize: 12,
+                cursor: "pointer",
+              }}
+              className="text"
+            >
+              USDC balance:
+              <span className="ml-2">
+                {userColBalance?.toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            </p>
           </div>
+          <div className="flex justify-between items-center">
+            <div>
+              <button className="choose px-2 py-1">
+                <img src="/images/usdc-dark.png" alt="zCFA" />
+                <span className="mr-2 text-font-grey">USDC</span>
+              </button>
+            </div>
+            <input
+              value={colAmount ? colAmount : ""}
+              type="number"
+              placeholder="Enter Amount"
+              onChange={e => setColAmount(e.target.value)}
+            />
+          </div>
+          <button onClick={repay} className="withdraw">
+            {loading ? (
+              <img
+                src={loader}
+                style={{
+                  height: "40px",
+                }}
+                alt="Loader"
+              />
+            ) : (
+              "Repay"
+            )}
+          </button>
         </div>
       </div>
-
-      {show && (
-        <>
-          <div className="action-btns">
-            <button
-              style={{
-                backgroundColor: stage === 1 ? "#f97f41" : "#ccc",
-              }}
-              onClick={handleApprove}
-            >
-              {loadingApprove ? (
-                <img
-                  src={loader}
-                  style={{
-                    height: "40px",
-                  }}
-                  alt="Loader"
-                />
-              ) : (
-                "   Approve"
-              )}
-            </button>
-            <button
-              style={{
-                backgroundColor: stage === 2 ? "#f97f41" : "#ccc",
-              }}
-              onClick={repay}
-            >
-              {loading ? (
-                <img
-                  src={loader}
-                  style={{
-                    height: "40px",
-                  }}
-                  alt="Loader"
-                />
-              ) : (
-                "Repay"
-              )}
-            </button>
-          </div>
-          <div className="action-indicators">
-            <div
-              className="circle"
-              style={{
-                backgroundColor: "#f97f41",
-              }}
-            >
-              1
-            </div>
-            <div
-              className="line"
-              style={{
-                backgroundColor: stage === 2 ? "#f97f41" : "#ccc",
-              }}
-            ></div>
-            <div
-              className="circle"
-              style={{
-                backgroundColor: stage === 2 ? "#f97f41" : "#ccc",
-              }}
-            >
-              2
-            </div>
-          </div>
-        </>
-      )}
     </div>
   );
 }

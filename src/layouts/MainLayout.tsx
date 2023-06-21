@@ -39,14 +39,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 818px)" });
   const [openSidebar, setOpenSidebar] = useState<string>("-300px");
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [show, setShow] = useState<boolean>(false);
-  const { network } = useSelector((state: any) => state.baki);
   const { address } = useAccount();
-  const [visibility, setVisibility] = useState<boolean>(false);
-
-  const networks = useNetwork();
-
-  console.log(networks);
 
   const toggleSidebar = (_mode: boolean) => {
     setIsOpen(_mode);
@@ -56,9 +49,6 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
       setOpenSidebar("-300px");
     }
   };
-  useEffect(() => {
-    if (address) setVisibility(false);
-  }, [address, network]);
 
   return (
     <div className="flex">
@@ -66,26 +56,35 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
         style={{
           left: isTabletOrMobile ? openSidebar : 0,
         }}
-        className={`w-72 h-screen bg-dark-blue flex flex-col sidebar`}
+        className={`w-72 h-screen flex flex-col sidebar`}
       >
         <div className="sidebar-top flex flex-col justify-center items-center">
           <img
             src="https://xsgames.co/randomusers/avatar.php?g=pixel"
-            className="rounded-full"
-            height={77}
-            width={77}
+            className="rounded-full avatar"
+            height={60}
+            width={60}
             alt=""
           />
-          <button
-            style={{
-              backgroundColor: "#1f2952",
+          <span className="avatar-active"></span>
+          <ConnectKitButton.Custom>
+            {({ isConnected, show }) => {
+              return (
+                <button
+                  onClick={show}
+                  style={{
+                    backgroundColor: "#FB7F37",
+                  }}
+                  className="mt-4 rounded-full px-5 py-1"
+                >
+                  {address
+                    ? `${address?.slice(0, 5)} ... ${address?.slice(38, 42)}`
+                    : "Connect Wallet"}
+                </button>
+              );
             }}
-            className="text-white mt-4 rounded-full px-5 py-1"
-          >
-            {address
-              ? `${address?.slice(0, 5)} ... ${address?.slice(38, 42)}`
-              : "Disconnected"}
-          </button>
+          </ConnectKitButton.Custom>
+
           {isTabletOrMobile && (
             <button
               className="text-white flex mt-3"
@@ -127,8 +126,8 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               <img
                 src={
                   route === "mint" || location.pathname === "/mint"
-                    ? mintdark
-                    : mint
+                    ? "/images/position-dark.png"
+                    : "/images/position-light.png"
                 }
                 alt=""
               />
@@ -146,8 +145,8 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               <img
                 src={
                   route === "swap" || location.pathname === "/swap"
-                    ? swapdark
-                    : swap
+                    ? "/images/swap-dark.png"
+                    : "/images/swap-light.png"
                 }
                 alt=""
               />
@@ -166,12 +165,32 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                 src={
                   route === "liquidation" ||
                   location.pathname === "/liquidation"
-                    ? liquidatedark
-                    : liquidate
+                    ? "/images/liquidation-dark.png"
+                    : "/images/liquidation-light.png"
                 }
                 alt=""
               />
               <p className="ml-2 ">Liquidation</p>
+            </div>
+          </a>
+          <div
+            style={{
+              boxSizing: "border-box",
+              width: 220,
+              height: 1,
+              marginLeft: "10%",
+              border: "0.2px solid #ccc",
+              marginBottom: 10,
+            }}
+          ></div>
+          <a href="/">
+            <div
+              className={`layout-route flex p-2 `}
+              onMouseEnter={() => setRoute("liquidation")}
+              onMouseLeave={() => setRoute("")}
+            >
+              <img src="/images/leave.png" alt="" />
+              <p className="ml-2 ">Leave App</p>
             </div>
           </a>
           {/* <Link to="/app/transactions">
@@ -195,6 +214,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
             </div>
           </Link> */}
         </div>
+
         <div className="sidebar-footer flex justify-center items-center">
           <a href="/">
             <img src={bakifooter} alt="logo" />
@@ -202,43 +222,15 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
         </div>
       </div>
       <div className="flex-1 h-screen">
-        <div
-          className="w-full flex justify-center bg-red-200"
-          style={{
-            backgroundColor: "#f97f41",
-          }}
-        >
-          <p>
-            <b> 😄 Request test USDC from the Canza Faucet 👉</b>
-          </p>
-          <a
-            href="http://faucet.0vb.xyz"
-            className="ml-2"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Get test USDC
-          </a>
-        </div>
-        <div className="flex justify-between p-5 ">
+        <div className="flex justify-between p-5 border-b-2 ">
           {!isTabletOrMobile && (
-            <div className=" relatively ml-3">
+            <div className="relatively ml-3 mt-2">
               <h1 className="font-bold text-lg">
-                {location.pathname === "/" && "Hi there"}
-                {location.pathname === "/mint" && "My Position"}
+                {location.pathname === "/mint" && "Dashboard"}
                 {location.pathname === "/swap" && "Swap"}
                 {location.pathname === "/liquidation" && "Liquidation"}
                 {location.pathname === "/transactions" && "Transactions"}
               </h1>
-              <p className="text-font-grey">
-                {location.pathname === "/app" && "Explore your dashboard"}
-                {location.pathname === "/mint" &&
-                  "Select the asset you’d like to deposit"}
-                {location.pathname === "/swap" && "Access Synthetic Assets"}
-                {location.pathname === "/liquidation" && "Provide Liquidation"}
-                {location.pathname === "/transactions" &&
-                  "View your transaction history in the table below"}
-              </p>
             </div>
           )}
           {isTabletOrMobile && (
@@ -246,102 +238,34 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               <BiMenu size={24} />
             </button>
           )}
+          <div className="flex justify-around">
+            <a
+              href="http://faucet.0vb.xyz"
+              className="ml-2 mr-6"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <button className="get-test">Get Test USDC</button>
+            </a>
 
-          <div className="flex items-center">
-            <button className="mr-6" onClick={() => setViewNotifications(true)}>
-              {/* <div className="absolute bg-red-600 rounded-full h-3 w-3 flex justify-center items-center text-white ml-3">
+            <div className="flex items-center">
+              <button
+                className="mr-6"
+                onClick={() => setViewNotifications(true)}
+              >
+                {/* <div className="absolute bg-red-600 rounded-full h-3 w-3 flex justify-center items-center text-white ml-3">
                 <p className="text-xs">1</p>
               </div> */}
-              <img
-                src={notification}
-                alt="notification"
-                style={{
-                  width: 30,
-                }}
-              />
-            </button>
-            {/* <button className="mr-2">
-              <img
-                src={settings}
-                alt="settings"
-                style={{
-                  height: 50,
-                  width: 50,
-                }}
-              />
-            </button>
-            <button className="mr-2">
-              <img
-                src={help}
-                alt="help"
-                style={{
-                  height: 50,
-                  width: 50,
-                }}
-              />
-            </button> */}
-            <div>
-              {address && (
-                <button
-                  onClick={() => setShow(!show)}
-                  className="flex items-center mr-2 text-white rounded-lg px-2 py-2"
+
+                <img
+                  src={notification}
+                  alt="notification"
                   style={{
-                    backgroundColor: "#0f257c",
+                    width: 25,
                   }}
-                >
-                  <div className="flex">
-                    {networks?.chain?.id === 43113 && (
-                      <img src={avax} alt="avax" className="h-6" />
-                    )}
-
-                    <p className="ml-1">{networks.chain?.name}</p>
-                  </div>
-                  {show ? (
-                    <AiOutlineUp size={18} className="ml-6" />
-                  ) : (
-                    <AiOutlineDown size={18} className="ml-6" />
-                  )}
-                </button>
-              )}
-              {show && (
-                <div className="text-white mt-2 p-1  cursor-pointer absolute w-10 networks">
-                  {networks?.chains?.map((network: any, index: number) => (
-                    <div key={index} className="flex p-2 mb-2 network">
-                      <img
-                        src={network.name === "Celo" ? celo : avax}
-                        alt="celo"
-                        className="h-6"
-                      />
-
-                      <p className="ml-2">{network.name}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
+                />
+              </button>
             </div>
-            <ConnectKitButton.Custom>
-              {({ isConnected, show }) => {
-                return (
-                  <>
-                    {!isConnected && !address ? (
-                      <button
-                        onClick={show}
-                        className="text-white bg-dark-orange rounded-full font-bold p-2  mr-2 "
-                      >
-                        Connect Wallet
-                      </button>
-                    ) : (
-                      <button
-                        onClick={show}
-                        className="text-white bg-grey rounded-full font-bold p-2  mr-2 "
-                      >
-                        Disconnect
-                      </button>
-                    )}
-                  </>
-                );
-              }}
-            </ConnectKitButton.Custom>
           </div>
         </div>
         <div className="p-4  layout-body">{children}</div>
@@ -351,10 +275,10 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
         visible={viewNotifications}
         onClose={setViewNotifications}
       />
-      <ConnectWallet
+      {/* <ConnectWallet
         visible={visibility}
         onClose={() => setVisibility(!visibility)}
-      />
+      /> */}
     </div>
   );
 };

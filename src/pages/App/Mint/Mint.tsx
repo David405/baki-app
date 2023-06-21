@@ -13,10 +13,11 @@ import "./Mint.css";
 declare const window: any;
 
 function Mint() {
+  const test = useData();
+
   const [action, setAction] = useState<string>("borrow");
   const [value, setValue] = useState<number>();
   const { claimReward, getUSDValue } = useDeposit();
-  let test = useData();
   const { userColBalance, userDebt, network, rewardBal } = useSelector(
     (state: any) => state.baki
   );
@@ -40,104 +41,133 @@ function Mint() {
       setValue(_value);
     });
   }, [value, getUSDValue, userColBalance]);
+
   return (
     <>
       <MainLayout>
         <div className="p-4">
-          <div className="borrow-repay">
-            <div className="mint-head">
-              <button
-                onClick={() => setAction("borrow")}
-                style={{
-                  color: action === "borrow" ? "#2595FF" : "#495055",
-                  borderBottomColor:
-                    action === "borrow" ? "#2595FF" : "#dbdedf",
-                  borderBottomWidth: action === "borrow" ? 2 : 0,
-                }}
-              >
-                Deposit
-              </button>
-              <button
-                style={{
-                  color: action === "repay" ? "#2595FF" : "#495055",
-                  borderBottomColor: action === "repay" ? "#2595FF" : "#dbdedf",
-                  borderBottomWidth: action === "repay" ? 2 : 0,
-                }}
-                onClick={() => setAction("repay")}
-                className="ml-5"
-              >
-                Withdraw
-              </button>
-            </div>
-            <div className="p-4">
-              {action === "borrow" ? <Borrow /> : <Repay />}
-            </div>
-          </div>
-          <div className="user-details">
-            <div className="user-detail">
-              <p className="heading">Position Health</p>
-              <p
-                style={{
-                  color: userColBalance / userDebt >= 1.5 ? "green" : "red",
-                }}
-              >
-                {userColBalance / userDebt >= 1.5 ? "Safe" : "Unsafe"}
-              </p>
-            </div>
-            <div className="user-detail mid-detail">
-              <p className="heading">Collateral</p>
-              <p>
-                {userColBalance?.toLocaleString(undefined, {
-                  maximumFractionDigits: 2,
-                })}
-                {network.chainId === 43113 && " USDC"}
-                {network.chainId === 44787 && "cUSD"}
-              </p>
-            </div>
-            <div className="user-detail mid-detail">
-              <p className="heading">Value</p>
-              <p>
-                $
-                {value?.toLocaleString(undefined, {
-                  maximumFractionDigits: 2,
-                })}
-              </p>
-            </div>
-            <div className="user-detail">
-              <p className="heading">Debt</p>
-              <p>
-                {userDebt?.toLocaleString(undefined, {
-                  maximumFractionDigits: 2,
-                })}
-              </p>
-            </div>
-          </div>
-
+          <p className="overview">OVERVIEW</p>
           <div className="claim-rewards">
-            <div>
-              <p className="font-bold claim-heading">Claim your rewards</p>
-              <p className="claim-amount">
-                Total:
-                <span>
+            <div className="mt-2">
+              <p className="rewards">REWARDS</p>
+              <p className="font-bold claim-heading">Claim your Reward!</p>
+              <p className="claim-subtitle">
+                You have earned
+                <span className="ml-2 claim-amount">
                   {(rewardBal * 10 ** -6).toLocaleString(undefined, {
                     maximumFractionDigits: 2,
                   })}
                   <span className="ml-1">zUSD</span>
                 </span>
               </p>
-              <button className="claim-btn" onClick={handleClaimReward}>
-                {loading ? (
-                  <img
-                    src={loader}
+            </div>
+            <button className="claim-btn mt-5" onClick={handleClaimReward}>
+              {loading ? (
+                <img
+                  src={loader}
+                  style={{
+                    height: "40px",
+                  }}
+                  alt="Loader"
+                />
+              ) : (
+                " Claim now"
+              )}
+              <img className="ml-2" src="/images/up-light.png" alt="" />
+            </button>
+          </div>
+          <div className="user-details">
+            <div className="user-detail">
+              <div>
+                <p className="heading">Position Health</p>
+                <div className="flex itams-center">
+                  <p
+                    className="detail-subt"
                     style={{
-                      height: "40px",
+                      color: userColBalance / userDebt >= 1.5 ? "green" : "red",
                     }}
-                    alt="Loader"
-                  />
-                ) : (
-                  "Claim now"
-                )}
+                  >
+                    {userColBalance / userDebt >= 1.5 ? "Safe" : "Unsafe"}
+                  </p>
+                  <div
+                    className="indicator"
+                    style={{
+                      backgroundColor:
+                        userColBalance / userDebt >= 1.5 ? "green" : "red",
+                    }}
+                  ></div>
+                </div>
+              </div>
+              <img src="/images/health.png" alt="" />
+            </div>
+            <div className="user-detail mid-detail">
+              <div>
+                <p className="heading">Collateral</p>
+                <p className="detail-subt">
+                  {userColBalance?.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
+                  {network.chainId === 43113 && " USDC"}
+                  {network.chainId === 44787 && "cUSD"}
+                </p>
+              </div>
+              <img src="/images/usdc.png" alt="" />
+            </div>
+            <div className="user-detail mid-detail">
+              <div>
+                <p className="heading">Value</p>
+                <p className="detail-subt">
+                  $
+                  {value?.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
+                </p>
+              </div>
+              <img src="/images/dollar.png" alt="" />
+            </div>
+            <div className="user-detail">
+              <div>
+                <p className="heading">Debt</p>
+                <p className="detail-subt">
+                  {userDebt?.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
+                </p>
+              </div>
+              <img src="/images/clock.png" alt="" />
+            </div>
+          </div>
+          <div className="borrow-repay">
+            <div className="mint-head">
+              <button
+                onClick={() => setAction("borrow")}
+                style={{
+                  color: action === "borrow" ? "#682609" : "#495055",
+                  borderBottomColor:
+                    action === "borrow" ? "#682609" : "#dbdedf",
+                  borderBottomWidth: action === "borrow" ? 2 : 0,
+                }}
+                className="pb-2"
+              >
+                Deposit
               </button>
+              <button
+                style={{
+                  color: action === "repay" ? "#682609" : "#495055",
+                  borderBottomColor: action === "repay" ? "#682609" : "#dbdedf",
+                  borderBottomWidth: action === "repay" ? 2 : 0,
+                }}
+                onClick={() => setAction("repay")}
+                className="ml-5 pb-2"
+              >
+                Withdraw
+              </button>
+            </div>
+            <div className="p-4">
+              <p className="text mb-4">
+                Select the asset you would like to deposit.
+              </p>
+              {action === "borrow" ? <Borrow /> : <Repay />}
             </div>
           </div>
 

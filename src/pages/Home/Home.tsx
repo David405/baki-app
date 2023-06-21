@@ -17,29 +17,18 @@ function Home() {
     (state: any) => state.baki
   );
   return (
-    <div className="flex flex-col justify-center items-center h-screen bg-red-100 ">
-      <img src={baki} alt="" className="" />
-      <div className="flex justify-around mt-6 w-80">
-        <Link to="/mint">
-          <button className="rounded-full text-white border-1 p-2 bg-dark-orange  h-46 enter-app">
-            Enter App
-          </button>
-        </Link>
-        <a href="https://docs.jollof.fi/products/baki" target="_blank">
-          <button
-            className="rounded-full p-2 h-46 learn"
-            style={{
-              borderWidth: 1,
-              borderColor: "#000",
-            }}
-          >
-            Learn More
-          </button>
-        </a>
-      </div>
+    <div className="flex flex-col justify-center items-center h-screen landing">
+      <img src={baki} alt="" height="26" width="200" />
+      <p className="title">
+        Infinite Liquidity FX Exchange for African Currencies
+      </p>
+      <p className="sub-title">
+        Baki provides the ability to offer infinite liquidity at the official
+        conversion rate, and natively quote assets in local currencies on chain.
+      </p>
       <div className="flex mt-12 w-3/5 justify-center">
         <div className="p-4 flex justify-center items-center w-1/5 flex-col home-detail">
-          <div className="text-lg text-dark-orange font-bold">
+          <div className="text-lg font-bold">
             $
             {millify(totalCollateral / 10 ** 18, {
               units: ["", "K", "M", "B", "T", "P", "E"],
@@ -49,7 +38,7 @@ function Home() {
           <p className="text-xs">Global Collateral</p>
         </div>
         <div className="p-4 flex justify-center items-center w-1/5 flex-col home-detail">
-          <div className="text-lg text-dark-orange  font-bold">
+          <div className="text-lg  font-bold">
             $
             {millify(Number(globalDebt), {
               units: ["", "K", "M", "B", "T", "P", "E"],
@@ -59,7 +48,7 @@ function Home() {
           <p className="text-xs">zToken Market Cap</p>
         </div>
         <div className="p-4 flex justify-center items-center w-1/5 flex-col home-detail">
-          <div className="text-lg text-dark-orange font-bold">
+          <div className="text-lg font-bold">
             {millify(Number(totalVolume / 10 ** 15), {
               units: ["", "K", "M", "B", "T", "P", "E"],
               space: true,
@@ -67,7 +56,7 @@ function Home() {
           </div>
           <p className="text-xs">Trading Volume</p>
         </div>
-        <div className="p-4 flex text-dark-orange justify-center items-center w-1/5 flex-col home-last-item">
+        <div className="p-4 flex justify-center items-center w-1/5 flex-col home-last-item">
           <div className="text-lg font-bold">
             {millify(Number(totalVolume / 10 ** 15) * 0.008, {
               units: ["", "K", "M", "B", "T", "P", "E"],
@@ -76,6 +65,24 @@ function Home() {
           </div>
           <p className="text-xs">Trading Fees</p>
         </div>
+      </div>
+      <div className="flex justify-around mt-12 w-80">
+        <Link to="/mint">
+          <button className="text-white enter-app">Go to App</button>
+        </Link>
+        <a href="https://docs.jollof.fi/products/baki" target="_blank">
+          <button
+            className="learn"
+            style={{
+              borderWidth: 1,
+              borderColor: "#000",
+              marginLeft: 20,
+            }}
+          >
+            Learn More
+            <img src="/images/i_arrow_up.png" alt="" />
+          </button>
+        </a>
       </div>
     </div>
   );
