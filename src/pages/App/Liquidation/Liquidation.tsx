@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import useLiquidations from "../../../hooks/useLiquidations";
 import MainLayout from "../../../layouts/MainLayout";
-import empty from "../../../assets/empty.png";
 import loader from "../../../assets/loader/loader.gif";
 import { toast } from "react-toastify";
 import "./Liquidation.css";
@@ -30,8 +29,8 @@ function Liquidation() {
   return (
     <MainLayout>
       <div className="liquidation">
-        <div className="li-header">
-          <p className="font-bold">Liquidations</p>
+        <div className="li-header ">
+          <p className="all-liq">All Liquidations</p>
         </div>
         <div className="li-table-box">
           <div className="li-table-row li-table-head">
@@ -50,10 +49,20 @@ function Liquidation() {
             </div>
           </div>
           {!liquidations?.length && !liquidLoading && (
-            <div className="transactions-no">
-              <img src={empty} alt="" />
-              <p>No liquidations were found !!</p>
-            </div>
+            <>
+              <img
+                style={{
+                  marginLeft: "45%",
+                  width: 83,
+                  height: 90,
+                }}
+                src="/images/empty.png"
+                alt=""
+              />
+              <div className="transactions-no">
+                <p className="text">No liquidations were found!!</p>
+              </div>
+            </>
           )}
           {liquidLoading && (
             <div

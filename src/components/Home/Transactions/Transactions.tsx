@@ -115,6 +115,9 @@ function Transactiions() {
               </p>
             </div>
             <div className="table-cell">
+              <p>{transaction.date}</p>
+            </div>
+            <div className="table-cell">
               {transaction.hash && (
                 <a
                   href={

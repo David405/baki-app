@@ -47,6 +47,7 @@ const useDeposit = () => {
         action: "",
         status: "",
         hash: "",
+        date: "",
         depositBody: {
           mintAmount: 0,
           colAmount: 0,
@@ -65,6 +66,11 @@ const useDeposit = () => {
           withdrawAmount: 0,
         },
       };
+
+      let date = new Date();
+      transaction.date = `${date.getDate()}/${
+        date.getMonth() + 1
+      }/${date.getFullYear()}`;
 
       const tx = await contract?.depositAndMint(
         ethers.utils.parseUnits(String(depositAmount), "ether"),
@@ -79,6 +85,7 @@ const useDeposit = () => {
       transaction.status = "Successful";
       transaction.hash = tx.hash;
       hash = tx.hash;
+
       if (txns) {
         if (JSON.parse(txns)[address]?.length < 5) {
           _transactions = JSON.parse(txns)[address];
@@ -90,14 +97,13 @@ const useDeposit = () => {
         _transactions.push(transaction);
       }
 
-      transactions[address] = _transactions;
+      transactions[address] = _transactions.reverse();
 
       await window.localStorage.setItem(
         "transactions",
         JSON.stringify(transactions)
       );
       dispatch(updateTransactions(transactions));
-      console.log("Done");
 
       return true;
     } catch (err: any) {
@@ -107,6 +113,7 @@ const useDeposit = () => {
         action: "",
         status: "",
         hash: "",
+        date: "",
         depositBody: {
           mintAmount: 0,
           colAmount: 0,
@@ -125,7 +132,10 @@ const useDeposit = () => {
           withdrawAmount: 0,
         },
       };
-
+      let date = new Date();
+      transaction.date = `${date.getDate()}/${
+        date.getMonth() + 1
+      }/${date.getFullYear()}`;
       transaction.depositBody.colAmount = depositAmount;
       transaction.depositBody.mintAmount = mintAmount;
       transaction.action = "Deposit";
@@ -145,7 +155,7 @@ const useDeposit = () => {
         _transactions.push(transaction);
       }
 
-      transactions[address] = _transactions;
+      transactions[address] = _transactions.reverse();
 
       await window.localStorage.setItem(
         "transactions",
@@ -166,6 +176,7 @@ const useDeposit = () => {
         action: "",
         status: "",
         hash: "",
+        date: "",
         depositBody: {
           mintAmount: 0,
           colAmount: 0,
@@ -184,6 +195,10 @@ const useDeposit = () => {
           withdrawAmount: 0,
         },
       };
+      let date = new Date();
+      transaction.date = `${date.getDate()}/${
+        date.getMonth() + 1
+      }/${date.getFullYear()}`;
       const tx = await contract?.claimFees();
       await tx.wait();
       const txns = await window.localStorage.getItem("transactions");
@@ -203,7 +218,7 @@ const useDeposit = () => {
         _transactions.push(transaction);
       }
 
-      transactions[address] = _transactions;
+      transactions[address] = _transactions.reverse();
 
       await window.localStorage.setItem(
         "transactions",
@@ -219,6 +234,7 @@ const useDeposit = () => {
         action: "",
         status: "",
         hash: "",
+        date: "",
         depositBody: {
           mintAmount: 0,
           colAmount: 0,
@@ -239,7 +255,10 @@ const useDeposit = () => {
       };
 
       const txns = await window.localStorage.getItem("transactions");
-
+      let date = new Date();
+      transaction.date = `${date.getDate()}/${
+        date.getMonth() + 1
+      }/${date.getFullYear()}`;
       transaction.rewardBody.amount = rewardBal;
       transaction.action = "Reward";
       transaction.status = "Failed";

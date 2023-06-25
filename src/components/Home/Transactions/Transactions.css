@@ -1,5 +1,5 @@
 .transactions {
-  width: 83%;
+  width: 100%;
   margin-top: 40px;
 }
 .table-box {
@@ -22,7 +22,7 @@
 
 .table-cell {
   display: table-cell;
-  width: 40%;
+  width: 27%;
   text-align: left;
   padding: 10px 20px;
   vertical-align: middle;
@@ -38,7 +38,8 @@
 }
 .table-cell a:hover {
   text-decoration: underline;
-  color: #f9603d;
+  color: #495055;
+  cursor: pointer;
 }
 
 .table-head {

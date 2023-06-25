@@ -45,14 +45,14 @@ function useData() {
     getTransactions();
     getzTokenBal();
     getPosition();
-  }, [address]);
+  }, [provider, contract, address]);
 
   useEffect(() => {
     getUserDebt();
     getRewardBalance();
     getTransactions();
     getzTokenBal();
-  }, [userNetMint, globalNetMint, address]);
+  }, [provider, contract, userNetMint, globalNetMint, address]);
 
   // const getRates = async (base: string, target: string) => {
   //   try {

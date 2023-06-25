@@ -61,6 +61,7 @@ function useSwap() {
         action: "",
         status: "",
         hash: "",
+        date: "",
         depositBody: {
           mintAmount: 0,
           colAmount: 0,
@@ -79,6 +80,10 @@ function useSwap() {
           withdrawAmount: 0,
         },
       };
+      let date = new Date();
+      transaction.date = `${date.getDate()}/${
+        date.getMonth() + 1
+      }/${date.getFullYear()}`;
       let _toAmt = _receiveAmt - (_receiveAmt * fee) / 100;
       const txns = await window.localStorage.getItem("transactions");
       transaction.swapBody.fromAmount = Number(_amount);
@@ -100,7 +105,7 @@ function useSwap() {
         _transactions.push(transaction);
       }
 
-      transactions[address] = _transactions;
+      transactions[address] = _transactions.reverse();
 
       await window.localStorage.setItem(
         "transactions",
@@ -116,6 +121,7 @@ function useSwap() {
         action: "",
         status: "",
         hash: "",
+        date: "",
         depositBody: {
           mintAmount: 0,
           colAmount: 0,
@@ -134,7 +140,10 @@ function useSwap() {
           withdrawAmount: 0,
         },
       };
-
+      let date = new Date();
+      transaction.date = `${date.getDate()}/${
+        date.getMonth() + 1
+      }/${date.getFullYear()}`;
       transaction.swapBody.fromAmount = Number(_amount);
       transaction.swapBody.toAmount = Number(_receiveAmt);
       transaction.swapBody.fromCurrency = _fromzToken;
@@ -154,7 +163,7 @@ function useSwap() {
       } else {
         _transactions.push(transaction);
       }
-      transactions[address] = _transactions;
+      transactions[address] = _transactions.reverse();
 
       await window.localStorage.setItem(
         "transactions",

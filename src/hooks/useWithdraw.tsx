@@ -32,6 +32,7 @@ function useWithdraw() {
         action: "",
         status: "",
         hash: "",
+        date: "",
         depositBody: {
           mintAmount: 0,
           colAmount: 0,
@@ -51,6 +52,10 @@ function useWithdraw() {
           withdrawAmount: 0,
         },
       };
+      let date = new Date();
+      transaction.date = `${date.getDate()}/${
+        date.getMonth() + 1
+      }/${date.getFullYear()}`;
       const tx = await contract.repayAndWithdraw(
         ethers.utils.parseUnits(String(_amountToRepay), "ether"),
         ethers.utils.parseUnits(String(_amountToWithdraw), "ether"),
@@ -77,7 +82,7 @@ function useWithdraw() {
         _transactions.push(transaction);
       }
 
-      transactions[address] = _transactions;
+      transactions[address] = _transactions.reverse();
 
       await window.localStorage.setItem(
         "transactions",
@@ -92,6 +97,7 @@ function useWithdraw() {
         action: "",
         status: "",
         hash: "",
+        date: "",
         depositBody: {
           mintAmount: 0,
           colAmount: 0,
@@ -110,7 +116,10 @@ function useWithdraw() {
           withdrawAmount: 0,
         },
       };
-
+      let date = new Date();
+      transaction.date = `${date.getDate()}/${
+        date.getMonth() + 1
+      }/${date.getFullYear()}`;
       transaction.repayBody.repayAmount = Number(_amountToRepay);
       transaction.repayBody.withdrawAmount = Number(_amountToWithdraw);
       transaction.action = "Withdrawal";
@@ -129,7 +138,7 @@ function useWithdraw() {
         _transactions.push(transaction);
       }
 
-      transactions[address] = _transactions;
+      transactions[address] = _transactions.reverse();
 
       await window.localStorage.setItem(
         "transactions",

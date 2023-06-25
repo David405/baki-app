@@ -26,7 +26,7 @@ function Swap() {
   const [fromAmount, setFromAmount] = useState<any>(0);
   const [toAmount, setToAmount] = useState<any>(0);
   const [stage, setStage] = useState<number>(1);
-  const [show, setShow] = useState<boolean>(false);
+  const test = useData();
   const [showFromZAssets, setShowFromZAssets] = useState<boolean>(false);
   const [showToZAssets, setShowToZAssets] = useState<boolean>(false);
   const [fromZAsset, setFromZAsset] = useState<string>("zUSD");
@@ -46,8 +46,6 @@ function Swap() {
     getZARXAF,
     getNGNZAR,
   } = useOracle();
-
-  let test = useData();
 
   const { zUSDBal, zNGNBal, zCFABal, zZARBal, fee } = useSelector(
     (state: any) => state.baki
@@ -232,7 +230,11 @@ function Swap() {
             const output = result.NGNXAF * fromAmount;
             setSwapOutput(output);
           }
-
+          if (fromZAsset.substring(1) === toZAsset.substring(1)) {
+            setRate(1);
+            const output = 1 * fromAmount;
+            setSwapOutput(output);
+          }
           setLoading(false);
           setLoadingApprove(false);
         })
@@ -240,13 +242,75 @@ function Swap() {
           setLoading(false);
           setLoadingApprove(false);
         });
-      alert("man");
     } else {
-      getRates().then(res => {
+      getRates().then((res: any) => {
+        if (fromZAsset.substring(1) === toZAsset.substring(1)) {
+          return setRate(1);
+        }
+        if (
+          fromZAsset.substring(1) === "NGN" &&
+          toZAsset.substring(1) === "USD"
+        ) {
+          return setRate(1 / res?.NGN);
+        }
+
+        if (
+          fromZAsset.substring(1) === "ZAR" &&
+          toZAsset.substring(1) === "USD"
+        ) {
+          return setRate(1 / res?.ZAR);
+        }
+
+        if (
+          fromZAsset.substring(1) === "CFA" &&
+          toZAsset.substring(1) === "USD"
+        ) {
+          return setRate(1 / res?.XAF);
+        }
+
+        if (
+          fromZAsset.substring(1) === "NGN" &&
+          toZAsset.substring(1) === "CFA"
+        ) {
+          return setRate(1 / res?.NGNXAF);
+        }
+
+        if (
+          fromZAsset.substring(1) === "ZAR" &&
+          toZAsset.substring(1) === "CFA"
+        ) {
+          return setRate(1 / res?.ZARXAF);
+        }
+        if (
+          fromZAsset.substring(1) === "CFA" &&
+          toZAsset.substring(1) === "ZAR"
+        ) {
+          return setRate(res?.ZARXAF);
+        }
+        if (
+          fromZAsset.substring(1) === "NGN" &&
+          toZAsset.substring(1) === "ZAR"
+        ) {
+          return setRate(1 / res?.NGNZAR);
+        }
+        if (
+          fromZAsset.substring(1) === "ZAR" &&
+          toZAsset.substring(1) === "NGN"
+        ) {
+          return setRate(res?.NGNZAR);
+        }
+
+        if (
+          fromZAsset.substring(1) === "CFA" &&
+          toZAsset.substring(1) === "NGN"
+        ) {
+          return setRate(res?.NGNXAF);
+        }
+
         setRate(Number(res?.NGN));
       });
     }
-  }, [toZAsset, fromZAsset, rate, fromAmount]);
+  }, [rate, toZAsset, fromZAsset, fromAmount]);
 
   const selectFromZAsset = (_asset: string) => {
     setFromZAsset(_asset);
@@ -256,6 +320,7 @@ function Swap() {
     setToZAsset(_asset);
     setShowToZAssets(false);
   };
+
   return (
     <>
       <MainLayout>
@@ -267,12 +332,13 @@ function Swap() {
                   {fromZAsset === "zUSD" && (
                     <p
                       onClick={() => setFromAmount(zUSDBal)}
+                      className="mb-3"
                       style={{
                         fontSize: 12,
                         cursor: "pointer",
                       }}
                     >
-                      Balance:
+                      <span className="font-bold">{fromZAsset} Balance:</span>
                       <span className="ml-2">
                         {zUSDBal?.toLocaleString(undefined, {
                           maximumFractionDigits: 2,
@@ -283,12 +349,13 @@ function Swap() {
                   {fromZAsset === "zNGN" && (
                     <p
                       onClick={() => setFromAmount(zNGNBal)}
+                      className="mb-3"
                       style={{
                         fontSize: 12,
                         cursor: "pointer",
                       }}
                     >
-                      Balance:
+                      <span className="font-bold">{fromZAsset} Balance:</span>
                       <span className="ml-2">
                         {zNGNBal?.toLocaleString(undefined, {
                           maximumFractionDigits: 2,
@@ -299,12 +366,13 @@ function Swap() {
                   {fromZAsset === "zCFA" && (
                     <p
                       onClick={() => setFromAmount(zCFABal)}
+                      className="mb-3"
                       style={{
                         fontSize: 12,
                         cursor: "pointer",
                       }}
                     >
-                      Balance:
+                      <span className="font-bold">{fromZAsset} Balance:</span>
                       <span className="ml-2">
                         {zCFABal?.toLocaleString(undefined, {
                           maximumFractionDigits: 2,
@@ -315,6 +383,7 @@ function Swap() {
                   {fromZAsset === "zZAR" && (
                     <p
                       onClick={() => setFromAmount(zZARBal)}
+                      className="mb-3"
                       style={{
                         fontSize: 12,
                         cursor: "pointer",
@@ -421,21 +490,49 @@ function Swap() {
                     disabled={fromZAsset && toZAsset ? false : true}
                   />
                 </div>
+                <p className="swap-metrix mt-4 mb-4">
+                  1 {fromZAsset} = {rate?.toFixed(2)} {toZAsset}
+                </p>
+                <p className="mb-3 swap-metrix">
+                  <span className="mr-2">Trading fee:</span>
+                  {(swapOutput * fee) / 100} {toZAsset}
+                </p>
+                <button
+                  style={{
+                    background:
+                      stage === 1 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
+                  }}
+                  onClick={handleApprove}
+                  className="approve"
+                >
+                  {loadingApprove ? (
+                    <img
+                      src={loader}
+                      style={{
+                        height: "40px",
+                      }}
+                      alt="Loader"
+                    />
+                  ) : (
+                    "Approve"
+                  )}
+                </button>
               </div>
               <div className="swap-icon">
-                <img src={swapArrow} alt="" />
+                <img src="/images/swap.jpg" alt="" />
               </div>
               <div className="asset-box">
                 <div className="flex justify-end">
                   {toZAsset === "zUSD" && (
                     <p
                       onClick={() => setToAmount(zUSDBal)}
+                      className="mb-3"
                       style={{
                         fontSize: 12,
                         cursor: "pointer",
                       }}
                     >
-                      Balance:
+                      <span className="font-bold">{toZAsset} Balance:</span>
                       <span className="ml-2">
                         {zUSDBal?.toLocaleString(undefined, {
                           maximumFractionDigits: 2,
@@ -446,12 +543,13 @@ function Swap() {
                   {toZAsset === "zNGN" && (
                     <p
                       onClick={() => setToAmount(zNGNBal)}
+                      className="mb-3"
                       style={{
                         fontSize: 12,
                         cursor: "pointer",
                       }}
                     >
-                      Balance:
+                      <span className="font-bold">{toZAsset} Balance:</span>
                       <span className="ml-2">
                         {zNGNBal?.toLocaleString(undefined, {
                           maximumFractionDigits: 2,
@@ -462,12 +560,13 @@ function Swap() {
                   {toZAsset === "zCFA" && (
                     <p
                       onClick={() => setToAmount(zCFABal)}
+                      className="mb-3"
                       style={{
                         fontSize: 12,
                         cursor: "pointer",
                       }}
                     >
-                      Balance:
+                      <span className="font-bold">{toZAsset} Balance:</span>
                       <span className="ml-2">
                         {zCFABal?.toLocaleString(undefined, {
                           maximumFractionDigits: 2,
@@ -478,12 +577,13 @@ function Swap() {
                   {toZAsset === "zZAR" && (
                     <p
                       onClick={() => setToAmount(zZARBal)}
+                      className="mb-3"
                       style={{
                         fontSize: 12,
                         cursor: "pointer",
                       }}
                     >
-                      Balance:
+                      <span className="font-bold">{toZAsset} Balance:</span>
                       <span className="ml-2">
                         {zZARBal?.toLocaleString(undefined, {
                           maximumFractionDigits: 2,
@@ -492,152 +592,112 @@ function Swap() {
                     </p>
                   )}
                 </div>
-                <div className="flex">
-                  <button
-                    className="swap-assets rounded-full"
-                    onClick={() => setShowToZAssets(!showToZAssets)}
-                  >
-                    <span className="flex items-center">
-                      {toZAsset && (
-                        <>
-                          {toZAsset === "zUSD" && (
-                            <img src={ZUSD} alt="ZUSD" className="h-7" />
-                          )}
-                          {toZAsset === "zNGN" && (
-                            <img src={ZNGN} alt="ZNGN" className="h-7" />
-                          )}
-                          {toZAsset === "zCFA" && (
-                            <img src={ZCFA} alt="ZCFA" className="h-7" />
-                          )}
-                          {toZAsset === "zZAR" && (
-                            <img src={ZZAR} alt="ZZAR" className="h-7" />
-                          )}
-                        </>
-                      )}
-                      <p
-                        className="ml-2"
-                        style={{
-                          fontSize: toZAsset ? 14 : 12,
-                        }}
-                      >
-                        {toZAsset ? toZAsset : "Choose Asset"}
-                      </p>
-                    </span>
-                    {showToZAssets ? (
-                      <AiOutlineUp
-                        size={18}
-                        color={"#5A5A65"}
-                        className="mr-2"
-                      />
-                    ) : (
-                      <AiOutlineDown
-                        size={18}
-                        color={"#5A5A65"}
-                        className="mr-2"
-                      />
-                    )}
-                  </button>
-                  {showToZAssets && (
-                    <div
-                      className="mt-2 text-font-grey cursor-pointer absolute rounded  select-assets"
-                      style={{
-                        marginLeft: 0,
-                      }}
+                <div className="flex flex-col">
+                  <div className="flex">
+                    <button
+                      className="swap-assets rounded-full"
+                      onClick={() => setShowToZAssets(!showToZAssets)}
                     >
+                      <span className="flex items-center">
+                        {toZAsset && (
+                          <>
+                            {toZAsset === "zUSD" && (
+                              <img src={ZUSD} alt="ZUSD" className="h-7" />
+                            )}
+                            {toZAsset === "zNGN" && (
+                              <img src={ZNGN} alt="ZNGN" className="h-7" />
+                            )}
+                            {toZAsset === "zCFA" && (
+                              <img src={ZCFA} alt="ZCFA" className="h-7" />
+                            )}
+                            {toZAsset === "zZAR" && (
+                              <img src={ZZAR} alt="ZZAR" className="h-7" />
+                            )}
+                          </>
+                        )}
+                        <p
+                          className="ml-2"
+                          style={{
+                            fontSize: toZAsset ? 14 : 12,
+                          }}
+                        >
+                          {toZAsset ? toZAsset : "Choose Asset"}
+                        </p>
+                      </span>
+                      {showToZAssets ? (
+                        <AiOutlineUp
+                          size={18}
+                          color={"#5A5A65"}
+                          className="mr-2"
+                        />
+                      ) : (
+                        <AiOutlineDown
+                          size={18}
+                          color={"#5A5A65"}
+                          className="mr-2"
+                        />
+                      )}
+                    </button>
+                    {showToZAssets && (
                       <div
-                        className="flex p-2 mb-2 select-asset"
-                        onClick={() => selectToZAsset("zUSD")}
-                      >
-                        <img src={ZUSD} alt="zusd" className="h-7" />
-                        <p className="ml-2">ZUSD</p>
-                      </div>
-                      <div
-                        className="flex p-2 mb-2 select-asset"
-                        onClick={() => selectToZAsset("zNGN")}
-                      >
-                        <img src={ZNGN} alt="" className="h-7" />
-                        <p className="ml-2">ZNGN</p>
-                      </div>
-                      <div
-                        className="flex p-2 mb-2 select-asset"
-                        onClick={() => selectToZAsset("zCFA")}
-                      >
-                        <img src={ZCFA} alt="" className="h-7" />
-                        <p className="ml-2">ZCFA</p>
-                      </div>
-                      <div
-                        className="flex p-2 mb-2 select-asset"
-                        onClick={() => selectToZAsset("zZAR")}
-                      >
-                        <img src={ZZAR} alt="" className="h-7" />
-                        <p className="ml-2">ZZAR</p>
-                      </div>
-                    </div>
-                  )}
-                  <input
-                    type="number"
-                    className="ml-3"
-                    placeholder="0"
-                    value={toAmount}
-                    onChange={e => handleFields(e.target.value, "To")}
-                    disabled={toZAsset && toZAsset ? false : true}
-                  />
-                </div>
-              </div>
-            </div>
-            {rate ? (
-              <div className="text-font-grey px-6 py-4 swap-details">
-                {fromZAsset && toZAsset && (
-                  <>
-                    <p className="mb-4">
-                      1 {fromZAsset} = {rate?.toFixed(2)} {toZAsset}
-                    </p>
-                    <p className="mb-3">
-                      <span className="font-bold mr-2">Trading fee:</span>
-                      {(swapOutput * fee) / 100} {toZAsset}
-                    </p>
-                    <p className="mb-3">
-                      <span className="font-bold mr-2">Expected Output:</span>
-                      {swapOutput - (swapOutput * fee) / 100} {toZAsset}
-                    </p>
-                  </>
-                )}
-
-                <p>
-                  <span className="font-bold mr-2">Fees:</span>
-                  {fee}%
-                </p>
-              </div>
-            ) : (
-              <div className="w-full mt-3">
-                <p className="text-center">Loading ....</p>
-              </div>
-            )}
-            {show && (
-              <>
-                <div className="action-btns">
-                  <button
-                    style={{
-                      backgroundColor: stage === 1 ? "#f97f41" : "#ccc",
-                    }}
-                    onClick={handleApprove}
-                  >
-                    {loadingApprove ? (
-                      <img
-                        src={loader}
+                        className="mt-12 text-font-grey cursor-pointer absolute rounded  select-assets"
                         style={{
-                          height: "40px",
+                          marginLeft: 0,
                         }}
-                        alt="Loader"
-                      />
-                    ) : (
-                      "Approve"
+                      >
+                        <div
+                          className="flex p-2 mb-2 select-asset"
+                          onClick={() => selectToZAsset("zUSD")}
+                        >
+                          <img src={ZUSD} alt="zusd" className="h-7" />
+                          <p className="ml-2">ZUSD</p>
+                        </div>
+                        <div
+                          className="flex p-2 mb-2 select-asset"
+                          onClick={() => selectToZAsset("zNGN")}
+                        >
+                          <img src={ZNGN} alt="" className="h-7" />
+                          <p className="ml-2">ZNGN</p>
+                        </div>
+                        <div
+                          className="flex p-2 mb-2 select-asset"
+                          onClick={() => selectToZAsset("zCFA")}
+                        >
+                          <img src={ZCFA} alt="" className="h-7" />
+                          <p className="ml-2">ZCFA</p>
+                        </div>
+                        <div
+                          className="flex p-2 mb-2 select-asset"
+                          onClick={() => selectToZAsset("zZAR")}
+                        >
+                          <img src={ZZAR} alt="" className="h-7" />
+                          <p className="ml-2">ZZAR</p>
+                        </div>
+                      </div>
                     )}
-                  </button>
+                    <input
+                      type="number"
+                      className="ml-3"
+                      placeholder="0"
+                      value={toAmount}
+                      onChange={e => handleFields(e.target.value, "To")}
+                      disabled={toZAsset && toZAsset ? false : true}
+                    />
+                  </div>
+                  <p className="mt-4 mb-3 swap-metrix">
+                    <span className="mr-2">Expected Output:</span>
+                    {swapOutput - (swapOutput * fee) / 100} {toZAsset}
+                  </p>
+                  <p className="mb-4 swap-metrix">
+                    <span className="mr-2">Fees:</span>
+                    {fee}%
+                  </p>
                   <button
                     style={{
-                      backgroundColor: stage === 2 ? "#f97f41" : "#ccc",
+                      backgroundColor:
+                        stage === 2 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
                     }}
+                    className="b-swap"
                     onClick={handleSwap}
                   >
                     {loading ? (
@@ -653,32 +713,8 @@ function Swap() {
                     )}
                   </button>
                 </div>
-                <div className="action-indicators">
-                  <div
-                    className="circle"
-                    style={{
-                      backgroundColor: "#f97f41",
-                    }}
-                  >
-                    1
-                  </div>
-                  <div
-                    className="line"
-                    style={{
-                      backgroundColor: stage === 2 ? "#f97f41" : "#ccc",
-                    }}
-                  ></div>
-                  <div
-                    className="circle"
-                    style={{
-                      backgroundColor: stage === 2 ? "#f97f41" : "#ccc",
-                    }}
-                  >
-                    2
-                  </div>
-                </div>
-              </>
-            )}
+              </div>
+            </div>
           </div>
           <Transactions />
         </div>

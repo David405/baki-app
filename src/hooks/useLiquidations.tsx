@@ -61,6 +61,7 @@ const useLiquidations = () => {
       dispatch(updateLiquidations(liquidations));
     } catch (error) {
       console.error(error);
+      dispatch(updateLiqLoading(false));
     }
   };
   // const manageUsersLiquidation = async () => {

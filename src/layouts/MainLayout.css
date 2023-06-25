@@ -15,7 +15,7 @@
   color: #fff;
   cursor: pointer;
   height: 40px;
-  width: 262px;
+  width: 92%;
   margin-left: 6%;
   margin-bottom: 20px;
 }
@@ -37,6 +37,7 @@
   height: 15%;
 }
 .layout-body {
+  padding: 10px 60px;
   height: 90vh;
   overflow-y: scroll;
 }
@@ -77,6 +78,10 @@
   background: #ffffff;
   border: 1px solid #241f17;
   border-radius: 8px;
+}
+
+.header {
+  padding: 20px 60px;
 }
 
 /* Extra small devices (phones, 600px and down) */

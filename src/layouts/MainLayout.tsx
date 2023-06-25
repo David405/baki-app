@@ -221,8 +221,8 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           </a>
         </div>
       </div>
-      <div className="flex-1 h-screen">
-        <div className="flex justify-between p-5 border-b-2 ">
+      <div className="flex-1 h-screen ">
+        <div className="flex justify-between p-5 border-b-2 header">
           {!isTabletOrMobile && (
             <div className="relatively ml-3 mt-2">
               <h1 className="font-bold text-lg">

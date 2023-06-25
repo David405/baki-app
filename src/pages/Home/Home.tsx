@@ -11,7 +11,6 @@ import { useSelector } from "react-redux";
 import useData from "../../hooks/useData";
 
 function Home() {
-  // const {} = useConnector();
   const test = useData();
   const { totalVolume, totalCollateral, globalDebt } = useSelector(
     (state: any) => state.baki

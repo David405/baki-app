@@ -23,7 +23,7 @@
   justify-content: center;
   padding: 20px;
   gap: 29px;
-  width: 480px;
+  width: 45%;
   height: 200px;
   background: #fffaf3;
   border: 0.2px solid #a6a6a6;
@@ -37,7 +37,7 @@
   align-items: center;
   padding: 8px 12px;
   gap: 10px;
-  width: 312px;
+  width: 78%;
   height: 50px;
   background: #ffffff;
   border: 1px solid rgba(111, 118, 126, 0.2);
@@ -153,7 +153,7 @@
   color: #fff;
   margin-bottom: 10px;
   height: 40px;
-  background: #241f17;
+
   border-radius: 10px;
 }
 
@@ -166,7 +166,7 @@
   gap: 10px;
   height: 40px;
   border-radius: 10px;
-  background: rgba(36, 31, 23, 0.17);
+
   color: #fff;
   margin-bottom: 8px;
 }

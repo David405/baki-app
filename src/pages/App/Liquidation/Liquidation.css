@@ -1,13 +1,12 @@
 .liquidation {
   border: 1px solid #dbdedf;
-  width: 80%;
+  width: 96%;
   border-radius: 10px;
   margin-left: 20px;
 }
 
 .li-header {
   padding: 10px;
-  border-bottom: 1px solid #dbdedf;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,10 +19,6 @@
 
 .liquidate {
   height: 40px;
-}
-
-.li-table-box {
-  margin: 20px auto;
 }
 
 .li-table-row {
@@ -45,10 +40,20 @@
   vertical-align: middle;
 }
 
+.li-table-cell p {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .li-table-head {
   font-weight: 600;
-  border-bottom: 1px solid #ccc;
   font-size: 14px;
+  background: #f9f4ed;
 }
 
 .transactions-no {
@@ -66,4 +71,12 @@
 
 .transactions-no p {
   color: #555;
+}
+
+.all-liq {
+  padding: 0px;
+  gap: 20px;
+  height: 25px;
+  color: #682609;
+  margin-left: 10px;
 }

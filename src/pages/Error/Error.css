@@ -5,7 +5,54 @@
   flex-direction: column;
   height: 100vh;
 }
-.heading {
-  font-weight: bold;
-  font-size: large;
+.error .title {
+  width: 529px;
+  height: 108px;
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 54px;
+  text-align: center;
+  letter-spacing: -2px;
+  color: #241f17;
+}
+.error .sub-title {
+  width: 655px;
+  height: 52px;
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 26px;
+  text-align: center;
+  color: #454647;
+  flex: none;
+  margin-top: 12px;
+}
+
+.error button {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 16px 43px;
+  gap: 10px;
+  width: 220px;
+  height: 60px;
+  background: #241f17;
+  border-radius: 15px;
+  margin-top: 15px;
+}
+
+.error button p {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 28px;
+  /* identical to box height, or 156% */
+
+  text-align: center;
+
+  color: #ffffff;
 }

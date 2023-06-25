@@ -261,7 +261,13 @@ function Repay() {
               disabled={zAsset ? false : true}
             />
           </div>
-          <button onClick={handleApprove} className="approve">
+          <button
+            style={{
+              background: stage === 1 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
+            }}
+            onClick={handleApprove}
+            className="approve"
+          >
             {loadingApprove ? (
               <img
                 src={loader}
@@ -311,7 +317,13 @@ function Repay() {
               onChange={e => setColAmount(e.target.value)}
             />
           </div>
-          <button onClick={repay} className="withdraw">
+          <button
+            style={{
+              background: stage === 2 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
+            }}
+            onClick={repay}
+            className="withdraw"
+          >
             {loading ? (
               <img
                 src={loader}

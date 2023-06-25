@@ -38,7 +38,7 @@ function useConnector() {
       // Set Provider
       setProvider(new ethers.providers.Web3Provider(data as any));
     }
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     // Check Network
@@ -113,17 +113,35 @@ function useConnector() {
     }
   }
 
-  const disconnectWallet = async () => {
-    // try {
-    //   web3reactContext.deactivate();
-    // } catch (ex) {
-    //   console.log(ex);
-    // }
+  const switchNetwork = async () => {
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: 43113 }],
+      });
+    } catch {
+      window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [
+          {
+            chainId: 43113,
+            rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc"],
+            chainName: "Avalanche Fuji Testnet",
+            nativeCurrency: {
+              name: "AVAX",
+              symbol: "AVAX",
+              decimals: 18,
+            },
+            blockExplorerUrls: ["https://testnet.snowtrace.io"],
+          },
+        ],
+      });
+    }
   };
 
   return {
     connectWallet,
-    disconnectWallet,
+    switchNetwork,
     changeNetwork,
     checkInfoSimple,
     provider,

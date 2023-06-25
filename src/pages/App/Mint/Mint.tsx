@@ -82,7 +82,7 @@ function Mint() {
                 <p className="heading">Position Health</p>
                 <div className="flex itams-center">
                   <p
-                    className="detail-subt"
+                    className="detail-subt pr-2"
                     style={{
                       color: userColBalance / userDebt >= 1.5 ? "green" : "red",
                     }}

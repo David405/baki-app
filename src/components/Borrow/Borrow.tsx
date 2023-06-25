@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 // import redstone from "redstone-api";
 import { config } from "../../config";
 import { toast } from "react-toastify";
+import millify from "millify";
 
 axios.defaults.baseURL = `https://api.coinlayer.com/api/live?access_key=${config.coinlayerAPIKEY}`;
 declare const window: any;
@@ -30,14 +31,14 @@ function Borrow() {
   const [show, setShow] = useState<boolean>(false);
   // const [showAssets, setShowAssets] = useState<boolean>(false);
   // const [asset, setAsset] = useState<string>("");
-  const [colRate, setColRate] = useState<any>(0);
+  // const [colRate, setColRate] = useState<any>(0);
   const [loadingApprove, setLoadingApprove] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const { approve } = useToken("USDC", false);
-  const getColRate = async () => {
-    // const price = await redstone.getPrice(activeCol);
-    // setColRate(price.value);
-  };
+  // const getColRate = async () => {
+  //   const price = await redstone.getPrice(activeCol);
+  //   setColRate(price.value);
+  // };
   useEffect(() => {
     if (depositAmount < 0 || mintAmount < 0) return;
 
@@ -48,9 +49,9 @@ function Borrow() {
     }
   }, [depositAmount, mintAmount]);
 
-  useEffect(() => {
-    getColRate();
-  }, [depositAmount]);
+  // useEffect(() => {
+  //   getColRate();
+  // }, [depositAmount]);
 
   const handleApprove = async () => {
     if (depositAmount < 0 || mintAmount < 0) return;
@@ -106,72 +107,75 @@ function Borrow() {
   return (
     <div className="borrow">
       <div className="top">
-        <div>
-          <div className="deposit-body">
-            <div className="flex justify-between ">
-              <p className="title">DEPOSIT COLLATERAL</p>
-              <p
-                onClick={() => setDepositAmount(collateral)}
-                className="text"
-                style={{
-                  fontSize: 12,
-                  cursor: "pointer",
-                }}
-              >
-                USDC balance:
-                <span className="ml-2">
-                  {collateral?.toLocaleString(undefined, {
-                    maximumFractionDigits: 2,
-                  })}
-                </span>
+        <div className="deposit-body">
+          <div className="flex justify-between ">
+            <p className="title">DEPOSIT COLLATERAL</p>
+            <p
+              onClick={() => setDepositAmount(collateral)}
+              className="text"
+              style={{
+                fontSize: 12,
+                cursor: "pointer",
+              }}
+            >
+              USDC balance:
+              <span className="ml-2">
+                {collateral?.toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            </p>
+          </div>
+          <div className="flex justify-between items-center">
+            <button className="choose px-1 py-1">
+              <img src="/images/usdc-dark.png" alt="USDC" />
+              <span className="mr-2 text-font-grey">USDC</span>
+              <img src="/images/car-down.png" alt="cerret" />
+            </button>
+            <input
+              type="number"
+              placeholder="Enter Amount"
+              value={depositAmount ? depositAmount : ""}
+              onChange={e => setDepositAmount(e.target.value)}
+            />
+          </div>
+          <div className="position flex-1">
+            <div className="position-details">
+              <p>
+                Deposit Value: ${" "}
+                {millify(Number(depositAmount), {
+                  units: ["", "K", "M", "B", "T", "P", "E"],
+                })}
               </p>
             </div>
-            <div className="flex justify-between items-center">
-              <button className="choose px-1 py-1">
-                <img src="/images/usdc-dark.png" alt="USDC" />
-                <span className="mr-2 text-font-grey">USDC</span>
-                <img src="/images/car-down.png" alt="cerret" />
-              </button>
-              <input
-                type="number"
-                placeholder="Enter Amount"
-                value={depositAmount ? depositAmount : ""}
-                onChange={e => setDepositAmount(e.target.value)}
-              />
+            <div className="position-details">
+              <p>Position Health: Safe</p>
             </div>
-            <div className="position flex-1">
-              <div className="position-details">
-                <p>
-                  Deposit Value: $
-                  {Number(depositAmount).toLocaleString(undefined, {
-                    maximumFractionDigits: 2,
-                  })}
-                </p>
-              </div>
-              <div className="position-details">
-                <p>Position Health: Safe</p>
-              </div>
-              <div className="position-details">
-                <p>
-                  cRatio: {((userColBalance / userDebt) * 100).toFixed(2)} %
-                </p>
-              </div>
+            <div className="position-details">
+              <p>cRatio: {((userColBalance / userDebt) * 100).toFixed(2)} %</p>
             </div>
-            <button className="approve" onClick={handleApprove}>
-              {loadingApprove ? (
-                <img
-                  src={loader}
-                  style={{
-                    height: "40px",
-                  }}
-                  alt="Loader"
-                />
-              ) : (
-                "Approve"
-              )}
-            </button>
           </div>
+          <button
+            style={{
+              background: stage === 1 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
+            }}
+            className="approve"
+            onClick={handleApprove}
+          >
+            {loadingApprove ? (
+              <img
+                src={loader}
+                style={{
+                  height: "40px",
+                }}
+                alt="Loader"
+              />
+            ) : (
+              "Approve"
+            )}
+          </button>
         </div>
+
         <div>
           <img src="/images/mint.png" alt="" />
         </div>
@@ -269,7 +273,13 @@ function Borrow() {
               />
             </div>
           </div>
-          <button className="mint" onClick={mint}>
+          <button
+            style={{
+              background: stage === 2 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
+            }}
+            className="mint"
+            onClick={mint}
+          >
             {loading ? (
               <img
                 src={loader}
