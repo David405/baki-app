@@ -73,7 +73,9 @@ function Mint() {
               ) : (
                 " Claim now"
               )}
-              <img className="ml-2" src="/images/up-light.png" alt="" />
+              {!loading && (
+                <img className="ml-2" src="/images/up-light.png" alt="" />
+              )}
             </button>
           </div>
           <div className="user-details">
