@@ -24,7 +24,7 @@ function Mint() {
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleClaimReward = async () => {
-    if (rewardBal < 0) return;
+    if (rewardBal / 10 ** -6 <= 0) return;
     setLoading(true);
     let result = await claimReward();
     setLoading(false);
@@ -55,7 +55,7 @@ function Mint() {
                 You have earned
                 <span className="ml-2 claim-amount">
                   {(rewardBal * 10 ** -6).toLocaleString(undefined, {
-                    maximumFractionDigits: 2,
+                    maximumFractionDigits: 5,
                   })}
                   <span className="ml-1">zUSD</span>
                 </span>
