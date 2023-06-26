@@ -7,9 +7,9 @@ import { store } from "./redux/store";
 import { Provider } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { WagmiConfig, createConfig } from "wagmi";
-import { avalanche, avalancheFuji } from "wagmi/chains";
+import { avalancheFuji } from "wagmi/chains";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
-const chains = [avalancheFuji, avalanche];
+const chains = [avalancheFuji];
 const config = createConfig(
   getDefaultConfig({
     // Required API Keys
