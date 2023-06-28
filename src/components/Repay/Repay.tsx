@@ -51,21 +51,11 @@ function Repay() {
   const repay = async () => {
     if (zTokenAmount < 0 || colAmount < 0) return;
     if (stage === 2) {
-      let zToken = "";
-      if (zAsset === "ZUSD") {
-        zToken = config.zUSD;
-      } else if (zAsset === "ZNGN") {
-        zToken = config.zNGN;
-      } else if (zAsset === "ZCFA") {
-        zToken = config.zCFA;
-      } else if (zAsset === "ZZAR") {
-        zToken = config.zZAR;
-      }
       setLoading(true);
       const result = await withdraw(
         Number(zTokenAmount),
         Number(colAmount),
-        zToken,
+        zAsset,
         zAsset
       );
       if (result) {

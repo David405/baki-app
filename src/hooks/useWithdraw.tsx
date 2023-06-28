@@ -56,10 +56,11 @@ function useWithdraw() {
       transaction.date = `${date.getDate()}/${
         date.getMonth() + 1
       }/${date.getFullYear()}`;
+      let ztoken = _zToken === "ZCFA" ? "zxaf" : _zToken?.toLowerCase();
       const tx = await contract.repayAndWithdraw(
         ethers.utils.parseUnits(String(_amountToRepay), "ether"),
         ethers.utils.parseUnits(String(_amountToWithdraw), "ether"),
-        _zToken
+        ztoken
       );
       await tx.wait();
       const txns = await window.localStorage.getItem("transactions");

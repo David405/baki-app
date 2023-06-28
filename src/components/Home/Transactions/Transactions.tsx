@@ -57,12 +57,12 @@ function Transactiions() {
           >
             <div className="table-cell">
               {transaction.action === "Deposit" && (
-                <p>{`Deposited ${transaction.depositBody.colAmount.toLocaleString(
+                <p>{`Deposited ${transaction.depositBody.colAmount?.toLocaleString(
                   undefined,
                   {
                     maximumFractionDigits: 2,
                   }
-                )} USDC and Minted ${transaction.depositBody.mintAmount.toLocaleString(
+                )} USDC and Minted ${transaction.depositBody.mintAmount?.toLocaleString(
                   undefined,
                   {
                     maximumFractionDigits: 2,
@@ -70,14 +70,14 @@ function Transactiions() {
                 )} zUSD`}</p>
               )}
               {transaction.action === "Swap" && (
-                <p>{`Swap ${transaction.swapBody.fromAmount.toLocaleString(
+                <p>{`Swap ${transaction.swapBody.fromAmount?.toLocaleString(
                   undefined,
                   {
                     maximumFractionDigits: 2,
                   }
                 )}  ${
                   transaction.swapBody.fromCurrency
-                } for ${transaction.swapBody.toAmount.toLocaleString(
+                } for ${transaction.swapBody.toAmount?.toLocaleString(
                   undefined,
                   {
                     maximumFractionDigits: 2,
@@ -85,19 +85,22 @@ function Transactiions() {
                 )} ${transaction.swapBody.toCurrency}`}</p>
               )}
               {transaction.action === "Reward" && (
-                <p>{`${transaction.rewardBody.amount.toLocaleString(undefined, {
-                  maximumFractionDigits: 2,
-                })} zUSD  Claimed in Rewards`}</p>
+                <p>{`${transaction.rewardBody.amount?.toLocaleString(
+                  undefined,
+                  {
+                    maximumFractionDigits: 2,
+                  }
+                )} zUSD  Claimed in Rewards`}</p>
               )}
               {transaction.action === "Withdraw" && (
-                <p>{`Repaid ${transaction.repayBody.repayAmount.toLocaleString(
+                <p>{`Repaid ${transaction.repayBody.repayAmount?.toLocaleString(
                   undefined,
                   {
                     maximumFractionDigits: 2,
                   }
                 )} ${
                   transaction.repayBody.repayCurrency
-                } and Withdrawn ${transaction.repayBody.withdrawAmount.toLocaleString(
+                } and Withdrawn ${transaction.repayBody.withdrawAmount?.toLocaleString(
                   undefined,
                   {
                     maximumFractionDigits: 2,

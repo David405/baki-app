@@ -27,8 +27,8 @@ function useSwap() {
     _tozToken: string,
     _receiveAmt: number
   ) => {
-    let from = _fromzToken.toLowerCase();
-    let to = _tozToken.toLowerCase();
+    let from = _fromzToken === "zCFA" ? "zxaf" : _fromzToken.toLowerCase();
+    let to = _tozToken === "zCFA" ? "zxaf" : _tozToken.toLowerCase();
 
     let hash = "";
     try {

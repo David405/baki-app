@@ -56,7 +56,7 @@ function Mint() {
               <p className="claim-subtitle">
                 You have earned
                 <span className="ml-2 claim-amount">
-                  {(rewardBal * 10 ** -6).toLocaleString(undefined, {
+                  {(rewardBal * 10 ** -6)?.toLocaleString(undefined, {
                     maximumFractionDigits: 5,
                   })}
                   <span className="ml-1">zUSD</span>
