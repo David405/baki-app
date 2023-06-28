@@ -26,7 +26,7 @@ function Repay() {
   const [zAsset, setZAsset] = useState<string>("ZUSD");
   const [loadingApprove, setLoadingApprove] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const { approve, allowance } = useToken("USDC", false);
+  const { approve, allowance } = useToken("zUSD", true);
 
   const { withdraw } = useWithdraw();
 
@@ -37,14 +37,13 @@ function Repay() {
     if (result) {
       setLoadingApprove(false);
       toast.success("Transaction Approved !!");
-      setZTokenAmount(0);
     } else {
       setLoadingApprove(false);
       toast.error("Transaction Failed !!");
     }
   };
   const repay = async () => {
-    if (colAmount <= 0) return;
+    if (colAmount <= 0 || colAmount <= 0) return;
 
     setLoading(true);
     const result = await withdraw(
@@ -243,7 +242,7 @@ function Repay() {
                 alt="Loader"
               />
             ) : (
-              "   Approve"
+              "Approve Repay"
             )}
           </button>
         </div>
@@ -285,8 +284,7 @@ function Repay() {
           </div>
           <button
             style={{
-              background:
-                userColBalance > 0 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
+              background: colAmount > 0 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
             }}
             onClick={repay}
             className="withdraw"
@@ -300,7 +298,7 @@ function Repay() {
                 alt="Loader"
               />
             ) : (
-              "Repay"
+              "Withdraw"
             )}
           </button>
         </div>

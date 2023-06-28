@@ -35,7 +35,7 @@ function Swap() {
   const [loading, setLoading] = useState<boolean>(false);
   const [rate, setRate] = useState<number>(0);
   const [swapOutput, setSwapOutput] = useState<number>(0);
-  const { approve } = useToken(fromZAsset, true);
+  const { approve, allowance } = useToken(fromZAsset, true);
   const { swap } = useSwap();
   const {
     getNGNUSD,
@@ -122,14 +122,13 @@ function Swap() {
       setToAmount(Number(_value) * rate);
     }
   };
-  // useEffect(() => {
-  //   if (fromAmount < 0) return;
-  //   if (fromAmount && toAmount) {
-  //     setShow(true);
-  //   } else {
-  //     setShow(false);
-  //   }
-  // }, [fromAmount, toAmount]);
+  useEffect(() => {
+    if (fromAmount > allowance) {
+      setStage(1);
+    } else {
+      setStage(2);
+    }
+  }, [fromAmount, toAmount, allowance]);
 
   useEffect(() => {
     if (fromAmount) {

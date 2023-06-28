@@ -5,9 +5,11 @@ import useConnector from "./useConnector";
 import { config } from "../config";
 import USDC from "../contracts/USDC.json";
 import zToken from "../contracts/zToken.json";
+import { useAccount } from "wagmi";
 
 function useToken(asset: string, zAsset: boolean) {
   const { provider } = useConnector();
+  const { address } = useAccount();
   const [contract, setContract] = useState<any>(null);
   const [allowance, setAllowance] = useState<any>(null);
 
@@ -46,10 +48,7 @@ function useToken(asset: string, zAsset: boolean) {
   };
 
   const checkAllowance = async () => {
-    const _allowance = await contract?.allowance(
-      config[asset],
-      config.vaultAddress
-    );
+    const _allowance = await contract?.allowance(address, config.vaultAddress);
 
     setAllowance(Number(_allowance?._hex) / 10 ** 18);
   };
