@@ -17,15 +17,15 @@ function useOracle() {
   }, [provider]);
 
   const getNGNUSD = async () => {
-    const result = await contract?.NGNUSD();
+    const result = await contract?.getZTokenUSDValue("zngn");
     return Number(result?._hex) / 1000;
   };
   const getXAFUSD = async () => {
-    const result = await contract?.XAFUSD();
+    const result = await contract?.getZTokenUSDValue("zxaf");
     return Number(result?._hex) / 1000;
   };
   const getZARUSD = async () => {
-    const result = await contract?.ZARUSD();
+    const result = await contract?.getZTokenUSDValue("zzar");
     return Number(result?._hex) / 1000;
   };
   const getCOLUSD = async () => {
@@ -33,16 +33,19 @@ function useOracle() {
     return Number(result?._hex) / 1000;
   };
   const getNGNXAF = async () => {
-    const result = await contract?.NGNXAF();
-    return Number(result?._hex) / 1000;
+    const ngnusd = await getNGNUSD();
+    const xafusd = await getXAFUSD();
+    return ngnusd / xafusd;
   };
   const getZARXAF = async () => {
-    const result = await contract?.ZARXAF();
-    return Number(result?._hex) / 1000;
+    const zarusd = await getZARUSD();
+    const xafusd = await getXAFUSD();
+    return zarusd / xafusd;
   };
   const getNGNZAR = async () => {
-    const result = await contract?.NGNZAR();
-    return Number(result?._hex) / 1000;
+    const ngnusd = await getNGNUSD();
+    const zarusd = await getZARUSD();
+    return ngnusd / zarusd;
   };
   return {
     getCOLUSD,

@@ -14,170 +14,12 @@
         "inputs": [
             {
                 "indexed": false,
-                "internalType": "address",
-                "name": "_address",
-                "type": "address"
-            }
-        ],
-        "name": "AddAddressToBlacklist",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "_address",
-                "type": "address"
-            }
-        ],
-        "name": "AddCollateralAddress",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "_address",
-                "type": "address"
-            }
-        ],
-        "name": "AddTreasuryWallet",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "a",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "b",
-                "type": "uint256"
-            }
-        ],
-        "name": "ChangeGlobalMintersFee",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "a",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "b",
-                "type": "uint256"
-            }
-        ],
-        "name": "ChangeSwapFee",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "a",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "b",
-                "type": "uint256"
-            }
-        ],
-        "name": "ChangeTreasuryFee",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "_account",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "_token",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "_depositAmount",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "_mintAmount",
-                "type": "uint256"
-            }
-        ],
-        "name": "Deposit",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
                 "internalType": "uint8",
                 "name": "version",
                 "type": "uint8"
             }
         ],
         "name": "Initialized",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "_account",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "uint256",
-                "name": "debt",
-                "type": "uint256"
-            },
-            {
-                "indexed": true,
-                "internalType": "uint256",
-                "name": "rewards",
-                "type": "uint256"
-            },
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "liquidator",
-                "type": "address"
-            }
-        ],
-        "name": "Liquidate",
         "type": "event"
     },
     {
@@ -197,114 +39,6 @@
             }
         ],
         "name": "OwnershipTransferred",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [],
-        "name": "PauseTransactions",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "_address",
-                "type": "address"
-            }
-        ],
-        "name": "RemoveAddressFromBlacklist",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256"
-            }
-        ],
-        "name": "SetCollaterizationRatioThreshold",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256"
-            }
-        ],
-        "name": "SetLiquidationReward",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "internalType": "address",
-                "name": "_address",
-                "type": "address"
-            }
-        ],
-        "name": "SetOracleAddress",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "_account",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "_zTokenFrom",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "_zTokenTo",
-                "type": "address"
-            }
-        ],
-        "name": "Swap",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "_account",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "_token",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "uint256",
-                "name": "_amountToWithdraw",
-                "type": "uint256"
-            }
-        ],
-        "name": "Withdraw",
         "type": "event"
     },
     {
@@ -502,6 +236,19 @@
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "collateral",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "uint256",
@@ -516,7 +263,7 @@
         ],
         "name": "depositAndMint",
         "outputs": [],
-        "stateMutability": "nonpayable",
+        "stateMutability": "payable",
         "type": "function"
     },
     {
@@ -635,25 +382,6 @@
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "getUSDValueOfCollateral",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
         "inputs": [],
         "name": "getUserCollateralBalance",
         "outputs": [
@@ -696,6 +424,19 @@
             }
         ],
         "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getzUSDAddress",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -854,9 +595,9 @@
                 "type": "uint256"
             },
             {
-                "internalType": "address",
+                "internalType": "string",
                 "name": "_zToken",
-                "type": "address"
+                "type": "string"
             }
         ],
         "name": "repayAndWithdraw",
@@ -911,14 +652,14 @@
                 "type": "uint256"
             },
             {
-                "internalType": "address",
+                "internalType": "string",
                 "name": "_zTokenFrom",
-                "type": "address"
+                "type": "string"
             },
             {
-                "internalType": "address",
+                "internalType": "string",
                 "name": "_zTokenTo",
-                "type": "address"
+                "type": "string"
             }
         ],
         "name": "swap",
@@ -1078,26 +819,6 @@
         "inputs": [
             {
                 "internalType": "address",
-                "name": "_zUSD",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_zNGN",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_zXAF",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "_zZAR",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
                 "name": "_oracle",
                 "type": "address"
             },
@@ -1120,6 +841,19 @@
                 "internalType": "address[]",
                 "name": "",
                 "type": "address[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "zUSD",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
             }
         ],
         "stateMutability": "view",

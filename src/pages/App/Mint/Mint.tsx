@@ -27,11 +27,13 @@ function Mint() {
     if (rewardBal / 10 ** -6 <= 0) return;
     setLoading(true);
     let result = await claimReward();
-    setLoading(false);
+    console.log(result);
+
     if (result) {
       toast.success("Transaction Successful !!");
       window.location.reload();
     } else {
+      setLoading(false);
       toast.error("Transaction Failed !!");
     }
   };

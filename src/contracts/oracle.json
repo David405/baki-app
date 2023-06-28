@@ -3,21 +3,20 @@
         "anonymous": false,
         "inputs": [
             {
+                "indexed": true,
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
+            },
+            {
                 "indexed": false,
-                "internalType": "uint8",
-                "name": "version",
-                "type": "uint8"
+                "internalType": "address",
+                "name": "_address",
+                "type": "address"
             }
         ],
-        "name": "Initialized",
+        "name": "AddZToken",
         "type": "event"
-    },
-    {
-        "inputs": [],
-        "name": "oracle_init",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
     },
     {
         "anonymous": false,
@@ -39,112 +38,64 @@
         "type": "event"
     },
     {
-        "inputs": [],
-        "name": "renounceOwnership",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
+        "anonymous": false,
         "inputs": [
             {
+                "indexed": true,
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
+            }
+        ],
+        "name": "RemoveZToken",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
                 "internalType": "uint256",
                 "name": "_value",
                 "type": "uint256"
             }
         ],
-        "name": "setCollateralUSD",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "name": "SetZCollateralUSD",
+        "type": "event"
     },
     {
+        "anonymous": false,
         "inputs": [
             {
+                "indexed": true,
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
+            },
+            {
+                "indexed": false,
                 "internalType": "uint256",
                 "name": "_value",
                 "type": "uint256"
             }
         ],
-        "name": "setNGNUSD",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
+        "name": "SetZTokenUSDValue",
+        "type": "event"
     },
     {
         "inputs": [
             {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256"
-            }
-        ],
-        "name": "setNGNXAF",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256"
-            }
-        ],
-        "name": "setNGNZAR",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256"
-            }
-        ],
-        "name": "setXAFUSD",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256"
-            }
-        ],
-        "name": "setZARUSD",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256"
-            }
-        ],
-        "name": "setZARXAF",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
+            },
             {
                 "internalType": "address",
-                "name": "newOwner",
+                "name": "_address",
                 "type": "address"
             }
         ],
-        "name": "transferOwnership",
+        "name": "addZToken",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -163,13 +114,19 @@
         "type": "function"
     },
     {
-        "inputs": [],
-        "name": "NGNUSD",
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
+            }
+        ],
+        "name": "getZToken",
         "outputs": [
             {
-                "internalType": "uint256",
+                "internalType": "address",
                 "name": "",
-                "type": "uint256"
+                "type": "address"
             }
         ],
         "stateMutability": "view",
@@ -177,20 +134,26 @@
     },
     {
         "inputs": [],
-        "name": "NGNXAF",
+        "name": "getZTokenList",
         "outputs": [
             {
-                "internalType": "uint256",
+                "internalType": "string[]",
                 "name": "",
-                "type": "uint256"
+                "type": "string[]"
             }
         ],
         "stateMutability": "view",
         "type": "function"
     },
     {
-        "inputs": [],
-        "name": "NGNZAR",
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
+            }
+        ],
+        "name": "getZTokenUSDValue",
         "outputs": [
             {
                 "internalType": "uint256",
@@ -215,39 +178,83 @@
         "type": "function"
     },
     {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
+            }
+        ],
+        "name": "removeZToken",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
         "inputs": [],
-        "name": "XAFUSD",
-        "outputs": [
+        "name": "renounceOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_value",
+                "type": "uint256"
+            }
+        ],
+        "name": "setZCollateralUSD",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_name",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_value",
+                "type": "uint256"
+            }
+        ],
+        "name": "setZTokenUSDValue",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "newOwner",
+                "type": "address"
+            }
+        ],
+        "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
             {
                 "internalType": "uint256",
                 "name": "",
                 "type": "uint256"
             }
         ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "ZARUSD",
+        "name": "zTokenList",
         "outputs": [
             {
-                "internalType": "uint256",
+                "internalType": "string",
                 "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "ZARXAF",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
+                "type": "string"
             }
         ],
         "stateMutability": "view",

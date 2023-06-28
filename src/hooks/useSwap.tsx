@@ -27,26 +27,9 @@ function useSwap() {
     _tozToken: string,
     _receiveAmt: number
   ) => {
-    let from = "";
-    let to = "";
-    if (_fromzToken === "zUSD") {
-      from = config.zUSD;
-    } else if (_fromzToken === "zCFA") {
-      from = config.zCFA;
-    } else if (_fromzToken === "zNGN") {
-      from = config.zNGN;
-    } else if (_fromzToken === "zZAR") {
-      from = config.zZAR;
-    }
-    if (_tozToken === "zUSD") {
-      to = config.zUSD;
-    } else if (_tozToken === "zCFA") {
-      to = config.zCFA;
-    } else if (_tozToken === "zNGN") {
-      to = config.zNGN;
-    } else if (_tozToken === "zZAR") {
-      to = config.zZAR;
-    }
+    let from = _fromzToken.toLowerCase();
+    let to = _tozToken.toLowerCase();
+
     let hash = "";
     try {
       const tx = await contract.swap(
@@ -112,7 +95,7 @@ function useSwap() {
         JSON.stringify(transactions)
       );
       dispatch(updateTransactions(transactions));
-      window.location.reload();
+      // window.location.reload();
       return true;
     } catch (err: any) {
       let transactions: any = {};

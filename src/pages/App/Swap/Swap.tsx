@@ -97,17 +97,16 @@ function Swap() {
     if (fromZAsset === toZAsset) return;
     if (fromAmount && toAmount && stage === 2) {
       setLoading(true);
+      const result = await swap(fromAmount, fromZAsset, toZAsset, swapOutput);
 
-      try {
-        await swap(fromAmount, fromZAsset, toZAsset, swapOutput);
+      if (result) {
         setLoading(false);
         setStage(1);
         toast.success("Transaction Successful !!");
         setTimeout(() => {
           window.location.reload();
         }, 2000);
-      } catch (error) {
-        console.error(error);
+      } else {
         toast.error("Transaction Failed !!");
         setLoading(false);
       }

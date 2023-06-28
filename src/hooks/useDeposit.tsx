@@ -199,6 +199,7 @@ const useDeposit = () => {
       transaction.date = `${date.getDate()}/${
         date.getMonth() + 1
       }/${date.getFullYear()}`;
+
       const tx = await contract?.claimFees();
       await tx.wait();
       const txns = await window.localStorage.getItem("transactions");
@@ -274,7 +275,7 @@ const useDeposit = () => {
         _transactions.push(transaction);
       }
 
-      transactions[address] = transactions;
+      transactions[address] = _transactions.reverse();
 
       await window.localStorage.setItem(
         "transactions",

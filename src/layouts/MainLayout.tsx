@@ -186,10 +186,17 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           <a href="/">
             <div
               className={`layout-route flex p-2 `}
-              onMouseEnter={() => setRoute("liquidation")}
+              onMouseEnter={() => setRoute("leave-app")}
               onMouseLeave={() => setRoute("")}
             >
-              <img src="/images/leave.png" alt="" />
+              <img
+                src={
+                  route === "leave-app" || location.pathname === "/leave-app"
+                    ? "/images/leave-dark.png"
+                    : "/images/leave.png"
+                }
+                alt=""
+              />
               <p className="ml-2 ">Leave App</p>
             </div>
           </a>
