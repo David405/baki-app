@@ -104,7 +104,7 @@ function Liquidation() {
 
                 <div className="li-table-cell">
                   <button
-                    className="liquidate bg-dark-orange p-2 rounded text-white "
+                    className="liquidate p-2 rounded text-white "
                     onClick={() => handleLiquidate(liquidation?.address)}
                   >
                     {loading ? (
