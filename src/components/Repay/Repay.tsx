@@ -22,75 +22,55 @@ function Repay() {
   const [zTokenAmount, setZTokenAmount] = useState<any>(0);
   const [colAmount, setColAmount] = useState<any>(0);
   const [stage, setStage] = useState<number>(1);
-  const [show, setShow] = useState<boolean>(false);
   const [showZAssets, setShowZAssets] = useState<boolean>(false);
-  const [showColAssets, setShowColAssets] = useState<boolean>(false);
   const [zAsset, setZAsset] = useState<string>("ZUSD");
-  const [colAsset, setColAsset] = useState<string>("");
   const [loadingApprove, setLoadingApprove] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const { approve, allowance } = useToken("USDC", false);
 
-  const { approve } = useToken("USDC", false);
   const { withdraw } = useWithdraw();
 
   const handleApprove = async () => {
-    if (zTokenAmount < 0 || colAmount < 0) return;
-    if (stage === 1) {
-      setLoadingApprove(true);
-      let result = await approve(zTokenAmount);
-      if (result) {
-        setStage(2);
-        setLoadingApprove(false);
-        toast.success("Transaction Approved !!");
-      } else {
-        setLoadingApprove(false);
-        toast.error("Transaction Failed !!");
-      }
+    if (zTokenAmount <= 0) return;
+    setLoadingApprove(true);
+    let result = await approve(zTokenAmount);
+    if (result) {
+      setLoadingApprove(false);
+      toast.success("Transaction Approved !!");
+      setZTokenAmount(0);
+    } else {
+      setLoadingApprove(false);
+      toast.error("Transaction Failed !!");
     }
   };
   const repay = async () => {
-    if (zTokenAmount < 0 || colAmount < 0) return;
-    if (stage === 2) {
-      setLoading(true);
-      const result = await withdraw(
-        Number(zTokenAmount),
-        Number(colAmount),
-        zAsset,
-        zAsset
-      );
-      if (result) {
-        setZTokenAmount(0);
-        setColAmount(0);
-        toast.success("Transaction Successful !!");
-        setStage(1);
-        setLoading(false);
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      } else {
-        toast.error("Transaction Failed !!");
-        setLoading(false);
-      }
+    if (colAmount <= 0) return;
+
+    setLoading(true);
+    const result = await withdraw(
+      Number(zTokenAmount),
+      Number(colAmount),
+      zAsset,
+      zAsset
+    );
+    if (result) {
+      setColAmount(0);
+      toast.success("Transaction Successful !!");
+      setLoading(false);
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } else {
+      toast.error("Transaction Failed !!");
+      setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (zTokenAmount < 0) return;
-    if (zTokenAmount) {
-      setShow(true);
-    } else {
-      setShow(false);
-    }
-  }, [zTokenAmount]);
 
   const selectZAsset = (_asset: string) => {
     setZAsset(_asset);
     setShowZAssets(false);
   };
-  // const selectColAsset = (_asset: string) => {
-  //   setColAsset(_asset);
-  //   setShowColAssets(false);
-  // };
+
   return (
     <div className="repay">
       <div className="top">
@@ -206,12 +186,7 @@ function Repay() {
                 )}
               </button>
               {showZAssets && (
-                <div
-                  className="mt-2 text-font-grey cursor-pointer absolute rounded  select-assets"
-                  style={{
-                    marginLeft: 70,
-                  }}
-                >
+                <div className="mt-1 text-font-grey cursor-pointer absolute rounded  select-assets">
                   <div
                     className="flex p-2 mb-2 select-asset"
                     onClick={() => selectZAsset("ZUSD")}
@@ -253,7 +228,8 @@ function Repay() {
           </div>
           <button
             style={{
-              background: stage === 1 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
+              background:
+                zTokenAmount > allowance ? "#241f17" : "rgba(36, 31, 23, 0.17)",
             }}
             onClick={handleApprove}
             className="approve"
@@ -296,7 +272,7 @@ function Repay() {
           <div className="flex justify-between items-center">
             <div>
               <button className="choose px-2 py-1">
-                <img src="/images/usdc-dark.png" alt="zCFA" />
+                <img src={USDC} alt="USDC" width="25" />
                 <span className="mr-2 text-font-grey">USDC</span>
               </button>
             </div>
@@ -309,7 +285,8 @@ function Repay() {
           </div>
           <button
             style={{
-              background: stage === 2 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
+              background:
+                userColBalance > 0 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
             }}
             onClick={repay}
             className="withdraw"

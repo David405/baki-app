@@ -492,10 +492,11 @@ function Swap() {
                 <p className="swap-metrix mt-4 mb-4">
                   1 {fromZAsset} = {rate?.toFixed(2)} {toZAsset}
                 </p>
-                <p className="mb-3 swap-metrix">
-                  <span className="mr-2">Trading fee:</span>
-                  {(swapOutput * fee) / 100} {toZAsset}
+                <p className="mb-4 swap-metrix">
+                  <span className="mr-2">Fees:</span>
+                  {fee}%
                 </p>
+
                 <button
                   style={{
                     background:
@@ -639,7 +640,7 @@ function Swap() {
                     </button>
                     {showToZAssets && (
                       <div
-                        className="mt-12 text-font-grey cursor-pointer absolute rounded  select-assets"
+                        className="mt-14 text-font-grey cursor-pointer absolute rounded  select-assets"
                         style={{
                           marginLeft: 0,
                         }}
@@ -687,9 +688,9 @@ function Swap() {
                     <span className="mr-2">Expected Output:</span>
                     {swapOutput - (swapOutput * fee) / 100} {toZAsset}
                   </p>
-                  <p className="mb-4 swap-metrix">
-                    <span className="mr-2">Fees:</span>
-                    {fee}%
+                  <p className="mb-3 swap-metrix">
+                    <span className="mr-2">Trading fee:</span>
+                    {(swapOutput * fee) / 100} {toZAsset}
                   </p>
                   <button
                     style={{

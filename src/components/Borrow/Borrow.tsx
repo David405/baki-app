@@ -27,55 +27,29 @@ function Borrow() {
   const [onFocus, setOnFocus] = useState<boolean>(false);
   const [depositAmount, setDepositAmount] = useState<any>(0);
   const [mintAmount, setMintAmount] = useState<any>(0);
-  const [stage, setStage] = useState<number>(1);
-  const [show, setShow] = useState<boolean>(false);
-  // const [showAssets, setShowAssets] = useState<boolean>(false);
-  // const [asset, setAsset] = useState<string>("");
-  // const [colRate, setColRate] = useState<any>(0);
   const [loadingApprove, setLoadingApprove] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const { approve } = useToken("USDC", false);
-  // const getColRate = async () => {
-  //   const price = await redstone.getPrice(activeCol);
-  //   setColRate(price.value);
-  // };
-  useEffect(() => {
-    if (depositAmount < 0 || mintAmount < 0) return;
-
-    if (depositAmount || mintAmount) {
-      setShow(true);
-    } else {
-      setShow(false);
-    }
-  }, [depositAmount, mintAmount]);
-
-  // useEffect(() => {
-  //   getColRate();
-  // }, [depositAmount]);
+  const { approve, allowance } = useToken("USDC", false);
 
   const handleApprove = async () => {
-    if (depositAmount < 0 || mintAmount < 0) return;
-    if (stage === 1) {
-      setLoadingApprove(true);
-      let result = await approve(depositAmount);
-      if (result) {
-        toast.success("Transaction Approved !!");
-        setStage(2);
-        setLoadingApprove(false);
-      } else {
-        setLoadingApprove(false);
-        toast.error("Transaction Failed !!");
-      }
+    if (depositAmount <= 0) return;
+    setLoadingApprove(true);
+    let result = await approve(depositAmount);
+    if (result) {
+      toast.success("Transaction Approved !!");
+      setLoadingApprove(false);
+    } else {
+      setLoadingApprove(false);
+      toast.error("Transaction Failed !!");
     }
   };
   const mint = async () => {
-    if (depositAmount < 0 || mintAmount < 0) return;
-    if (depositAmount || (mintAmount && stage === 2)) {
+    if (mintAmount <= 0) return;
+    if (userColBalance) {
       setLoading(true);
       let result = await deposit(depositAmount, mintAmount);
       if (result) {
         setLoading(false);
-        setStage(1);
         toast.success("Transaction Successful !!");
         setTimeout(() => {
           window.location.reload();
@@ -98,11 +72,6 @@ function Borrow() {
       setMintAmount(maxVal * percentage);
     }
   };
-
-  // const selectAsset = (_asset: string) => {
-  //   setAsset(_asset);
-  //   setShowAssets(false);
-  // };
 
   return (
     <div className="borrow">
@@ -128,9 +97,9 @@ function Borrow() {
           </div>
           <div className="flex justify-between items-center">
             <button className="choose px-1 py-1">
-              <img src="/images/usdc-dark.png" alt="USDC" />
-              <span className="mr-2 text-font-grey">USDC</span>
-              <img src="/images/car-down.png" alt="cerret" />
+              <img src={USDC} alt="USDC" width="25" />
+              <span className="mr-1 text-font-grey">USDC</span>
+              {/* <img src="/images/car-down.png" alt="cerret" /> */}
             </button>
             <input
               type="number"
@@ -157,7 +126,10 @@ function Borrow() {
           </div>
           <button
             style={{
-              background: stage === 1 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
+              background:
+                depositAmount > allowance
+                  ? "#241f17"
+                  : "rgba(36, 31, 23, 0.17)",
             }}
             className="approve"
             onClick={handleApprove}
@@ -200,9 +172,9 @@ function Borrow() {
           </div>
           <div className="flex justify-between items-center">
             <button className="choose">
-              <img src="/images/zusd.png" alt="zUSD" />
-              <span className="mr-2 text-font-grey">zUSD</span>
-              <img src="/images/car-down.png" alt="cerret" />
+              <img src={ZUSD} alt="zUSD" width="25" />
+              <span className="mr-1 text-font-grey">zUSD</span>
+              {/* <img src="/images/car-down.png" alt="cerret" /> */}
             </button>
             <input
               value={mintAmount ? mintAmount : ""}
@@ -275,7 +247,8 @@ function Borrow() {
           </div>
           <button
             style={{
-              background: stage === 2 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
+              background:
+                userColBalance > 0 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
             }}
             className="mint"
             onClick={mint}

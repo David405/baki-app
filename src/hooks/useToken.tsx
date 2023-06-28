@@ -9,6 +9,7 @@ import zToken from "../contracts/zToken.json";
 function useToken(asset: string, zAsset: boolean) {
   const { provider } = useConnector();
   const [contract, setContract] = useState<any>(null);
+  const [allowance, setAllowance] = useState<any>(null);
 
   useEffect(() => {
     if (provider && asset) {
@@ -22,6 +23,10 @@ function useToken(asset: string, zAsset: boolean) {
       }
     }
   }, [provider, asset]);
+
+  useEffect(() => {
+    checkAllowance();
+  });
 
   const approve = async (_depositAmount: number) => {
     try {
@@ -39,7 +44,16 @@ function useToken(asset: string, zAsset: boolean) {
       return false;
     }
   };
-  return { approve };
+
+  const checkAllowance = async () => {
+    const _allowance = await contract?.allowance(
+      config[asset],
+      config.vaultAddress
+    );
+
+    setAllowance(Number(_allowance?._hex) / 10 ** 18);
+  };
+  return { approve, allowance };
 }
 
 export default useToken;
