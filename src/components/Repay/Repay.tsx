@@ -135,7 +135,7 @@ function Repay() {
                       cursor: "pointer",
                     }}
                   >
-                    <b>zUSD balance:</b>
+                    zUSD balance:
                     <span className="ml-2">
                       {zUSDBal?.toLocaleString(undefined, {
                         maximumFractionDigits: 2,
@@ -151,7 +151,7 @@ function Repay() {
                       cursor: "pointer",
                     }}
                   >
-                    <b>zNGN balance:</b>
+                    zNGN balance:
                     <span className="ml-2">
                       {zNGNBal?.toLocaleString(undefined, {
                         maximumFractionDigits: 2,
@@ -167,7 +167,7 @@ function Repay() {
                       cursor: "pointer",
                     }}
                   >
-                    <b>zCFA balance:</b>
+                    zCFA balance:
                     <span className="ml-2">
                       {zCFABal?.toLocaleString(undefined, {
                         maximumFractionDigits: 2,
@@ -183,7 +183,7 @@ function Repay() {
                       cursor: "pointer",
                     }}
                   >
-                    <b>zZAR balance:</b>
+                    zZAR balance:
                     <span className="ml-2">
                       {zZARBal?.toLocaleString(undefined, {
                         maximumFractionDigits: 2,
@@ -202,11 +202,12 @@ function Repay() {
                 cursor: "pointer",
               }}
             >
-              <b> Debt Balance:</b>{" "}
+              Debt Balance:{" "}
               <span>
                 {debt?.toLocaleString(undefined, {
                   maximumFractionDigits: 2,
-                })}{" "}
+                })}
+                {""}
                 {zAsset}
               </span>
             </p>
@@ -324,7 +325,7 @@ function Repay() {
               }}
               className="text"
             >
-              <b> USDC balance:</b>
+              USDC balance:
               <span className="ml-2">
                 {userColBalance?.toLocaleString(undefined, {
                   maximumFractionDigits: 2,
