@@ -31,7 +31,7 @@ function Home() {
             $
             {millify(totalCollateral / 10 ** 18, {
               units: ["", "K", "M", "B", "T", "P", "E"],
-              space: true,
+              space: false,
             })}
           </div>
           <p className="text-xs">Global Collateral</p>
@@ -41,17 +41,17 @@ function Home() {
             $
             {millify(Number(globalDebt), {
               units: ["", "K", "M", "B", "T", "P", "E"],
-              space: true,
+              space: false,
             })}
           </div>
           <p className="text-xs">zToken Market Cap</p>
         </div>
         <div className="p-4 flex justify-center items-center w-1/5 flex-col home-detail">
           <div className="text-lg font-bold">
-            ${" "}
+            $
             {millify(Number(totalVolume / 10 ** 15), {
               units: ["", "K", "M", "B", "T", "P", "E"],
-              space: true,
+              space: false,
             })}
           </div>
           <p className="text-xs">Trading Volume</p>
@@ -61,7 +61,7 @@ function Home() {
             $
             {millify(Number(totalVolume / 10 ** 15) * 0.008, {
               units: ["", "K", "M", "B", "T", "P", "E"],
-              space: true,
+              space: false,
             })}
           </div>
           <p className="text-xs">Trading Fees</p>
