@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
@@ -13,22 +14,39 @@ import { config } from "../../config";
 import useWithdraw from "../../hooks/useWithdraw";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import useOracle from "../../hooks/useOracle";
 declare const window: any;
 
 function Repay() {
-  const { zUSDBal, zNGNBal, zCFABal, zZARBal, userColBalance } = useSelector(
-    (state: any) => state.baki
-  );
+  const { zUSDBal, zNGNBal, zCFABal, zZARBal, userColBalance, userDebt } =
+    useSelector((state: any) => state.baki);
   const [zTokenAmount, setZTokenAmount] = useState<any>(0);
   const [colAmount, setColAmount] = useState<any>(0);
   const [stage, setStage] = useState<number>(1);
   const [showZAssets, setShowZAssets] = useState<boolean>(false);
   const [zAsset, setZAsset] = useState<string>("ZUSD");
   const [loadingApprove, setLoadingApprove] = useState<boolean>(false);
+  const [debt, setDebt] = useState<any>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const { approve, allowance } = useToken("zUSD", true);
-
   const { withdraw } = useWithdraw();
+  const { getNGNUSD, getXAFUSD, getZARUSD } = useOracle();
+
+  const getRates = async () => {
+    try {
+      let NGNUSDRate = await getNGNUSD();
+      let XAFUSDRate = await getXAFUSD();
+      let ZARUSDRate = await getZARUSD();
+
+      return {
+        NGN: NGNUSDRate,
+        XAF: XAFUSDRate,
+        ZAR: ZARUSDRate,
+      };
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleApprove = async () => {
     if (zTokenAmount <= 0) return;
@@ -67,12 +85,33 @@ function Repay() {
   };
 
   useEffect(() => {
+    setDebt(userDebt);
+  }, [userDebt]);
+
+  useEffect(() => {
     if (zTokenAmount > allowance) {
       setStage(1);
     } else {
       setStage(2);
     }
   }, [zTokenAmount, allowance]);
+
+  useEffect(() => {
+    getRates().then((rate: any) => {
+      if (zAsset === "ZUSD") {
+        setDebt(userDebt);
+      }
+      if (zAsset === "ZNGN") {
+        setDebt(userDebt * rate.NGN);
+      }
+      if (zAsset === "ZCFA") {
+        setDebt(userDebt * rate.XAF);
+      }
+      if (zAsset === "ZZAR") {
+        setDebt(userDebt * rate.ZAR);
+      }
+    });
+  }, [zAsset]);
 
   const selectZAsset = (_asset: string) => {
     setZAsset(_asset);
@@ -96,7 +135,7 @@ function Repay() {
                       cursor: "pointer",
                     }}
                   >
-                    zUSD balance:
+                    <b>zUSD balance:</b>
                     <span className="ml-2">
                       {zUSDBal?.toLocaleString(undefined, {
                         maximumFractionDigits: 2,
@@ -112,7 +151,7 @@ function Repay() {
                       cursor: "pointer",
                     }}
                   >
-                    zNGN balance:
+                    <b>zNGN balance:</b>
                     <span className="ml-2">
                       {zNGNBal?.toLocaleString(undefined, {
                         maximumFractionDigits: 2,
@@ -128,7 +167,7 @@ function Repay() {
                       cursor: "pointer",
                     }}
                   >
-                    zCFA balance:
+                    <b>zCFA balance:</b>
                     <span className="ml-2">
                       {zCFABal?.toLocaleString(undefined, {
                         maximumFractionDigits: 2,
@@ -144,7 +183,7 @@ function Repay() {
                       cursor: "pointer",
                     }}
                   >
-                    zZAR balance:
+                    <b>zZAR balance:</b>
                     <span className="ml-2">
                       {zZARBal?.toLocaleString(undefined, {
                         maximumFractionDigits: 2,
@@ -155,6 +194,23 @@ function Repay() {
               </>
             )}
           </div>
+          <span className="flex justify-end">
+            <p
+              onClick={() => setZTokenAmount(debt)}
+              style={{
+                fontSize: 12,
+                cursor: "pointer",
+              }}
+            >
+              <b> Debt Balance:</b>{" "}
+              <span>
+                {debt?.toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                })}{" "}
+                {zAsset}
+              </span>
+            </p>
+          </span>
           <div className="flex justify-between items-center">
             <div>
               <button
@@ -268,7 +324,7 @@ function Repay() {
               }}
               className="text"
             >
-              USDC balance:
+              <b> USDC balance:</b>
               <span className="ml-2">
                 {userColBalance?.toLocaleString(undefined, {
                   maximumFractionDigits: 2,
