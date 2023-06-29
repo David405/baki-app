@@ -36,6 +36,7 @@ function Repay() {
     let result = await approve(zTokenAmount);
     if (result) {
       setLoadingApprove(false);
+      setStage(2);
       toast.success("Transaction Approved !!");
     } else {
       setLoadingApprove(false);
@@ -235,7 +236,7 @@ function Repay() {
           </div>
           <button
             style={{
-              background: stage == 1 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
+              background: stage === 1 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
             }}
             onClick={handleApprove}
             className="approve"
@@ -291,7 +292,7 @@ function Repay() {
           </div>
           <button
             style={{
-              background: stage == 2 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
+              background: stage === 2 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
             }}
             onClick={repay}
             className="withdraw"
