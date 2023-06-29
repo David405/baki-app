@@ -43,7 +43,7 @@ function Repay() {
     }
   };
   const repay = async () => {
-    if (colAmount <= 0 || colAmount <= 0) return;
+    if (colAmount < 0 || colAmount < 0) return;
 
     setLoading(true);
     const result = await withdraw(
@@ -284,7 +284,7 @@ function Repay() {
           </div>
           <button
             style={{
-              background: colAmount > 0 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
+              background: colAmount >= 0 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
             }}
             onClick={repay}
             className="withdraw"
