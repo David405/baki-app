@@ -44,8 +44,8 @@ function Borrow() {
     }
   };
   const mint = async () => {
-    if (mintAmount <= 0) return;
-    if (userColBalance > 0 || mintAmount > 0) {
+    if (mintAmount < 0) return;
+    if (userColBalance >= 0 || mintAmount >= 0) {
       setLoading(true);
       let result = await deposit(depositAmount, mintAmount);
       if (result) {
@@ -247,7 +247,8 @@ function Borrow() {
           </div>
           <button
             style={{
-              background: mintAmount > 0 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
+              background:
+                mintAmount >= 0 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
             }}
             className="mint"
             onClick={mint}
