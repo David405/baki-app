@@ -43,7 +43,7 @@ function Repay() {
     }
   };
   const repay = async () => {
-    if (colAmount < 0 || colAmount < 0) return;
+    if (colAmount < 0 || zTokenAmount < 0) return;
 
     setLoading(true);
     const result = await withdraw(
@@ -64,6 +64,14 @@ function Repay() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (zTokenAmount > allowance) {
+      setStage(1);
+    } else {
+      setStage(2);
+    }
+  }, [zTokenAmount, allowance]);
 
   const selectZAsset = (_asset: string) => {
     setZAsset(_asset);
@@ -227,8 +235,7 @@ function Repay() {
           </div>
           <button
             style={{
-              background:
-                zTokenAmount > allowance ? "#241f17" : "rgba(36, 31, 23, 0.17)",
+              background: stage == 1 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
             }}
             onClick={handleApprove}
             className="approve"
@@ -284,7 +291,7 @@ function Repay() {
           </div>
           <button
             style={{
-              background: colAmount >= 0 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
+              background: stage == 2 ? "#241f17" : "rgba(36, 31, 23, 0.17)",
             }}
             onClick={repay}
             className="withdraw"
