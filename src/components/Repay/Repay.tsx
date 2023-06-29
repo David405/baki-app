@@ -206,8 +206,7 @@ function Repay() {
               <span>
                 {debt?.toLocaleString(undefined, {
                   maximumFractionDigits: 2,
-                })}
-                {""}
+                })}{" "}
                 {zAsset}
               </span>
             </p>
