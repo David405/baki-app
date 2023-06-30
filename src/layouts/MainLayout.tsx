@@ -183,7 +183,11 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
               marginBottom: 10,
             }}
           ></div>
-          <a href="/">
+          <a
+            href="https://forms.gle/3B6MqSc93ZkEUTb39"
+            target="_blank"
+            rel="noreferrer"
+          >
             <div
               className={`layout-route flex p-2 `}
               onMouseEnter={() => setRoute("leave-app")}
@@ -197,7 +201,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                 }
                 alt=""
               />
-              <p className="ml-2 ">Leave App</p>
+              <p className="ml-2 ">Provide Feedback</p>
             </div>
           </a>
           {/* <Link to="/app/transactions">
