@@ -71,7 +71,7 @@ function Home() {
         <Link to="/mint">
           <button className="text-white enter-app">Go to App</button>
         </Link>
-        <a href="https://docs.jollof.fi/products/baki" target="_blank">
+        <a href="https://docs.baki.exchange" target="_blank">
           <button
             className="learn"
             style={{
