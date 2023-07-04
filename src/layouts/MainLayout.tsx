@@ -59,14 +59,6 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
         className={`w-72 h-screen flex flex-col sidebar`}
       >
         <div className="sidebar-top flex flex-col justify-center items-center">
-          <img
-            src="https://xsgames.co/randomusers/avatar.php?g=pixel"
-            className="rounded-full avatar"
-            height={60}
-            width={60}
-            alt=""
-          />
-          <span className="avatar-active"></span>
           <ConnectKitButton.Custom>
             {({ isConnected, show }) => {
               return (
@@ -75,7 +67,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
                   style={{
                     backgroundColor: "#FB7F37",
                   }}
-                  className="mt-4 rounded-full px-5 py-1"
+                  className=" rounded-full px-5 py-1"
                 >
                   {address
                     ? `${address?.slice(0, 5)} ... ${address?.slice(38, 42)}`
