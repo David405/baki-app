@@ -1,5 +1,4 @@
 .borrow-repay {
-  width: 100%;
   border: 1px solid #dbdedf;
   border-radius: 10px;
 }
@@ -72,6 +71,7 @@
   width: 100%;
   background: url("../../../assets/banner.png");
   background-repeat: no-repeat;
+
   background-size: 100%;
   height: 159px;
   padding: 0px 60px;

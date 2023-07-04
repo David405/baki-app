@@ -77,14 +77,14 @@
   align-items: center;
   padding: 5px 15px;
   gap: 10px;
-  width: 32%;
+  width: 30%;
   min-height: 36px;
   border: 1px solid #9e9694;
   border-radius: 8px;
 }
 
 .borrow .position-details p {
-  width: 200px;
+  /* width: 200px; */
   min-height: 28px;
   font-family: DM Sans;
   font-style: normal;
@@ -134,7 +134,7 @@
   outline: none;
 }
 
-.borrow .position {
+.borrow .positions {
   display: flex;
   justify-content: space-between;
 }

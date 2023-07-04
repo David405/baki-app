@@ -108,7 +108,7 @@ function Borrow() {
               onChange={e => setDepositAmount(e.target.value)}
             />
           </div>
-          <div className="position flex-1">
+          <div className="positions">
             <div className="position-details">
               <p>
                 Deposit Value: ${" "}

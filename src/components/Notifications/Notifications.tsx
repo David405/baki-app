@@ -62,7 +62,7 @@ const Notifications: FC<NotificationProps> = ({ visible, onClose }) => {
       <div className=" h-full notifications">
         <div className="flex justify-between notifications-header">
           <div className="flex">
-            <p className="font-bold">Notifications</p>
+            <p className="font-bold"> Admin Notifications</p>
             <button className="text-blue-400 ml-3">Clear</button>
           </div>
           <button onClick={close}>
