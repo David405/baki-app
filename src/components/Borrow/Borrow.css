@@ -46,7 +46,7 @@
 }
 
 .borrow .deposit-body .title {
-  font-family: "DM Sans";
+  font-family: DM Sans;
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
@@ -86,7 +86,7 @@
 .borrow .position-details p {
   width: 200px;
   min-height: 28px;
-  font-family: "DM Sans";
+  font-family: DM Sans;
   font-style: normal;
   font-weight: 500;
   font-size: 13px;

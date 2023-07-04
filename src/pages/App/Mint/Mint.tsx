@@ -27,8 +27,6 @@ function Mint() {
     if (rewardBal / 10 ** -6 <= 0) return;
     setLoading(true);
     let result = await claimReward();
-    console.log(result);
-
     if (result) {
       toast.success("Transaction Successful !!");
       window.location.reload();
@@ -50,7 +48,7 @@ function Mint() {
         <div className="p-4">
           <p className="overview">OVERVIEW</p>
           <div className="claim-rewards">
-            <div className="mt-2">
+            <div>
               <p className="rewards">REWARDS</p>
               <p className="font-bold claim-heading">Claim your Reward!</p>
               <p className="claim-subtitle">
@@ -63,7 +61,7 @@ function Mint() {
                 </span>
               </p>
             </div>
-            <button className="claim-btn mt-5" onClick={handleClaimReward}>
+            <button className="claim-btn" onClick={handleClaimReward}>
               {loading ? (
                 <img
                   src={loader}
@@ -84,14 +82,9 @@ function Mint() {
             <div className="user-detail">
               <div>
                 <p className="heading">Position Health</p>
-                <div className="flex itams-center">
-                  <p
-                    className="detail-subt pr-2"
-                    style={{
-                      color: userColBalance / userDebt >= 1.5 ? "green" : "red",
-                    }}
-                  >
-                    {userColBalance / userDebt >= 1.5 ? "Safe" : "Unsafe"}
+                <div className="flex itams-center mt-2">
+                  <p className="detail-subt pr-2">
+                    {userColBalance / userDebt >= 1.5 ? "SAFE" : "UNSAFE"}
                   </p>
                   <div
                     className="indicator"
@@ -107,7 +100,7 @@ function Mint() {
             <div className="user-detail mid-detail">
               <div>
                 <p className="heading">Collateral</p>
-                <p className="detail-subt">
+                <p className="detail-subt  mt-2">
                   {userColBalance?.toLocaleString(undefined, {
                     maximumFractionDigits: 2,
                   })}
@@ -120,7 +113,7 @@ function Mint() {
             <div className="user-detail mid-detail">
               <div>
                 <p className="heading">Value</p>
-                <p className="detail-subt">
+                <p className="detail-subt  mt-2">
                   $
                   {value?.toLocaleString(undefined, {
                     maximumFractionDigits: 2,
@@ -132,7 +125,7 @@ function Mint() {
             <div className="user-detail">
               <div>
                 <p className="heading">Debt</p>
-                <p className="detail-subt">
+                <p className="detail-subt  mt-2">
                   {userDebt?.toLocaleString(undefined, {
                     maximumFractionDigits: 2,
                   })}
@@ -151,7 +144,7 @@ function Mint() {
                     action === "borrow" ? "#682609" : "#dbdedf",
                   borderBottomWidth: action === "borrow" ? 2 : 0,
                 }}
-                className="pb-2"
+                className="pb-3"
               >
                 Deposit
               </button>
@@ -162,7 +155,7 @@ function Mint() {
                   borderBottomWidth: action === "repay" ? 2 : 0,
                 }}
                 onClick={() => setAction("repay")}
-                className="ml-5 pb-2"
+                className="ml-5 pb-3"
               >
                 Withdraw
               </button>

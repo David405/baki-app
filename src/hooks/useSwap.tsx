@@ -95,7 +95,7 @@ function useSwap() {
         JSON.stringify(transactions)
       );
       dispatch(updateTransactions(transactions));
-      // window.location.reload();
+
       return true;
     } catch (err: any) {
       let transactions: any = {};

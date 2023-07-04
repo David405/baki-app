@@ -11,9 +11,13 @@
 }
 
 .mint-head button {
-  font-weight: bold;
   color: #495055;
+  font-size: 15px;
   margin-top: 2px;
+  font-family: DM Sans;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 165.103%;
 }
 .user-details {
   display: flex;
@@ -48,24 +52,37 @@
 }
 
 .user-detail .heading {
-  color: #a7adb2;
+  color: #473a1d;
+  font-size: 10px;
+  font-family: DM Sans;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.user-detail img {
+  margin-top: 5px;
 }
 .claim-rewards {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
-  background: url("../../../assets/banner.jpg");
+  background: url("../../../assets/banner.png");
   background-repeat: no-repeat;
-  background-size: auto;
-  height: 170px;
-  padding: 30px;
+  background-size: 100%;
+  height: 159px;
+  padding: 0px 60px;
   margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .claim-heading {
   width: 336px;
   height: 41px;
-  font-family: "DM Sans";
+  font-family: DM Sans;
   font-style: normal;
   font-weight: 700;
   font-size: 32px;
@@ -91,21 +108,21 @@
 }
 
 .claim-amount {
-  font-family: "DM Sans";
-  font-style: normal;
-  font-weight: 700;
+  font-family: DM Sans;
+  font-weight: bold;
   font-size: 16px;
   line-height: 20px;
   color: #2c3031;
 }
 
 .claim-subtitle {
-  font-family: "DM Sans";
+  font-family: DM Sans;
   font-style: normal;
+  color: #2c3031;
 }
 
 .rewards {
-  font-family: "Lab Grotesque";
+  font-family: Lab Grotesque;
   font-style: normal;
   font-weight: 500;
   font-size: 10px;
@@ -115,7 +132,7 @@
 }
 
 .overview {
-  font-family: "DM Sans";
+  font-family: DM Sans;
   font-style: normal;
   font-weight: 500;
   font-size: 13px;
@@ -126,28 +143,29 @@
 }
 
 .text {
-  font-family: "DM Sans";
+  font-family: DM Sans;
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
   line-height: 165.1%;
+  color: #454647;
 }
 .indicator {
   height: 5px;
   width: 40px;
   border-radius: 13px;
   margin-top: 10px;
-  margin-left: -40%;
+  margin-left: -25%;
 }
 
 .detail-subt {
   width: 100px;
   height: 27px;
-  font-family: "DM Sans";
+  color: #473a1d;
+  font-size: 20px;
+  font-family: DM Sans;
   font-style: normal;
   font-weight: 500;
-  font-size: 20px;
-  line-height: 26px;
-  letter-spacing: -0.02em;
-  color: #473a1d;
+  line-height: normal;
+  letter-spacing: -0.4px;
 }

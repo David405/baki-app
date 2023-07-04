@@ -176,7 +176,7 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           <div
             style={{
               boxSizing: "border-box",
-              width: 220,
+              width: "80%",
               height: 1,
               marginLeft: "10%",
               border: "0.2px solid #ccc",

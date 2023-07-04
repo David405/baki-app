@@ -9,8 +9,14 @@ import Error from "./pages/Error/Error";
 import { ToastContainer } from "react-toastify";
 import Page404 from "./pages/Page404/Page404";
 import Faucet from "./pages/App/Faucet/Faucet";
+import NoChain from "./pages/NoBlockchain/NoChain";
+
+declare const window: any;
 
 function App() {
+  if (!window.ethereum) {
+    return <NoChain />;
+  }
   return (
     <Router>
       <Routes>

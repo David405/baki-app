@@ -70,7 +70,6 @@ function useWithdraw() {
       transaction.action = "Withdraw";
       transaction.status = "Successful";
       transaction.hash = tx?.hash;
-      console.log(transaction);
 
       if (txns) {
         if (JSON.parse(txns)[address]?.length <= 5) {

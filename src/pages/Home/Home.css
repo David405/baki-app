@@ -15,7 +15,7 @@
 .landing .title {
   width: 529px;
   height: 108px;
-  font-family: "DM Sans";
+  font-family: DM Sans;
   font-style: normal;
   font-weight: 700;
   font-size: 40px;
@@ -28,7 +28,7 @@
 .landing .sub-title {
   width: 655px;
   height: 52px;
-  font-family: "DM Sans";
+  font-family: DM Sans;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -60,7 +60,7 @@
   padding: 25px;
   height: 28px;
   border-radius: 15px;
-  font-family: "DM Sans";
+  font-family: DM Sans;
   font-style: normal;
   font-weight: 500;
   font-size: 18px;

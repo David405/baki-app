@@ -48,7 +48,7 @@ function Borrow() {
     if (userColBalance >= 0 || mintAmount >= 0) {
       setLoading(true);
       let result = await deposit(depositAmount, mintAmount);
-      if (result) {
+      if (result === true) {
         setLoading(false);
         toast.success("Transaction Successful !!");
         setTimeout(() => {
@@ -98,7 +98,7 @@ function Borrow() {
           <div className="flex justify-between items-center">
             <button className="choose px-1 py-1">
               <img src={USDC} alt="USDC" width="25" />
-              <span className="mr-1 text-font-grey">USDC</span>
+              <span className="ml-1 text-font-grey">USDC</span>
               {/* <img src="/images/car-down.png" alt="cerret" /> */}
             </button>
             <input
@@ -173,7 +173,7 @@ function Borrow() {
           <div className="flex justify-between items-center">
             <button className="choose">
               <img src={ZUSD} alt="zUSD" width="25" />
-              <span className="mr-1 text-font-grey">zUSD</span>
+              <span className="ml-1 text-font-grey">zUSD</span>
               {/* <img src="/images/car-down.png" alt="cerret" /> */}
             </button>
             <input
