@@ -117,11 +117,15 @@ function Borrow() {
                 })}
               </p>
             </div>
+
             <div className="position-details">
-              <p>Position Health: Safe</p>
-            </div>
-            <div className="position-details">
-              <p>cRatio: {((userColBalance / userDebt) * 100).toFixed(2)} %</p>
+              <p>
+                cRatio:{" "}
+                {userDebt === 0
+                  ? "0"
+                  : ((userColBalance / userDebt) * 100).toFixed(2)}{" "}
+                %
+              </p>
             </div>
           </div>
           <button
