@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import useConnector from "./useConnector";
 import { config } from "../config";
+import useSigner from "./useSigner";
 import vault from "../contracts/vault.json";
 import { updateTransactions } from "../redux/reducers/bakiReducer";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,13 +15,9 @@ function useSwap() {
   const { address } = useSelector((state: any) => state.baki);
 
   const dispatch = useDispatch();
-  const [contract, setContract] = useState<any>(null);
-  useEffect(() => {
-    if (provider) {
-      const signer = provider.getSigner();
-      setContract(new ethers.Contract(config.vaultAddress, vault, signer));
-    }
-  }, [provider]);
+  
+const { contract } = useSigner();
+
   const swap = async (
     _amount: number,
     _fromzToken: string,

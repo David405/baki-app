@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useConnector from "./useConnector";
+import useSigner from "./useSigner";
 import { ethers } from "ethers";
 import {
   updateGlobalNetMint,
@@ -24,28 +25,25 @@ function useData() {
   const { address, globalNetMint, userNetMint } = useSelector(
     (state: any) => state.baki
   );
-  const { provider } = useConnector();
-  const [contract, setContract] = useState<any>(null);
+
+  const { contract } = useSigner();
 
   useEffect(() => {
-    if (provider) {
-      const signer = provider.getSigner();
-      setContract(new ethers.Contract(config.vaultAddress, vault, signer));
-    }
-  }, [provider]);
-
-  useEffect(() => {
+    if (contract) {
     getPosition();
     // getGlobalDebt();
     getTransactions();
     getzTokenBal();
+    }
   }, [address]);
 
   useEffect(() => {
+    if (contract) {
     getUserDebt();
     getRewardBalance();
     getTransactions();
     getzTokenBal();
+    }
   }, [userNetMint, globalNetMint, address]);
 
   const getPosition = async () => {

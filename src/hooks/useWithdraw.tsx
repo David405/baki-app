@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import useConnector from "./useConnector";
 import { config } from "../config";
 import vault from "../contracts/vault.json";
+import useSigner from "./useSigner";
 import { updateTransactions } from "../redux/reducers/bakiReducer";
 import { useDispatch, useSelector } from "react-redux";
+
 declare const window: any;
 
 function useWithdraw() {
@@ -12,13 +15,8 @@ function useWithdraw() {
   const dispatch = useDispatch();
   const { address } = useSelector((state: any) => state.baki);
 
-  const [contract, setContract] = useState<any>(null);
-  useEffect(() => {
-    if (provider) {
-      const signer = provider.getSigner();
-      setContract(new ethers.Contract(config.vaultAddress, vault, signer));
-    }
-  }, [provider]);
+  const { contract } = useSigner();
+
   const withdraw = async (
     _amountToRepay: number,
     _amountToWithdraw: number,

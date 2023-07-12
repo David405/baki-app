@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-empty-pattern */
 /* eslint-disable react/jsx-no-target-blank */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import baki from "../../assets/baki.png";
 import "./Home.css";
 import { Link } from "react-router-dom";
@@ -9,13 +9,51 @@ import { Link } from "react-router-dom";
 import millify from "millify";
 import { useSelector } from "react-redux";
 import useData from "../../hooks/useData";
+import useProvider from "../../hooks/useProvider";
+import { ethers } from "ethers";
 
 function Home() {
   // const {} = useConnector();
   const test = useData();
-  const { totalVolume, totalCollateral } = useSelector(
-    (state: any) => state.baki
-  );
+  const { contract } = useProvider();
+
+  const [totalVolume, setTotalVolume] = useState<number>(0);
+  const [totalCollateral, setTotalCollateral] = useState<number>(0);
+  const [globalDebt, setGlobalDebt] = useState<number>(0);
+
+  useEffect(() => {
+    if (contract) {
+      contract
+        ?.totalSwapVolume()
+        .then((result: number) => {
+          setTotalVolume(parseInt(ethers.utils.formatUnits(result, 0)));
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
+
+      contract
+        ?.totalCollateral()
+        .then((result: number) => {
+          setTotalCollateral(parseInt(ethers.utils.formatUnits(result, 0)));
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
+
+      // contract
+      //   ?.getGlobalDebt()
+      //   .then((result: number) => {
+      //     setGlobalDebt(parseInt(ethers.utils.formatUnits(result, 0)));
+      //   })
+      //   .catch((error: any) => {
+      //     console.log(error);
+      //   });
+    }
+  }, [contract]);
+  // const { totalVolume, totalCollateral } = useSelector(
+  //   (state: any) => state.baki
+  // );
   return (
     <div className="flex flex-col justify-center items-center h-screen bg-red-100 ">
       <img src={baki} alt="" className="" />
@@ -49,7 +87,14 @@ function Home() {
           <p className="text-xs">Global Collateral</p>
         </div>
         <div className="p-4 flex justify-center items-center w-1/5 flex-col home-detail">
-          <div className="text-lg text-dark-orange  font-bold">$0.00</div>
+          <div className="text-lg text-dark-orange  font-bold">
+            {" "}
+            $
+            {millify(globalDebt / 10 ** 18, {
+              units: ["", "K", "M", "B", "T", "P", "E"],
+              space: true,
+            })}
+          </div>
           <p className="text-xs">zToken Market Cap</p>
         </div>
         <div className="p-4 flex justify-center items-center w-1/5 flex-col home-detail">

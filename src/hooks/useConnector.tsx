@@ -93,6 +93,11 @@ function useConnector() {
     //   console.log(ex);
     // }
   };
+
+  const getAdminWallet = async () => {
+
+  }
+  
   const changeNetwork = async () => {};
   function checkConnection() {
     window.ethereum
