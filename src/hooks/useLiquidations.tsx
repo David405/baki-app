@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import useConnector from "./useConnector";
 import { config } from "../config";
 import vault from "../contracts/vault.json";
+import useSigner from "./useSigner";
 import { useDispatch, useSelector } from "react-redux";
 import {
   updateLiquidations,
@@ -18,16 +19,13 @@ const useLiquidations = () => {
   const { address, rewardBal, userDebt } = useSelector(
     (state: any) => state.baki
   );
-  const [contract, setContract] = useState<any>(null);
-  useEffect(() => {
-    if (provider) {
-      const signer = provider.getSigner();
-      setContract(new ethers.Contract(config.vaultAddress, vault, signer));
-    }
-  }, [provider]);
+
+const { contract } = useSigner();
 
   useEffect(() => {
+    if (contract) {
     getLiquidations();
+    }
   }, [contract]);
 
   const getLiquidations = async () => {

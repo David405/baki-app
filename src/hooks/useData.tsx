@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useConnector from "./useConnector";
-import useOracle from "./useOracle";
+import useSigner from "./useSigner";
 import { ethers } from "ethers";
 import {
   updateGlobalNetMint,
@@ -22,6 +22,7 @@ import { config } from "../config";
 import vault from "../contracts/vault.json";
 import axios from "axios";
 import { useAccount } from "wagmi";
+import useOracle from "./useOracle";
 
 declare const window: any;
 function useData() {
@@ -31,27 +32,25 @@ function useData() {
   );
   const { provider } = useConnector();
   const { getNGNUSD, getXAFUSD, getZARUSD } = useOracle();
-  const [contract, setContract] = useState<any>(null);
+
+  const { contract } = useSigner();
 
   useEffect(() => {
-    if (provider) {
-      const signer = provider.getSigner();
-      setContract(new ethers.Contract(config.vaultAddress, vault, signer));
+    if (contract) {
+      getPosition();
+      // getGlobalDebt();
+      getTransactions();
+      getzTokenBal();
     }
-  }, [provider]);
+  }, [address]);
 
   useEffect(() => {
-    getGlobalDebt();
-    getTransactions();
-    getzTokenBal();
-    getPosition();
-  }, [provider, contract, address]);
-
-  useEffect(() => {
-    getUserDebt();
-    getRewardBalance();
-    getTransactions();
-    getzTokenBal();
+    if (contract) {
+      getUserDebt();
+      getRewardBalance();
+      getTransactions();
+      getzTokenBal();
+    }
   }, [provider, contract, userNetMint, globalNetMint, address]);
 
   // const getRates = async (base: string, target: string) => {
