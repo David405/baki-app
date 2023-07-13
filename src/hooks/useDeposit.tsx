@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import useConnector from "./useConnector";
 import { config } from "../config";
 import vault from "../contracts/vault.json";
+import useSigner from "./useSigner";
 import { useDispatch, useSelector } from "react-redux";
 import {
   updateCollateral,
@@ -14,21 +15,15 @@ import {
 import useOracle from "./useOracle";
 declare const window: any;
 const useDeposit = () => {
-  const { provider } = useConnector();
   const dispatch = useDispatch();
   const { address, rewardBal } = useSelector((state: any) => state.baki);
-  const [contract, setContract] = useState<any>(null);
   const { getCOLUSD } = useOracle();
+  const { contract } = useSigner();
 
   useEffect(() => {
-    if (provider) {
-      const signer = provider.getSigner();
-      setContract(new ethers.Contract(config.vaultAddress, vault, signer));
+    if (contract) {
+      getValues();
     }
-  }, [provider]);
-
-  useEffect(() => {
-    getValues();
   }, [contract]);
 
   const getValues = async () => {
