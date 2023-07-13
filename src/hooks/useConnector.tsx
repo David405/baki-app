@@ -91,17 +91,8 @@ function useConnector() {
       .catch((error: any) => {
         console.error(error);
       });
-    // try {
-    //   await web3reactContext.activate(injected);
-    // } catch (ex) {
-    //   console.log(ex);
-    // }
   };
 
-  const getAdminWallet = async () => {
-
-  }
-  
   const changeNetwork = async () => {};
   function checkConnection() {
     window.ethereum
